@@ -33,7 +33,7 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
-          editUrl: 'https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website',
+          editUrl: 'https://github.com/JaveriaNigar/Physical-AI---Humanoid-Robotics',
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex],
         },
