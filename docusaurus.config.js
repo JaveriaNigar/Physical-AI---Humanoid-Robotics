@@ -118,11 +118,11 @@ const config = {
               
               {
                 label: 'Author GitHub',
-                href: 'https://github.com/Danishhshahid',
+                href: 'https://github.com/JaveriaNigar',
               },
               {
                 label: 'Author LinkedIn',
-                href: 'https://www.linkedin.com/in/danish-shahid-abbasi-6952a42b5/',
+                href: 'https://www.linkedin.com/in/javeria-nigar-252b312b5/',
               },
             ],
           },
@@ -145,19 +145,19 @@ const config = {
           },
         ],
         copyright: `
-          MIT License © 2025 Created by <strong>Danish Abbasi</strong> for <strong>GIAIC Community</strong><br/>
+          MIT License © 2025 Created by <strong>Javeria Nigar</strong> for <strong>GIAIC Community</strong><br/>
           <em>Physical AI & Humanoid Robotics Essentials</em><br/>
           Built with Docusaurus | Hosted on GitHub Pages<br/>
           <a href="https://github.com/GIAIC-Community/Physical-AI-Textbook/blob/master/LICENSE">License</a>
         `,
-      },
+      }, 
       prism: {
         additionalLanguages: ['bash', 'python', 'yaml'],
       },
       announcementBar: {
         id: 'announcement',
         content:
-          'Created by Danish Abbasi for GIAIC Community - Free Textbook for Humanoid Robotics & AI',
+          'Created by Javeria Nigar for GIAIC Community - Free Textbook for Humanoid Robotics & AI',
         isCloseable: true,
       },
     }),

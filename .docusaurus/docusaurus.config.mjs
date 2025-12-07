@@ -5,7 +5,7 @@
  */
 export default {
   "title": "Physical AI & Humanoid Robotics Book",
-  "tagline": "Free, open-source textbook created by Danish Abbasi for the GIAIC Community",
+  "tagline": "Free, open-source textbook created by Javeria Nigar for the GIAIC Community",
   "favicon": "img/favicon.ico",
   "url": "https://physical-ai-humanoid-robotics-book-tan.vercel.app",
   "baseUrl": "/",
@@ -26,7 +26,7 @@ export default {
       {
         "docs": {
           "sidebarPath": "./sidebars.js",
-          "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website",
+          "editUrl": "https://github.com/JaveriaNigar/Physical-AI---Humanoid-Robotics",
           "remarkPlugins": [
             null
           ],
@@ -61,12 +61,12 @@ export default {
           "label": "Textbook"
         },
         {
-          "href": "https://github.com/Danishhshahid",
+          "href": "https://github.com/JaveriaNigar",
           "label": "Author (GitHub)",
           "position": "right"
         },
         {
-          "href": "https://www.linkedin.com/in/danish-shahid-abbasi-6952a42b5",
+          "href": "https://www.linkedin.com/in/javeria-nigar-252b312b5",
           "label": "LinkedIn",
           "position": "right"
         }
@@ -136,7 +136,7 @@ export default {
           ]
         }
       ],
-      "copyright": "\n          MIT License © 2025 Created by <strong>Danish Abbasi</strong> for <strong>GIAIC Community</strong><br/>\n          <em>Physical AI & Humanoid Robotics Essentials</em><br/>\n          Built with Docusaurus | Hosted on GitHub Pages<br/>\n          <a href=\"https://github.com/GIAIC-Community/Physical-AI-Textbook/blob/master/LICENSE\">License</a>\n        "
+      "copyright": "\n          MIT License © 2025 Created by <strong>Javeria Nigar</strong> for <strong>GIAIC Community</strong><br/>\n          <em>Physical AI & Humanoid Robotics Essentials</em><br/>\n          Built with Docusaurus | Hosted on GitHub Pages<br/>\n          <a href=\"https://github.com/GIAIC-Community/Physical-AI-Textbook/blob/master/LICENSE\">License</a>\n        "
     },
     "prism": {
       "additionalLanguages": [
@@ -286,7 +286,7 @@ export default {
     },
     "announcementBar": {
       "id": "announcement",
-      "content": "Created by Danish Abbasi for GIAIC Community - Free Textbook for Humanoid Robotics & AI",
+      "content": "Created by Javeria Nigar for GIAIC Community - Free Textbook for Humanoid Robotics & AI",
       "isCloseable": true
     },
     "colorMode": {
