@@ -1,0 +1,105 @@
+---
+id: m2-overview
+title: "Module 2 Overview: The Digital Twin (Gazebo & Unity)"
+sidebar_label: "M2: Overview"
+description: "Master physics simulation with Gazebo and high-fidelity visualization with Unity. Simulate complex environments, sensor dynamics, and human-robot interaction."
+---
+
+## What is a Digital Twin?
+
+A **digital twin** is a virtual replica of a physical robot that runs in real-time simulation. It's essential for:
+
+-  **Rapid iteration**: Test algorithms without hardware risk
+-  **Training**: Generate synthetic data for machine learning
+-  **Visualization**: See what the robot perceives and plans
+-  **Research**: Simulate edge cases and failure modes
+
+Modern humanoid development uses **two layers**:
+1. **Gazebo**: Physics-accurate simulation engine (ODE, Bullet, DART)
+2. **Unity**: Photorealistic rendering and HRI visualization
+
+## Learning Objectives
+
+By the end of this module, you will:
+
+1. **Simulate physics** in Gazebo
+   - Rigid body dynamics
+   - Contact and friction
+   - Gravity effects
+
+2. **Model sensors** in simulation
+   - RGB cameras
+   - Depth sensors (stereo, LiDAR)
+   - IMU (accelerometer + gyroscope)
+   - Force/torque sensors
+
+3. **Render photorealistic scenes** in Unity
+   - Real-time rendering
+   - Physics-based materials
+   - Dynamic lighting
+
+4. **Bridge Gazebo ↔ Unity** via ROS 2
+   - Synchronize robot state
+   - Stream camera data
+   - Visualize planned trajectories
+
+5. **Apply domain randomization** for sim-to-real transfer
+   - Randomize friction, mass, lighting
+   - Improve real-world robustness
+
+## Module Structure
+
+### **Lesson 1: Gazebo Physics Simulation**
+- Setting up Gazebo Ignition
+- Configuring physics engines
+- Loading URDF and SDF models
+- Monitoring simulation state
+
+### **Lesson 2: Unity Rendering & Visualization**
+- Importing robots to Unity
+- Real-time rendering
+- Virtual camera feeds
+- Human-robot interaction (HRI)
+
+### **Lesson 3: Sensor Simulation**
+- Camera simulation (RGB, depth)
+- IMU sensor dynamics
+- Force/torque sensors
+- Realistic sensor noise
+
+## Real-World Impact
+
+When Tesla Optimus or Boston Dynamics' Atlas is trained, engineers use:
+
+1. **Physics Simulation** (Gazebo)
+   - Train locomotion controllers
+   - Test manipulation strategies
+   - Validate safety constraints
+
+2. **High-Fidelity Rendering** (Unity)
+   - Stream to dashboards for teleoperation
+   - Generate training data for vision models
+   - Demonstrate tasks to stakeholders
+
+3. **Sensor Simulation**
+   - Test computer vision algorithms
+   - Validate IMU-based balance control
+   - Train visual servoing controllers
+
+The result: A policy trained entirely in simulation can be **deployed to real hardware** with 70-90% performance retention.
+
+## Prerequisites
+
+- Understanding of physics concepts (mass, inertia, friction)
+- ROS 2 basics from Module 1
+- Basic C# for Unity modifications (optional)
+
+## Time Estimate
+
+- **Lesson 1 (Gazebo)**: ~5 hours
+- **Lesson 2 (Unity)**: ~4 hours
+- **Lesson 3 (Sensors)**: ~4 hours
+- **Hands-on projects**: ~8 hours
+- **Total**: ~21 hours
+
+Let's build your digital twin! → [Next: Gazebo Physics Simulation](/docs/modules/m2-digital-twin/m2-gazebo-physics)

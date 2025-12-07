@@ -1,0 +1,29 @@
+{
+  "id": "modules/m3-isaac/m3-overview",
+  "title": "Module 3 Overview: The AI-Robot Brain (NVIDIA Isaac)",
+  "description": "Master NVIDIA Isaac Sim for photorealistic simulation and Isaac ROS for hardware-accelerated perception. Build autonomous humanoid systems with Nav2 path planning.",
+  "source": "@site/docs/modules/m3-isaac/m3-overview.mdx",
+  "sourceDirName": "modules/m3-isaac",
+  "slug": "/modules/m3-isaac/m3-overview",
+  "permalink": "/docs/modules/m3-isaac/m3-overview",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/modules/m3-isaac/m3-overview.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "m3-overview",
+    "title": "Module 3 Overview: The AI-Robot Brain (NVIDIA Isaac)",
+    "sidebar_label": "M3: Overview",
+    "description": "Master NVIDIA Isaac Sim for photorealistic simulation and Isaac ROS for hardware-accelerated perception. Build autonomous humanoid systems with Nav2 path planning."
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "L3: Sensor Simulation",
+    "permalink": "/docs/modules/m2-digital-twin/m2-sensor-simulation"
+  },
+  "next": {
+    "title": "L1: Isaac Sim",
+    "permalink": "/docs/modules/m3-isaac/m3-isaac-sim"
+  }
+}

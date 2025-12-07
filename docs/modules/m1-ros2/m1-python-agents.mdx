@@ -1,0 +1,273 @@
+---
+id: m1-python-agents
+title: "Lesson 2: Bridging Python Agents to ROS Controllers"
+sidebar_label: "L2: Python Agents to ROS"
+description: "Learn how to bridge AI agents (LLMs, planning algorithms) running in Python to actual ROS 2 robot controllers. From voice commands to executed trajectories."
+---
+
+## The Agent-Controller Bridge
+
+In modern humanoid robots, the **AI agent** and **robot controller** are separate systems that must communicate:
+
+```
+ AI Agent (Llama 3, GPT, etc.)
+   ↓
+   [ROS 2 Bridge Node]
+   ↓
+ Robot Controller (ROS 2 nodes)
+   ↓
+ Actuators (Motors, Grippers)
+```
+
+This lesson teaches you how to build that bridge.
+
+## Architecture: Agent Node
+
+An **agent node** is a ROS 2 node that:
+1. **Listens** to natural language commands (voice, text, or LLM outputs)
+2. **Processes** them with an AI model
+3. **Publishes** robot commands (joint angles, trajectories, gripper signals)
+
+### Example: Voice Command → Robot Arm Movement
+
+```python
+#!/usr/bin/env python3
+
+import rclpy
+from rclpy.node import Node
+from geometry_msgs.msg import Pose
+from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+import numpy as np
+from openai import OpenAI  # Or use local Llama 3 via Ollama
+
+class VoiceCommandAgent(Node):
+    def __init__(self):
+        super().__init__('voice_command_agent')
+
+        # Publisher to robot arm
+        self.arm_publisher = self.create_publisher(
+            JointTrajectory,
+            '/arm/controller/command',
+            10
+        )
+
+        # Subscribe to voice commands (from speech-to-text node)
+        self.voice_subscription = self.create_subscription(
+            String,
+            '/voice/command',
+            self.voice_callback,
+            10
+        )
+
+        # Initialize LLM client
+        self.client = OpenAI(api_key="your-key")
+
+        self.get_logger().info("Voice command agent initialized")
+
+    def voice_callback(self, msg):
+        """Called when a voice command is received."""
+        command = msg.data
+        self.get_logger().info(f"Received voice command: {command}")
+
+        # Step 1: Use LLM to translate voice to action
+        action = self.plan_action_with_llm(command)
+
+        # Step 2: Translate action to joint angles
+        trajectory = self.action_to_trajectory(action)
+
+        # Step 3: Publish to robot controller
+        self.arm_publisher.publish(trajectory)
+        self.get_logger().info(f"Executed action: {action}")
+
+    def plan_action_with_llm(self, command: str) -> dict:
+        """Use an LLM to parse the voice command."""
+        prompt = f"""
+        A robot hears the voice command: "{command}"
+
+        Respond with a JSON object describing the action:
+        {{
+            "action": "move_arm" | "grasp" | "push" | "place",
+            "target_position": {{"x": float, "y": float, "z": float}},
+            "gripper_state": "open" | "closed",
+            "duration_seconds": float
+        }}
+
+        Only output the JSON, nothing else.
+        """
+
+        response = self.client.chat.completions.create(
+            model="gpt-4",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.3
+        )
+
+        import json
+        action_json = response.choices[0].message.content
+        action = json.loads(action_json)
+
+        return action
+
+    def action_to_trajectory(self, action: dict) -> JointTrajectory:
+        """Convert a semantic action to a joint trajectory."""
+        # This would typically use inverse kinematics
+        # For now, a simple example:
+
+        trajectory = JointTrajectory()
+        trajectory.header.stamp = self.get_clock().now().to_msg()
+        trajectory.joint_names = ['shoulder_pan', 'shoulder_lift', 'elbow_flex', 'wrist_1', 'wrist_2', 'wrist_3']
+
+        # Simple IK: (would be much more complex in reality)
+        target_pos = action['target_position']
+        q_target = self.simple_ik(target_pos['x'], target_pos['y'], target_pos['z'])
+
+        point = JointTrajectoryPoint()
+        point.positions = q_target
+        point.time_from_start = rclpy.time.Duration(seconds=action['duration_seconds']).to_msg()
+
+        trajectory.points.append(point)
+
+        return trajectory
+
+    def simple_ik(self, x, y, z):
+        """Simplified inverse kinematics for 6-DOF arm."""
+        # In reality, this would use a proper IK solver (e.g., scipy.optimize)
+        q = np.zeros(6)
+        q[0] = np.arctan2(y, x)  # Base rotation
+        # ... more complex computation ...
+        return q.tolist()
+
+def main(args=None):
+    rclpy.init(args=args)
+    agent = VoiceCommandAgent()
+    rclpy.spin(agent)
+    agent.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## Using Local LLMs with Ollama
+
+To avoid cloud API costs and latency, use **Ollama** to run Llama 3 locally:
+
+```python
+import requests
+import json
+
+class LocalLlamaAgent(Node):
+    def __init__(self):
+        super().__init__('local_llama_agent')
+        self.ollama_url = "http://localhost:11434/api/generate"
+
+    def plan_action_with_local_llm(self, command: str) -> dict:
+        """Use local Llama 3 via Ollama."""
+        prompt = f"""
+        A humanoid robot receives a voice command: "{command}"
+
+        Output a JSON object:
+        {{
+            "action": "move_arm" | "walk" | "pick_up" | "place",
+            "target": "location/object description",
+            "confidence": 0.0-1.0
+        }}
+        """
+
+        response = requests.post(
+            self.ollama_url,
+            json={
+                "model": "llama3",
+                "prompt": prompt,
+                "stream": False
+            }
+        )
+
+        # Parse response
+        output = response.json()['response']
+
+        import json
+        action = json.loads(output)
+
+        return action
+```
+
+## Safety Considerations
+
+When bridging AI agents to robot controllers, **safety is critical**:
+
+```python
+class SafeAgentController(Node):
+    def __init__(self):
+        super().__init__('safe_agent_controller')
+
+        # Define safe workspace bounds
+        self.workspace_bounds = {
+            'x': (-0.5, 1.5),   # meters
+            'y': (-1.0, 1.0),
+            'z': (0.0, 2.0)
+        }
+
+        self.max_joint_velocity = 1.5  # rad/s
+
+    def is_action_safe(self, action: dict) -> bool:
+        """Validate action before sending to robot."""
+        target = action['target_position']
+
+        # Check workspace bounds
+        if not (self.workspace_bounds['x'][0] <= target['x'] <= self.workspace_bounds['x'][1]):
+            return False
+        if not (self.workspace_bounds['y'][0] <= target['y'] <= self.workspace_bounds['y'][1]):
+            return False
+        if not (self.workspace_bounds['z'][0] <= target['z'] <= self.workspace_bounds['z'][1]):
+            return False
+
+        # Check for dangerous keywords
+        dangerous_words = ['destroy', 'break', 'harm', 'hurt']
+        for word in dangerous_words:
+            if word in action.get('reasoning', '').lower():
+                return False
+
+        return True
+
+    def execute_action(self, action: dict):
+        """Execute only if safe."""
+        if not self.is_action_safe(action):
+            self.get_logger().error(f"Action rejected: {action}")
+            return
+
+        # Safe to execute
+        trajectory = self.action_to_trajectory(action)
+        self.arm_publisher.publish(trajectory)
+```
+
+## Real-World Example: Tesla Optimus
+
+Tesla Optimus uses a similar architecture:
+1. **Perception node**: Cameras → scene understanding
+2. **Planning node**: LLM-based task planner
+3. **Control node**: Converts planned actions to motor commands
+4. **Safety monitor**: Ensures no collisions or constraint violations
+
+## Hands-On Project
+
+**Build a robot arm controller that:**
+1. Listens to voice commands via a speech-to-text node
+2. Uses Llama 3 (via Ollama) to interpret the command
+3. Computes inverse kinematics to target position
+4. Publishes a smooth trajectory to the robot
+
+**Expected voice commands:**
+- "Move the arm to the table"
+- "Pick up the red cube"
+- "Place the object in the bin"
+
+**Deliverables:**
+- A working Python ROS 2 node
+- Safety validation for all actions
+- Graceful error handling when the LLM response is invalid
+
+## Next Steps
+
+- [Lesson 3: URDF for Humanoids](/docs/modules/m1-ros2/m1-urdf-humanoids)
+- Experiment with different LLMs (Llama 2, Mistral, etc.)
+- Add multi-robot coordination (multiple arms, mobile base)

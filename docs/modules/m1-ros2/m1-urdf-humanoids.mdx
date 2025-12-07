@@ -1,0 +1,299 @@
+---
+id: m1-urdf-humanoids
+title: "Lesson 3: URDF for Humanoids"
+sidebar_label: "L3: URDF Humanoids"
+description: "Master URDF (Unified Robot Description Format) - the XML language for defining robot structures. Learn to model humanoid kinematic chains, joint limits, and physical properties."
+---
+
+## What is URDF?
+
+**URDF** (Unified Robot Description Format) is an XML file that describes:
+-  **Links**: Rigid bodies with mass, inertia, geometry
+-  **Joints**: Connections between links (revolute, prismatic, fixed)
+-  **Sensors**: Cameras, IMUs, F/T sensors mounted on links
+-  **Materials**: Visual appearance and colors
+-  **Collision geometry**: For physics simulation and collision detection
+
+URDF is the **blueprint** of a robot. Every ROS 2 application needs it.
+
+## URDF Structure
+
+```xml
+<?xml version="1.0"?>
+<robot name="humanoid_name">
+
+  <!-- Define rigid bodies (links) -->
+  <link name="base_link">
+    <!-- Visual geometry (what we see) -->
+    <visual>
+      <geometry>
+        <box size="0.3 0.2 0.5"/>
+      </geometry>
+    </visual>
+
+    <!-- Collision geometry (for physics) -->
+    <collision>
+      <geometry>
+        <box size="0.3 0.2 0.5"/>
+      </geometry>
+    </collision>
+
+    <!-- Physical properties -->
+    <inertial>
+      <mass value="20.0"/>
+      <inertia ixx="0.5" ixy="0.0" ixz="0.0"
+               iyy="0.5" iyz="0.0" izz="0.3"/>
+    </inertial>
+  </link>
+
+  <!-- Define joints (connections) -->
+  <joint name="shoulder_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="upper_arm"/>
+    <axis xyz="0 1 0"/>  <!-- Rotate around Y-axis -->
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="2.0"/>
+    <origin xyz="0 0 0.5" rpy="0 0 0"/>
+  </joint>
+
+  <link name="upper_arm">
+    <!-- Link definition -->
+  </link>
+
+</robot>
+```
+
+## Full Example: 6-DOF Humanoid Arm
+
+```xml
+<?xml version="1.0"?>
+<robot name="humanoid_arm">
+
+  <!-- BASE (torso) -->
+  <link name="base_link">
+    <inertial>
+      <mass value="15.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+               iyy="1.0" iyz="0.0" izz="0.8"/>
+    </inertial>
+    <collision>
+      <geometry>
+        <box size="0.3 0.2 0.5"/>
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <box size="0.3 0.2 0.5"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.5 0.5 0.5 1.0"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- SHOULDER (Joint 1) -->
+  <joint name="shoulder_pan" type="revolute">
+    <parent link="base_link"/>
+    <child link="shoulder_link"/>
+    <origin xyz="0.0 0.0 0.5" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>  <!-- Z-axis rotation -->
+    <limit lower="-3.14" upper="3.14" effort="50" velocity="2.0"/>
+    <dynamics damping="0.1" friction="0.05"/>
+  </joint>
+
+  <link name="shoulder_link">
+    <inertial>
+      <mass value="3.0"/>
+      <inertia ixx="0.1" ixy="0.0" ixz="0.0"
+               iyy="0.1" iyz="0.0" izz="0.05"/>
+    </inertial>
+    <collision>
+      <origin xyz="0.2 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.4"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0.2 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.4"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- ELBOW (Joint 2) -->
+  <joint name="shoulder_lift" type="revolute">
+    <parent link="shoulder_link"/>
+    <child link="upper_arm_link"/>
+    <origin xyz="0.4 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>  <!-- Y-axis rotation -->
+    <limit lower="-1.57" upper="1.57" effort="40" velocity="2.0"/>
+    <dynamics damping="0.1" friction="0.05"/>
+  </joint>
+
+  <link name="upper_arm_link">
+    <inertial>
+      <mass value="2.5"/>
+      <inertia ixx="0.08" ixy="0.0" ixz="0.0"
+               iyy="0.08" iyz="0.0" izz="0.03"/>
+    </inertial>
+    <collision>
+      <origin xyz="0.2 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.4"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0.2 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.4"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- WRIST (Joints 3-6): similar structure... -->
+  <!-- (abbreviated for space) -->
+
+  <!-- GRIPPER/END-EFFECTOR -->
+  <joint name="wrist_3" type="revolute">
+    <parent link="wrist_link"/>
+    <child link="gripper_base"/>
+    <origin xyz="0.1 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14" upper="3.14" effort="10" velocity="2.0"/>
+  </joint>
+
+  <link name="gripper_base">
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0"
+               iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+  </link>
+
+</robot>
+```
+
+## Key Joint Types
+
+| Type | Motion | Example |
+|------|--------|---------|
+| **revolute** | Rotates around axis | Shoulder, elbow, wrist |
+| **prismatic** | Slides along axis | Gripper fingers (if linear) |
+| **fixed** | No motion | End-effector frame |
+| **floating** | 6 DOF (base) | Mobile robot base |
+
+## Physical Properties (Inertia Tensor)
+
+The inertia tensor describes how mass is distributed:
+
+```
+<inertia ixx="..." ixy="..." ixz="..."
+         iyy="..." iyz="..."
+         izz="..."/>
+```
+
+- **ixx, iyy, izz**: Moment of inertia around principal axes
+- **ixy, ixz, iyz**: Off-diagonal coupling terms (usually 0)
+
+**For a rod of length L and mass m**:
+- ixx = (1/12) × m × L²
+- iyy = (1/12) × m × L²
+- izz ≈ 0 (thin rod)
+
+## Loading URDF in ROS 2
+
+### Display in Rviz
+
+```bash
+ros2 launch joint_state_publisher_gui joint_state_publisher_gui.launch.py \
+  model:=/path/to/humanoid.urdf
+```
+
+### Use in Gazebo Simulation
+
+```bash
+gazebo humanoid.urdf
+```
+
+### Query URDF in Code
+
+```python
+import rclpy
+from urdf_parser_py.urdf import URDF
+
+robot = URDF.from_file('humanoid.urdf')
+
+print(f"Links: {[link.name for link in robot.links]}")
+print(f"Joints: {[joint.name for joint in robot.joints]}")
+
+# Get specific joint limits
+shoulder_joint = robot.joint_map['shoulder_pan']
+print(f"Shoulder limits: {shoulder_joint.limit.lower} to {shoulder_joint.limit.upper}")
+```
+
+## Tesla Optimus URDF Structure (Simplified)
+
+Tesla Optimus is a 73-DOF humanoid with:
+
+```
+ Torso (fixed to world)
+ Head (3 DOF)
+ Left Arm (7 DOF)
+ Right Arm (7 DOF)
+ Waist (3 DOF)
+ Left Leg (6 DOF)
+ Right Leg (6 DOF)
+```
+
+Each joint is defined with:
+- Limits (min/max angles)
+- Max effort (torque)
+- Max velocity
+- Damping and friction
+
+## Best Practices
+
+1. **Accurate inertia tensors**
+   -  Compute from CAD models or measure experimentally
+   -  Don't guess arbitrary values
+
+2. **Realistic masses**
+   -  Use actual component weights
+   -  Don't use 1 kg for everything
+
+3. **Proper collision geometry**
+   -  Simplified shapes (boxes, cylinders) for speed
+   -  Complex meshes cause slow collision detection
+
+4. **Origin frames**
+   -  Orient axes to match joint motion direction
+   -  Don't have arbitrary orientations
+
+5. **Documentation**
+   - Add comments explaining the structure
+   - Include mass breakdown and total weight
+   - Document calibration/assumptions
+
+## Hands-On Project
+
+**Build a complete URDF for a 7-DOF robot arm:**
+1. Define a base (torso)
+2. Define 7 revolute joints with realistic limits
+3. Add an end-effector (gripper)
+4. Verify in RViz
+5. Test joint limits in Gazebo
+
+**Challenge**: Add a gripper with 2 DOF (open/close fingers)
+
+## Next Steps
+
+- **Module 1 Complete!** You now understand ROS 2 architecture
+- [Module 2: The Digital Twin (Gazebo & Unity)](/docs/modules/m2-digital-twin/m2-overview)
+- Build a complete simulation of your humanoid arm
+- Connect real hardware to ROS 2 controllers

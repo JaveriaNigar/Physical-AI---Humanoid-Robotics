@@ -1,0 +1,29 @@
+{
+  "id": "modules/m4-vla/m4-overview",
+  "title": "Module 4 Overview: Vision-Language-Action (VLA)",
+  "description": "Master the convergence of large language models and robotics. Build systems where robots understand natural language commands and execute complex tasks.",
+  "source": "@site/docs/modules/m4-vla/m4-overview.mdx",
+  "sourceDirName": "modules/m4-vla",
+  "slug": "/modules/m4-vla/m4-overview",
+  "permalink": "/docs/modules/m4-vla/m4-overview",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/modules/m4-vla/m4-overview.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "m4-overview",
+    "title": "Module 4 Overview: Vision-Language-Action (VLA)",
+    "sidebar_label": "M4: Overview",
+    "description": "Master the convergence of large language models and robotics. Build systems where robots understand natural language commands and execute complex tasks."
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "L3: Nav2 Planning",
+    "permalink": "/docs/modules/m3-isaac/m3-nav2-planning"
+  },
+  "next": {
+    "title": "L1: Voice-to-Action",
+    "permalink": "/docs/modules/m4-vla/m4-voice-to-action"
+  }
+}

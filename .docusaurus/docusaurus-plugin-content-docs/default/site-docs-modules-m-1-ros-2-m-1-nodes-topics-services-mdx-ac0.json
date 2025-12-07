@@ -1,0 +1,29 @@
+{
+  "id": "modules/m1-ros2/m1-nodes-topics-services",
+  "title": "Lesson 1: ROS 2 Nodes, Topics, and Services",
+  "description": "Master the core building blocks of ROS 2: nodes (independent processes), topics (pub-sub communication), and services (request-response).",
+  "source": "@site/docs/modules/m1-ros2/m1-nodes-topics-services.mdx",
+  "sourceDirName": "modules/m1-ros2",
+  "slug": "/modules/m1-ros2/m1-nodes-topics-services",
+  "permalink": "/docs/modules/m1-ros2/m1-nodes-topics-services",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/modules/m1-ros2/m1-nodes-topics-services.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "m1-nodes-topics-services",
+    "title": "Lesson 1: ROS 2 Nodes, Topics, and Services",
+    "sidebar_label": "L1: Nodes, Topics, Services",
+    "description": "Master the core building blocks of ROS 2: nodes (independent processes), topics (pub-sub communication), and services (request-response)."
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "M1: Overview",
+    "permalink": "/docs/modules/m1-ros2/m1-overview"
+  },
+  "next": {
+    "title": "L2: Python Agents to ROS",
+    "permalink": "/docs/modules/m1-ros2/m1-python-agents"
+  }
+}

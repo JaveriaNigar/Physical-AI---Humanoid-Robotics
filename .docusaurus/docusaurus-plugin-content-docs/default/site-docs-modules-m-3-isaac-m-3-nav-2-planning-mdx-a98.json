@@ -1,0 +1,29 @@
+{
+  "id": "modules/m3-isaac/m3-nav2-planning",
+  "title": "Lesson 3: Nav2 Path Planning for Humanoids",
+  "description": "Implement autonomous navigation for bipedal humanoid robots using Nav2. Global planning, local planning, and obstacle avoidance.",
+  "source": "@site/docs/modules/m3-isaac/m3-nav2-planning.mdx",
+  "sourceDirName": "modules/m3-isaac",
+  "slug": "/modules/m3-isaac/m3-nav2-planning",
+  "permalink": "/docs/modules/m3-isaac/m3-nav2-planning",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/modules/m3-isaac/m3-nav2-planning.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "m3-nav2-planning",
+    "title": "Lesson 3: Nav2 Path Planning for Humanoids",
+    "sidebar_label": "L3: Nav2 Planning",
+    "description": "Implement autonomous navigation for bipedal humanoid robots using Nav2. Global planning, local planning, and obstacle avoidance."
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "L2: Isaac ROS",
+    "permalink": "/docs/modules/m3-isaac/m3-isaac-ros"
+  },
+  "next": {
+    "title": "M4: Overview",
+    "permalink": "/docs/modules/m4-vla/m4-overview"
+  }
+}

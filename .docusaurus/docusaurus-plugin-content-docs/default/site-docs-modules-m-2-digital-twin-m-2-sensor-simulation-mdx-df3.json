@@ -1,0 +1,29 @@
+{
+  "id": "modules/m2-digital-twin/m2-sensor-simulation",
+  "title": "Lesson 3: Sensor Simulation",
+  "description": "Simulate realistic sensors in Gazebo: cameras (RGB/depth), IMU, force/torque sensors. Add noise and calibrate for sim-to-real transfer.",
+  "source": "@site/docs/modules/m2-digital-twin/m2-sensor-simulation.mdx",
+  "sourceDirName": "modules/m2-digital-twin",
+  "slug": "/modules/m2-digital-twin/m2-sensor-simulation",
+  "permalink": "/docs/modules/m2-digital-twin/m2-sensor-simulation",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/modules/m2-digital-twin/m2-sensor-simulation.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "m2-sensor-simulation",
+    "title": "Lesson 3: Sensor Simulation",
+    "sidebar_label": "L3: Sensor Simulation",
+    "description": "Simulate realistic sensors in Gazebo: cameras (RGB/depth), IMU, force/torque sensors. Add noise and calibrate for sim-to-real transfer."
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "L2: Unity Rendering",
+    "permalink": "/docs/modules/m2-digital-twin/m2-unity-rendering"
+  },
+  "next": {
+    "title": "M3: Overview",
+    "permalink": "/docs/modules/m3-isaac/m3-overview"
+  }
+}

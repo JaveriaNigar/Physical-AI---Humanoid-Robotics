@@ -1,0 +1,306 @@
+---
+id: m4-cognitive-planning
+title: "Lesson 2: Cognitive Planning with LLMs"
+sidebar_label: "L2: Cognitive Planning"
+description: "Use large language models to translate natural language into step-by-step robot plans. Handle ambiguity, ask clarifications, ensure safety."
+---
+
+## LLM-Based Task Planning
+
+**Problem**: "Pick up the red cube and place it on the shelf"
+
+**What an LLM can do**:
+1. Break down into steps (pick → place)
+2. Reason about spatial relationships (red cube, shelf)
+3. Handle ambiguity (ask clarifying questions)
+4. Plan contingencies (what if object is not found?)
+
+## Using Llama 3 Locally
+
+Install Ollama and run Llama 3:
+
+```bash
+# Download Ollama
+https://ollama.ai
+
+# Pull Llama 3 model
+ollama pull llama3
+
+# Start server (runs on localhost:11434)
+ollama serve
+```
+
+## Task Planning Node
+
+```python
+#!/usr/bin/env python3
+
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+import requests
+import json
+
+class TaskPlannerNode(Node):
+    def __init__(self):
+        super().__init__('task_planner')
+
+        # Subscriber
+        self.command_sub = self.create_subscription(
+            String,
+            '/voice/command',
+            self.command_callback,
+            10
+        )
+
+        # Publisher
+        self.plan_pub = self.create_publisher(String, '/robot/plan', 10)
+
+        # Ollama endpoint
+        self.ollama_url = "http://localhost:11434/api/generate"
+        self.model = "llama3"
+
+        self.get_logger().info("Task planner initialized")
+
+    def command_callback(self, msg):
+        """Process voice command and create task plan."""
+        command = msg.data
+        self.get_logger().info(f"Planning task: {command}")
+
+        # Use LLM to create plan
+        plan = self.create_plan_with_llm(command)
+
+        # Publish plan
+        plan_msg = String()
+        plan_msg.data = json.dumps(plan)
+        self.plan_pub.publish(plan_msg)
+
+    def create_plan_with_llm(self, command: str) -> dict:
+        """Generate step-by-step plan using Llama 3."""
+
+        prompt = f"""
+You are a robot task planner. A humanoid robot receives this command:
+
+"{command}"
+
+The robot has:
+- A 6-DOF arm with gripper
+- Cameras for vision
+- VSLAM for localization
+- Nav2 for navigation
+- ROS 2 controllers
+
+Generate a JSON plan with the following structure:
+{{
+    "task": "task name",
+    "steps": [
+        {{
+            "step_number": 1,
+            "description": "First step",
+            "ros_action": "move_arm" | "navigate" | "grasp" | "release",
+            "parameters": {{}},
+            "preconditions": "what must be true before this step",
+            "postconditions": "what will be true after this step"
+        }},
+        ...
+    ],
+    "clarifications_needed": [],
+    "safety_constraints": []
+}}
+
+If the command is ambiguous, add clarification questions.
+Always include safety checks.
+"""
+
+        try:
+            response = requests.post(
+                self.ollama_url,
+                json={
+                    "model": self.model,
+                    "prompt": prompt,
+                    "stream": False,
+                    "temperature": 0.3  # Deterministic for planning
+                },
+                timeout=30
+            )
+
+            output = response.json()["response"]
+
+            # Extract JSON from response
+            import re
+            json_match = re.search(r'\{.*\}', output, re.DOTALL)
+            if json_match:
+                plan = json.loads(json_match.group())
+                return plan
+
+        except Exception as e:
+            self.get_logger().error(f"LLM error: {e}")
+
+        return {"error": "Failed to generate plan"}
+
+def main(args=None):
+    rclpy.init(args=args)
+    planner = TaskPlannerNode()
+    rclpy.spin(planner)
+    planner.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## Example Plan Output
+
+**Command**: "Pick up the red cube from the table and place it on the shelf"
+
+**Generated Plan**:
+```json
+{
+    "task": "Place red cube on shelf",
+    "steps": [
+        {
+            "step_number": 1,
+            "description": "Navigate to table",
+            "ros_action": "navigate",
+            "parameters": {
+                "target_location": "table_front",
+                "max_speed": 0.3
+            },
+            "preconditions": "Robot localized, navigation available",
+            "postconditions": "Robot near table, ready to perceive object"
+        },
+        {
+            "step_number": 2,
+            "description": "Look for red cube using camera",
+            "ros_action": "perception",
+            "parameters": {
+                "object_to_find": "red cube",
+                "color": "red",
+                "method": "yolo_detection"
+            },
+            "preconditions": "Camera operational, scene illuminated",
+            "postconditions": "Cube location known in 3D space"
+        },
+        {
+            "step_number": 3,
+            "description": "Approach cube for grasping",
+            "ros_action": "move_arm",
+            "parameters": {
+                "target_pose_type": "approach",
+                "distance_from_object": 0.05
+            },
+            "preconditions": "Cube detected, no obstacles",
+            "postconditions": "Gripper 5cm from cube"
+        },
+        {
+            "step_number": 4,
+            "description": "Grasp cube with controlled force",
+            "ros_action": "grasp",
+            "parameters": {
+                "gripper_force": 50,
+                "force_unit": "newtons"
+            },
+            "preconditions": "Gripper in grasp position, no obstruction",
+            "postconditions": "Cube grasped, force feedback received"
+        },
+        {
+            "step_number": 5,
+            "description": "Lift cube to safe height",
+            "ros_action": "move_arm",
+            "parameters": {
+                "direction": "up",
+                "distance": 0.2
+            },
+            "preconditions": "Cube grasped, arm ready",
+            "postconditions": "Cube elevated, clear of table"
+        },
+        {
+            "step_number": 6,
+            "description": "Navigate to shelf location",
+            "ros_action": "navigate",
+            "parameters": {
+                "target_location": "shelf_base"
+            },
+            "preconditions": "Cube lifted, balance maintained",
+            "postconditions": "Robot positioned at shelf"
+        },
+        {
+            "step_number": 7,
+            "description": "Place cube on shelf",
+            "ros_action": "release",
+            "parameters": {
+                "target_height": "shelf_top",
+                "release_force": 10
+            },
+            "preconditions": "Gripper above shelf, no obstacles",
+            "postconditions": "Cube on shelf, gripper open"
+        }
+    ],
+    "clarifications_needed": [],
+    "safety_constraints": [
+        "Maintain balance during cube manipulation",
+        "Check for obstacles in path to shelf",
+        "Verify gripper force is within limits",
+        "Confirm shelf can support cube weight"
+    ]
+}
+```
+
+## Handling Ambiguity
+
+```python
+class DisambiguationEngine(Node):
+    def ask_clarification(self, clarifications: list) -> dict:
+        """Ask user for clarification when command is ambiguous."""
+
+        if not clarifications:
+            return {}
+
+        responses = {}
+
+        for clarification in clarifications:
+            self.get_logger().info(f"Clarification needed: {clarification}")
+
+            # In real system, would wait for user input
+            # For now, use defaults
+            if "location" in clarification.lower():
+                responses["location"] = "default_location"
+            elif "object" in clarification.lower():
+                responses["object"] = "largest_available_object"
+
+        return responses
+```
+
+## Safety-Aware Planning
+
+```python
+class SafetyAwarePlanner:
+    def validate_plan(self, plan: dict) -> bool:
+        """Validate plan for safety violations."""
+
+        unsafe_keywords = ['destroy', 'break', 'hurt', 'harm', 'dangerous']
+
+        for step in plan.get('steps', []):
+            description = step.get('description', '').lower()
+            for keyword in unsafe_keywords:
+                if keyword in description:
+                    return False
+
+        # Check preconditions
+        for step in plan.get('steps', []):
+            preconditions = step.get('preconditions', '')
+            if not self.can_satisfy_preconditions(preconditions):
+                return False
+
+        return True
+
+    def can_satisfy_preconditions(self, preconditions: str) -> bool:
+        """Check if preconditions can be satisfied."""
+        # In real system, query robot state
+        # For demo, assume yes
+        return True
+```
+
+## Next Lesson
+
+[Lesson 3: Capstone Project](/docs/modules/m4-vla/m4-capstone-project)

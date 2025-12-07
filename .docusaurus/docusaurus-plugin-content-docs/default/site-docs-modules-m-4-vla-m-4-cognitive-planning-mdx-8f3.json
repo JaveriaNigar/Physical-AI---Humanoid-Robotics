@@ -1,0 +1,29 @@
+{
+  "id": "modules/m4-vla/m4-cognitive-planning",
+  "title": "Lesson 2: Cognitive Planning with LLMs",
+  "description": "Use large language models to translate natural language into step-by-step robot plans. Handle ambiguity, ask clarifications, ensure safety.",
+  "source": "@site/docs/modules/m4-vla/m4-cognitive-planning.mdx",
+  "sourceDirName": "modules/m4-vla",
+  "slug": "/modules/m4-vla/m4-cognitive-planning",
+  "permalink": "/docs/modules/m4-vla/m4-cognitive-planning",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/modules/m4-vla/m4-cognitive-planning.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "m4-cognitive-planning",
+    "title": "Lesson 2: Cognitive Planning with LLMs",
+    "sidebar_label": "L2: Cognitive Planning",
+    "description": "Use large language models to translate natural language into step-by-step robot plans. Handle ambiguity, ask clarifications, ensure safety."
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "L1: Voice-to-Action",
+    "permalink": "/docs/modules/m4-vla/m4-voice-to-action"
+  },
+  "next": {
+    "title": "L3: Capstone Project",
+    "permalink": "/docs/modules/m4-vla/m4-capstone-project"
+  }
+}

@@ -1,0 +1,330 @@
+---
+id: m2-sensor-simulation
+title: "Lesson 3: Sensor Simulation"
+sidebar_label: "L3: Sensor Simulation"
+description: "Simulate realistic sensors in Gazebo: cameras (RGB/depth), IMU, force/torque sensors. Add noise and calibrate for sim-to-real transfer."
+---
+
+## Why Simulate Sensors?
+
+Real sensors have:
+-  **Noise and blur** (cameras)
+-  **Drift** (IMU, encoders)
+-  **Latency** (communication delays)
+-  **Limited range and accuracy**
+
+Training with simulated sensors → Policies robust to real-world imperfections.
+
+## Camera Simulation in Gazebo
+
+Add a camera to your URDF:
+
+```xml
+<link name="camera_link">
+  <inertial>
+    <mass value="0.1"/>
+    <inertia ixx="0.001" ixy="0" ixz="0"
+             iyy="0.001" iyz="0" izz="0.001"/>
+  </inertial>
+  <collision>
+    <geometry>
+      <box size="0.02 0.02 0.02"/>
+    </geometry>
+  </collision>
+  <visual>
+    <geometry>
+      <box size="0.02 0.02 0.02"/>
+    </geometry>
+  </visual>
+</link>
+
+<!-- Mount camera on gripper -->
+<joint name="camera_joint" type="fixed">
+  <parent link="gripper"/>
+  <child link="camera_link"/>
+  <origin xyz="0 0 0.05" rpy="0 0 0"/>
+</joint>
+
+<!-- Gazebo plugin for camera sensor -->
+<gazebo reference="camera_link">
+  <sensor name="camera" type="camera">
+    <camera>
+      <horizontal_fov>1.047</horizontal_fov>  <!-- 60 degrees -->
+      <image>
+        <width>640</width>
+        <height>480</height>
+        <format>R8G8B8</format>
+      </image>
+      <clip>
+        <near>0.05</near>
+        <far>50.0</far>
+      </clip>
+      <noise>
+        <type>gaussian</type>
+        <mean>0.0</mean>
+        <stddev>0.007</stddev>
+      </noise>
+    </camera>
+    <plugin filename="ignition-gazebo-camera-video-recorder-system"
+            name="ignition::gazebo::systems::VideoRecorder">
+      <video_name>camera_output</video_name>
+    </plugin>
+  </sensor>
+</gazebo>
+```
+
+### Subscribe to Camera in ROS 2
+
+```python
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge
+import cv2
+
+class CameraProcessor(Node):
+    def __init__(self):
+        super().__init__('camera_processor')
+        self.subscription = self.create_subscription(
+            Image,
+            '/camera/image_raw',
+            self.camera_callback,
+            10
+        )
+        self.cv_bridge = CvBridge()
+
+    def camera_callback(self, msg):
+        # Convert ROS Image to OpenCV
+        frame = self.cv_bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+
+        # Process (e.g., object detection)
+        # ...
+
+        # Publish results
+        # ...
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = CameraProcessor()
+    rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## IMU Simulation
+
+Add accelerometer + gyroscope:
+
+```xml
+<gazebo reference="torso_link">
+  <sensor name="imu_sensor" type="imu">
+    <always_on>true</always_on>
+    <update_rate>200</update_rate>  <!-- 200 Hz -->
+    <plugin filename="ignition-gazebo-imu-system" name="ignition::gazebo::systems::Imu">
+      <!-- Accelerometer noise -->
+      <accel_x_noise mean="0.0" stddev="0.02"/>
+      <accel_y_noise mean="0.0" stddev="0.02"/>
+      <accel_z_noise mean="0.0" stddev="0.02"/>
+
+      <!-- Gyroscope noise -->
+      <gyro_x_noise mean="0.0" stddev="0.004"/>
+      <gyro_y_noise mean="0.0" stddev="0.004"/>
+      <gyro_z_noise mean="0.0" stddev="0.004"/>
+
+      <!-- Bias (drift) -->
+      <accel_bias_x_noise mean="0.001" stddev="0.0001"/>
+      <accel_bias_y_noise mean="0.001" stddev="0.0001"/>
+      <accel_bias_z_noise mean="0.001" stddev="0.0001"/>
+    </plugin>
+  </sensor>
+</gazebo>
+```
+
+### Read IMU in ROS 2
+
+```python
+from sensor_msgs.msg import Imu
+import numpy as np
+
+class BalanceController(Node):
+    def __init__(self):
+        super().__init__('balance_controller')
+        self.imu_sub = self.create_subscription(
+            Imu,
+            '/imu/data',
+            self.imu_callback,
+            10
+        )
+        self.accel = np.zeros(3)
+        self.angular_vel = np.zeros(3)
+
+    def imu_callback(self, msg):
+        # Extract linear acceleration
+        self.accel = np.array([
+            msg.linear_acceleration.x,
+            msg.linear_acceleration.y,
+            msg.linear_acceleration.z
+        ])
+
+        # Extract angular velocity
+        self.angular_vel = np.array([
+            msg.angular_velocity.x,
+            msg.angular_velocity.y,
+            msg.angular_velocity.z
+        ])
+
+        # Use for balance control
+        # Example: Estimate center-of-mass acceleration
+        com_accel_z = self.accel[2]  # Vertical acceleration
+
+        if com_accel_z < 0:  # Falling forward
+            self.adjust_hip_angle(delta=0.01)  # Lean back
+```
+
+## Force/Torque Sensors
+
+Simulate gripper force feedback:
+
+```xml
+<gazebo reference="gripper_link">
+  <sensor name="force_torque" type="force_torque">
+    <always_on>true</always_on>
+    <update_rate>100</update_rate>
+    <plugin filename="ignition-gazebo-force-torque-system"
+            name="ignition::gazebo::systems::ForceTorque">
+      <force_x_noise mean="0.0" stddev="0.1"/>
+      <force_y_noise mean="0.0" stddev="0.1"/>
+      <force_z_noise mean="0.0" stddev="0.1"/>
+      <torque_x_noise mean="0.0" stddev="0.01"/>
+      <torque_y_noise mean="0.0" stddev="0.01"/>
+      <torque_z_noise mean="0.0" stddev="0.01"/>
+    </plugin>
+  </sensor>
+</gazebo>
+```
+
+### Monitor Gripper Force
+
+```python
+from geometry_msgs.msg import WrenchStamped
+
+class GripperController(Node):
+    def __init__(self):
+        super().__init__('gripper_controller')
+        self.ft_sub = self.create_subscription(
+            WrenchStamped,
+            '/gripper/force_torque',
+            self.ft_callback,
+            10
+        )
+
+    def ft_callback(self, msg):
+        force_z = msg.wrench.force.z  # Vertical grip force
+
+        if force_z > 50:  # Too much force
+            self.reduce_gripper_current()
+        elif force_z < 10:  # Object slipping
+            self.increase_gripper_current()
+```
+
+## Depth Camera (LiDAR)
+
+Simulate 3D depth sensing:
+
+```xml
+<gazebo reference="head_link">
+  <sensor name="depth_camera" type="depth_camera">
+    <always_on>true</always_on>
+    <update_rate>30</update_rate>
+    <camera>
+      <horizontal_fov>1.047</horizontal_fov>
+      <image>
+        <width>640</width>
+        <height>480</height>
+      </image>
+      <clip>
+        <near>0.1</near>
+        <far>5.0</far>
+      </clip>
+    </camera>
+  </sensor>
+</gazebo>
+```
+
+Process depth data for obstacle avoidance:
+
+```python
+from sensor_msgs.msg import Image
+import numpy as np
+
+class ObstacleDetector(Node):
+    def depth_callback(self, msg):
+        # Convert to numpy array
+        depth_array = np.frombuffer(msg.data, dtype=np.uint16)
+        depth_image = depth_array.reshape((msg.height, msg.width))
+
+        # Find closest obstacle
+        min_distance = np.min(depth_image[depth_image > 0])
+
+        if min_distance < 0.3:  # 30 cm warning
+            self.get_logger().warn("Obstacle detected!")
+            self.emergency_stop()
+```
+
+## Domain Randomization for Sensors
+
+Train policies robust to sensor uncertainty:
+
+```python
+import random
+import subprocess
+
+def randomize_simulation():
+    """Randomize sensor parameters before each training episode."""
+
+    # Randomize camera noise
+    camera_noise = random.uniform(0.001, 0.02)
+
+    # Randomize IMU drift
+    imu_drift = random.uniform(0.0001, 0.001)
+
+    # Randomize force sensor noise
+    ft_noise = random.uniform(0.01, 0.5)
+
+    # Rewrite URDF/SDF with new parameters
+    # ...
+
+    # Restart Gazebo simulation
+    subprocess.run(['pkill', 'gazebo'])
+    subprocess.run(['gazebo', 'randomized_world.sdf'])
+```
+
+## Hands-On Project
+
+**Simulate a manipulation task with complete sensor suite:**
+
+1. Create a scene with:
+   - A table with 3 objects
+   - A humanoid arm with 6-DOF
+   - RGB camera on gripper
+   - Depth sensor on head
+   - IMU on torso
+   - F/T sensor on wrist
+
+2. Implement controllers:
+   - Vision-based object detection
+   - Balance control using IMU
+   - Grasp force control using F/T sensor
+
+3. Train a policy that:
+   - Sees an object with the camera
+   - Plans a grasp trajectory
+   - Executes with force feedback
+   - Verifies success with depth sensor
+
+## Next Module
+
+[Module 3: The AI-Robot Brain (NVIDIA Isaac)](/docs/modules/m3-isaac/m3-overview)

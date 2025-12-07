@@ -1,0 +1,363 @@
+---
+id: m4-capstone-project
+title: "Lesson 3: Capstone Project - Autonomous Humanoid"
+sidebar_label: "L3: Capstone Project"
+description: "Build a complete end-to-end autonomous humanoid system. Voice → Perception → Planning → Execution."
+---
+
+## The Autonomous Humanoid Challenge
+
+**Mission**: Build a humanoid robot that can understand voice commands and execute complex manipulation tasks in a simulated environment.
+
+### Example Tasks:
+
+1. **"Organize the shelf"**
+   - Perceive objects on shelf
+   - Identify misaligned items
+   - Rearrange to neat configuration
+
+2. **"Prepare the table for dinner"**
+   - Clear clutter
+   - Place plates and utensils
+   - Set up napkins
+
+3. **"Fetch and carry"**
+   - Find object by description
+   - Navigate there safely
+   - Carry object to destination
+
+## System Architecture
+
+```
+
+                    Voice Input (Microphone)                  
+
+                            ↓
+
+              Whisper: Speech-to-Text (Module 4.1)            
+
+                            ↓
+
+          Llama 3: Task Planning (Module 4.2)                
+          Input: "Organize the shelf"                        
+          Output: JSON task plan                             
+
+                            ↓
+
+              Step Executor & Coordinator                      
+  - Perception: YOLO object detection + CLIP                
+  - Localization: VSLAM (Isaac ROS)                         
+  - Navigation: Nav2 path planning                          
+  - Manipulation: Inverse kinematics + trajectory planning  
+  - Safety: Constraint checking                            
+
+                            ↓
+
+              ROS 2 Controllers (Module 1)                    
+  - Joint controllers                                       
+  - Gripper control                                        
+  - Mobile base control                                    
+
+                            ↓
+
+           Gazebo Simulation (Module 2) / Real Robot         
+  - Physics simulation                                       
+  - Sensor data                                             
+  - Actuator feedback                                       
+
+                            ↓
+                      Task Complete!
+```
+
+## Implementation Guide
+
+### 1. Setup Workspace
+
+```bash
+# Create workspace
+mkdir -p ~/humanoid_ws/src
+cd ~/humanoid_ws
+
+# Clone modules
+git clone https://github.com/YourRepo/humanoid-modules.git
+
+# Build
+colcon build --symlink-install
+source install/setup.bash
+```
+
+### 2. Launch Full System
+
+Create `complete_system.launch.py`:
+
+```python
+from launch import LaunchDescription
+from launch_ros.actions import Node
+from launch.actions import IncludeLaunchDescription
+
+def generate_launch_description():
+    # Gazebo simulation
+    gazebo = IncludeLaunchDescription(...)
+
+    # SLAM/Localization
+    slam = Node(package='slam_toolbox', executable='async_slam_toolbox_node')
+
+    # Navigation
+    nav2 = IncludeLaunchDescription(...)
+
+    # Whisper node (speech-to-text)
+    whisper = Node(
+        package='voice_package',
+        executable='whisper_node'
+    )
+
+    # Task planner (LLM)
+    planner = Node(
+        package='planning_package',
+        executable='task_planner'
+    )
+
+    # Step executor
+    executor = Node(
+        package='execution_package',
+        executable='step_executor'
+    )
+
+    # Perception (vision)
+    perception = Node(
+        package='perception_package',
+        executable='perception_node'
+    )
+
+    return LaunchDescription([
+        gazebo,
+        slam,
+        nav2,
+        whisper,
+        planner,
+        executor,
+        perception
+    ])
+```
+
+Run it:
+```bash
+ros2 launch humanoid_bringup complete_system.launch.py
+```
+
+### 3. Step Executor
+
+Coordinates execution of planned steps:
+
+```python
+class StepExecutor(Node):
+    def __init__(self):
+        super().__init__('step_executor')
+        self.plan_sub = self.create_subscription(
+            String, '/robot/plan', self.plan_callback, 10
+        )
+        self.step_index = 0
+        self.current_plan = None
+
+    def plan_callback(self, msg):
+        """Receive new plan and start execution."""
+        self.current_plan = json.loads(msg.data)
+        self.step_index = 0
+        self.execute_next_step()
+
+    def execute_next_step(self):
+        """Execute current step and move to next."""
+        if self.step_index >= len(self.current_plan['steps']):
+            self.get_logger().info("Task complete!")
+            return
+
+        step = self.current_plan['steps'][self.step_index]
+        self.get_logger().info(f"Executing step {step['step_number']}: {step['description']}")
+
+        action = step['ros_action']
+        params = step['parameters']
+
+        if action == 'navigate':
+            self.execute_navigate(params)
+        elif action == 'perception':
+            self.execute_perception(params)
+        elif action == 'move_arm':
+            self.execute_move_arm(params)
+        elif action == 'grasp':
+            self.execute_grasp(params)
+        elif action == 'release':
+            self.execute_release(params)
+
+        self.step_index += 1
+        self.execute_next_step()
+
+    def execute_navigate(self, params):
+        """Navigate to target location."""
+        # Call Nav2 service
+        pass
+
+    def execute_perception(self, params):
+        """Perceive environment (detect objects)."""
+        # Call object detection service
+        pass
+
+    def execute_move_arm(self, params):
+        """Move arm to target."""
+        # Compute IK, generate trajectory
+        pass
+
+    def execute_grasp(self, params):
+        """Grasp object with force control."""
+        # Control gripper with force feedback
+        pass
+
+    def execute_release(self, params):
+        """Release object."""
+        # Open gripper gradually
+        pass
+```
+
+### 4. Testing Checklist
+
+- [ ] **Voice Input**
+  - [ ] Whisper correctly transcribes speech in quiet environment
+  - [ ] Handles accent variation
+  - [ ] Recognizes all expected commands
+
+- [ ] **Task Planning**
+  - [ ] LLM generates valid JSON plans
+  - [ ] Plans are feasible (within robot capabilities)
+  - [ ] Safety constraints are respected
+
+- [ ] **Perception**
+  - [ ] Object detection works in simulated environment
+  - [ ] Localization drift < 10 cm over 5 minutes
+  - [ ] Depth estimation accurate within 5%
+
+- [ ] **Navigation**
+  - [ ] Reaches goal location within 0.5m tolerance
+  - [ ] Avoids simulated obstacles
+  - [ ] Replans when path blocked
+
+- [ ] **Manipulation**
+  - [ ] Grasps objects successfully > 90% of time
+  - [ ] Gripper force feedback functional
+  - [ ] Smooth, collision-free trajectories
+
+- [ ] **System Integration**
+  - [ ] All ROS 2 topics communicate correctly
+  - [ ] No dropped messages under load
+  - [ ] Graceful error recovery
+
+## Evaluation Criteria
+
+### Success Metrics:
+
+**Autonomous Task Execution**:
+-  **Level 1**: Execute single-step commands ("Pick up the cube")
+-  **Level 2**: Execute multi-step tasks with planning ("Put the cube on the shelf")
+-  **Level 3**: Handle ambiguity and ask clarifications ("Should I arrange by color or size?")
+-  **Level 4**: Recover from failures and replan ("Object not found, searching alternative location...")
+
+**Robustness**:
+- Task success rate > 80% in simulation
+- Graceful handling of perception failures
+- Safe execution (no self-collisions, environment collisions)
+
+**Performance**:
+- End-to-end latency: Voice command → Task complete < 5 minutes
+- Perception latency < 500 ms
+- Planning latency < 2 seconds
+
+## Stretch Goals
+
+1. **Multi-object manipulation**
+   - "Organize all red objects on the shelf"
+   - Handle multiple object interactions
+
+2. **Human-robot collaboration**
+   - Follow human around room
+   - Assist with task
+   - React to human gestures
+
+3. **Long-horizon planning**
+   - "Prepare the kitchen for dinner"
+   - 10+ subtasks with dependencies
+   - Handle task interdependencies
+
+4. **Continual learning**
+   - Learn new object categories from user feedback
+   - Adapt to new environments
+   - Improve over time
+
+## Final Submission
+
+Document your system:
+
+1. **README.md**
+   - System architecture diagram
+   - Installation instructions
+   - Usage examples
+
+2. **Video Demo**
+   - Voice command
+   - Perception
+   - Execution
+   - Success/failure cases
+
+3. **Performance Report**
+   - Metrics on test tasks
+   - Failure analysis
+   - Future improvements
+
+4. **Code Documentation**
+   - Well-commented ROS 2 nodes
+   - Launch files
+   - Configuration YAML
+
+## Congratulations!
+
+You've built a **production-grade autonomous humanoid system** that demonstrates:
+
+ Natural language understanding (Whisper + Llama 3)
+ Semantic task planning with LLMs
+ Robust perception (YOLO + CLIP + VSLAM)
+ Safe path planning (Nav2)
+ Precise manipulation (IK + trajectory planning)
+ Real-time ROS 2 integration
+ Sim-to-real ready (Gazebo + domain randomization)
+
+This is the **future of robotics**: humanoids that understand and execute natural language commands.
+
+## What's Next?
+
+- Deploy to real hardware (Tesla Bot, Boston Dynamics Atlas, etc.)
+- Scale to multi-robot systems
+- Add continual learning capabilities
+- Integrate with cloud services for complex reasoning
+- Build human-robot collaboration systems
+
+---
+
+## Module 4 Complete! 
+
+You've completed all 4 modules:
+
+ Module 1: The Robotic Nervous System (ROS 2)
+ Module 2: The Digital Twin (Gazebo & Unity)
+ Module 3: The AI-Robot Brain (NVIDIA Isaac)
+ Module 4: Vision-Language-Action (VLA)
+
+**You are now ready to build autonomous humanoid robots.**
+
+---
+
+**Next Steps**:
+- Deploy to real robots
+- Contribute to open-source robotics projects
+- Build your own humanoid startup
+- Research advanced topics (reinforcement learning, multi-agent systems, etc.)
+
+Thank you for completing this textbook!
+
+**Created by Danish Abbasi for the GIAIC Community**

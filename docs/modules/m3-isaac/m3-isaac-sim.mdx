@@ -1,0 +1,177 @@
+---
+id: m3-isaac-sim
+title: "Lesson 1: NVIDIA Isaac Sim"
+sidebar_label: "L1: Isaac Sim"
+description: "Master photorealistic robot simulation with NVIDIA Isaac Sim. Generate synthetic training data at scale."
+---
+
+## What is Isaac Sim?
+
+**Isaac Sim** is NVIDIA's simulation engine built on **Omniverse** (their metaverse platform). It provides:
+
+-  **RTX ray-tracing**: Photorealistic rendering
+-  **Physics-accurate**: NVIDIA PhysX engine
+-  **Synthetic data generation**: 1M+ training images automatically
+-  **Domain randomization**: Randomize materials, lighting, objects
+-  **GPU-accelerated**: Parallel simulations on GPU
+
+## Installation
+
+```bash
+# Download from NVIDIA
+https://developer.nvidia.com/isaac-sim/download
+
+# Or install via pip
+pip install nvidia-isaac-sim
+
+# Verify
+isaac-sim --version
+```
+
+## Creating a Training Environment
+
+### 1. Import Humanoid Model
+
+```python
+from isaacsim import SimulationApp
+
+# Create simulation app
+config = {"headless": False}  # Set True for large-scale training
+simulation_app = SimulationApp(launch_config=config)
+
+from pxr import Usd, UsdGeom
+import omni.usd
+
+# Load stage
+stage = omni.usd.get_context().get_stage()
+
+# Import humanoid model (URDF or USD)
+from omni.isaac.core.utils.stage import add_reference_to_stage
+
+add_reference_to_stage(
+    usd_path="/path/to/humanoid.usd",
+    stage_prefix="/World/Robot"
+)
+
+# Save stage
+stage.Export("/tmp/humanoid_world.usd")
+```
+
+### 2. Add Objects for Manipulation
+
+```python
+from omni.isaac.core.objects import DynamicCuboid
+
+# Add a cube to pick
+cube = DynamicCuboid(
+    name="red_cube",
+    position=[0.5, 0.0, 0.1],
+    size=[0.05, 0.05, 0.05],
+    color=[1.0, 0.0, 0.0]
+)
+```
+
+### 3. Configure Rendering and Domain Randomization
+
+```python
+import random
+from omni.isaac.core.utils.prims import get_prim_at_path
+
+def randomize_domain():
+    """Randomize environment for robust training."""
+
+    # Randomize lighting
+    light = get_prim_at_path("/World/defaultLight")
+    light.GetAttribute("intensity").Set(random.uniform(500, 2000))
+
+    # Randomize cube material
+    material_prim = get_prim_at_path("/World/red_cube")
+    roughness = random.uniform(0.1, 0.8)
+    metallic = random.choice([0.0, 1.0])  # Matte or shiny
+
+    # Randomize camera position slightly
+    camera_pos = [
+        0.0 + random.uniform(-0.05, 0.05),
+        0.5 + random.uniform(-0.05, 0.05),
+        0.5 + random.uniform(-0.05, 0.05)
+    ]
+
+    return camera_pos
+```
+
+## Generating Synthetic Training Data
+
+Automatically collect images with ground truth labels:
+
+```python
+from omni.isaac.core.utils.viewports import get_viewport
+from PIL import Image
+import numpy as np
+
+class SyntheticDataGenerator:
+    def __init__(self):
+        self.viewport = get_viewport()
+        self.frame_count = 0
+
+    def capture_frame(self):
+        """Capture RGB and depth images."""
+
+        # Get RGB image
+        rgb = self.viewport.get_rgb()
+
+        # Get depth image
+        depth = self.viewport.get_depth()
+
+        # Get semantic segmentation (object IDs)
+        semantic = self.viewport.get_semantic_segmentation()
+
+        # Save with labels
+        filename = f"frame_{self.frame_count:06d}"
+        np.save(f"data/{filename}_rgb.npy", rgb)
+        np.save(f"data/{filename}_depth.npy", depth)
+        np.save(f"data/{filename}_semantic.npy", semantic)
+
+        self.frame_count += 1
+
+    def generate_dataset(self, num_frames=10000):
+        """Generate large dataset with domain randomization."""
+
+        for i in range(num_frames):
+            # Randomize environment
+            randomize_domain()
+
+            # Simulate one step
+            simulation_app.update()
+
+            # Capture data
+            self.capture_frame()
+
+            if i % 100 == 0:
+                print(f"Generated {i}/{num_frames} frames")
+```
+
+## Parallel Simulations (Multi-GPU)
+
+Train multiple simulation instances in parallel:
+
+```python
+from omni.isaac.core.utils.extensions import enable_extension
+
+# Enable multi-GPU support
+enable_extension("omni.isaac.core")
+
+# Create multiple simulation instances
+for gpu_id in range(4):  # 4 GPUs
+    sim_app = SimulationApp(
+        headless=True,
+        device=f"cuda:{gpu_id}"
+    )
+    # ... setup simulation ...
+    # Run training on this GPU
+```
+
+Result: Generate 4× more training data in the same time!
+
+## Next Lesson
+
+[Lesson 2: Isaac ROS (Perception)](/docs/modules/m3-isaac/m3-isaac-ros)

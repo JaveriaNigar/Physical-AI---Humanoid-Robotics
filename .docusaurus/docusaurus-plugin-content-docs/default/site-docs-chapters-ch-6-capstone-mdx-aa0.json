@@ -1,0 +1,31 @@
+{
+  "id": "chapters/ch6-capstone",
+  "title": "Chapter 6: Capstone – AI-Robot Pipeline in Production",
+  "description": "Integrate all components (kinematics, ROS 2, simulation, vision-language models) into a production-ready AI-robot system with Docker, monitoring, and real-world validation.",
+  "source": "@site/docs/chapters/ch6-capstone.mdx",
+  "sourceDirName": "chapters",
+  "slug": "/chapters/ch6-capstone",
+  "permalink": "/docs/chapters/ch6-capstone",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/chapters/ch6-capstone.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "ch6-capstone",
+    "title": "Chapter 6: Capstone – AI-Robot Pipeline in Production",
+    "sidebar_label": "Ch6: AI-Robot Pipeline",
+    "description": "Integrate all components (kinematics, ROS 2, simulation, vision-language models) into a production-ready AI-robot system with Docker, monitoring, and real-world validation.",
+    "keywords": [
+      "deployment",
+      "docker",
+      "real-world",
+      "validation",
+      "production",
+      "monitoring",
+      "humanoid",
+      "end-to-end"
+    ],
+    "image": "/img/ch6-capstone-hero.png"
+  }
+}

@@ -1,0 +1,278 @@
+---
+id: m4-voice-to-action
+title: "Lesson 1: Voice-to-Action with Whisper"
+sidebar_label: "L1: Voice-to-Action"
+description: "Build real-time speech recognition for robots using OpenAI Whisper. Convert voice commands into actionable ROS 2 messages."
+---
+
+## Speech Recognition Pipeline
+
+```
+ Microphone Input (16 kHz, mono)
+    ↓
+[Whisper: Audio → Text]
+    ↓
+ Text Command: "Move the arm left"
+    ↓
+[Intent Classification]
+    ↓
+ ROS Action / Service Call
+```
+
+## Installing Whisper
+
+```bash
+# Install with pip
+pip install openai-whisper
+
+# Or from source
+git clone https://github.com/openai/whisper.git
+cd whisper && pip install -e .
+
+# Verify
+whisper --version
+```
+
+## Local Whisper Node (ROS 2)
+
+```python
+#!/usr/bin/env python3
+
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+import whisper
+import numpy as np
+import pyaudio
+import threading
+
+class WhisperNode(Node):
+    def __init__(self):
+        super().__init__('whisper_node')
+
+        # Load Whisper model (base, small, medium, large)
+        # Larger = more accurate but slower
+        self.model = whisper.load_model("base")
+
+        # Publisher for recognized commands
+        self.command_pub = self.create_publisher(String, '/voice/command', 10)
+
+        # Audio recording parameters
+        self.CHUNK = 1024
+        self.FORMAT = pyaudio.paFloat32
+        self.CHANNELS = 1
+        self.RATE = 16000
+
+        self.audio_data = []
+        self.recording = False
+
+        # Start microphone thread
+        self.record_thread = threading.Thread(target=self.record_audio)
+        self.record_thread.daemon = True
+        self.record_thread.start()
+
+        self.get_logger().info("Whisper node started, listening for voice commands...")
+
+    def record_audio(self):
+        """Continuously record audio in background."""
+        p = pyaudio.PyAudio()
+
+        stream = p.open(
+            format=self.FORMAT,
+            channels=self.CHANNELS,
+            rate=self.RATE,
+            input=True,
+            frames_per_buffer=self.CHUNK
+        )
+
+        silence_duration = 0
+        SILENCE_THRESHOLD = 0.02
+        SILENCE_FRAMES = 30  # ~1.7 seconds of silence to end
+
+        while True:
+            data = stream.read(self.CHUNK)
+            audio_chunk = np.frombuffer(data, dtype=np.float32)
+
+            # Detect silence
+            rms = np.sqrt(np.mean(audio_chunk ** 2))
+
+            if rms < SILENCE_THRESHOLD:
+                silence_duration += 1
+            else:
+                silence_duration = 0
+                self.audio_data.extend(audio_chunk)
+
+            # If enough silence, process the utterance
+            if silence_duration > SILENCE_FRAMES and len(self.audio_data) > 0:
+                self.get_logger().info("End of speech detected, transcribing...")
+                self.transcribe_and_publish()
+                self.audio_data = []
+                silence_duration = 0
+
+    def transcribe_and_publish(self):
+        """Transcribe audio buffer and publish command."""
+        # Convert audio list to numpy array
+        audio_array = np.array(self.audio_data, dtype=np.float32)
+
+        # Normalize
+        if np.max(np.abs(audio_array)) > 0:
+            audio_array = audio_array / np.max(np.abs(audio_array))
+
+        # Transcribe with Whisper
+        try:
+            result = self.model.transcribe(
+                audio=audio_array,
+                language="en",
+                fp16=False  # Use float32
+            )
+
+            text = result["text"].strip()
+
+            if text:
+                self.get_logger().info(f"Transcribed: {text}")
+
+                # Publish command
+                msg = String()
+                msg.data = text
+                self.command_pub.publish(msg)
+            else:
+                self.get_logger().warn("No speech detected")
+
+        except Exception as e:
+            self.get_logger().error(f"Transcription error: {e}")
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = WhisperNode()
+
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## Intent Recognition
+
+Classify voice commands into actions:
+
+```python
+from enum import Enum
+
+class RobotAction(Enum):
+    MOVE_ARM = "move_arm"
+    GRASP = "grasp"
+    RELEASE = "release"
+    WALK = "walk"
+    STOP = "stop"
+
+class IntentRecognizer(Node):
+    def __init__(self):
+        super().__init__('intent_recognizer')
+
+        self.voice_sub = self.create_subscription(
+            String,
+            '/voice/command',
+            self.command_callback,
+            10
+        )
+
+        self.action_pub = self.create_publisher(String, '/robot/action', 10)
+
+    def command_callback(self, msg):
+        """Parse voice command and extract intent."""
+        text = msg.data.lower()
+
+        # Simple keyword-based classification
+        action = self.classify_command(text)
+
+        if action:
+            self.get_logger().info(f"Recognized action: {action.value}")
+            action_msg = String()
+            action_msg.data = action.value
+            self.action_pub.publish(action_msg)
+        else:
+            self.get_logger().warn(f"Unknown command: {text}")
+
+    def classify_command(self, text: str):
+        """Classify command text to robot action."""
+
+        move_keywords = ['move', 'go', 'left', 'right', 'forward', 'backward']
+        if any(kw in text for kw in move_keywords):
+            return RobotAction.MOVE_ARM
+
+        grasp_keywords = ['pick', 'grab', 'grasp', 'hold']
+        if any(kw in text for kw in grasp_keywords):
+            return RobotAction.GRASP
+
+        release_keywords = ['drop', 'release', 'let go', 'place']
+        if any(kw in text for kw in release_keywords):
+            return RobotAction.RELEASE
+
+        walk_keywords = ['walk', 'move', 'navigate', 'go to']
+        if any(kw in text for kw in walk_keywords):
+            return RobotAction.WALK
+
+        stop_keywords = ['stop', 'halt', 'freeze']
+        if any(kw in text for kw in stop_keywords):
+            return RobotAction.STOP
+
+        return None
+```
+
+## Extract Parameters from Speech
+
+Parse parameters from voice commands:
+
+```python
+import re
+
+class CommandParser(Node):
+    def parse_movement_command(self, text: str) -> dict:
+        """Extract movement parameters from command."""
+
+        # "Move arm 10 cm left"
+        command = {'action': 'move_arm', 'direction': None, 'distance': None}
+
+        # Extract direction
+        directions = {'left': -1, 'right': 1, 'up': 1, 'down': -1, 'forward': 1, 'backward': -1}
+        for direction, sign in directions.items():
+            if direction in text:
+                command['direction'] = direction
+                break
+
+        # Extract distance (if mentioned)
+        distance_match = re.search(r'(\d+)\s*(cm|centimeter|meter|m)', text)
+        if distance_match:
+            distance = int(distance_match.group(1))
+            unit = distance_match.group(2)
+            if 'cm' in unit:
+                command['distance'] = distance / 100  # Convert to meters
+            else:
+                command['distance'] = distance
+
+        return command
+```
+
+## Real-Time Performance
+
+Whisper models and latency:
+
+| Model | Size | Latency | Accuracy |
+|-------|------|---------|----------|
+| **tiny** | 39 MB | 100 ms | 87% |
+| **base** | 140 MB | 200 ms | 92% |
+| **small** | 244 MB | 400 ms | 94% |
+| **medium** | 769 MB | 800 ms | 96% |
+| **large** | 2.9 GB | 1500 ms | 99% |
+
+For real-time humanoid control, use **base** or **small** on edge devices.
+
+## Next Lesson
+
+[Lesson 2: Cognitive Planning with LLMs](/docs/modules/m4-vla/m4-cognitive-planning)

@@ -1,0 +1,25 @@
+{
+  "id": "modules/m4-vla/m4-capstone-project",
+  "title": "Lesson 3: Capstone Project - Autonomous Humanoid",
+  "description": "Build a complete end-to-end autonomous humanoid system. Voice → Perception → Planning → Execution.",
+  "source": "@site/docs/modules/m4-vla/m4-capstone-project.mdx",
+  "sourceDirName": "modules/m4-vla",
+  "slug": "/modules/m4-vla/m4-capstone-project",
+  "permalink": "/docs/modules/m4-vla/m4-capstone-project",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/modules/m4-vla/m4-capstone-project.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "m4-capstone-project",
+    "title": "Lesson 3: Capstone Project - Autonomous Humanoid",
+    "sidebar_label": "L3: Capstone Project",
+    "description": "Build a complete end-to-end autonomous humanoid system. Voice → Perception → Planning → Execution."
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "L2: Cognitive Planning",
+    "permalink": "/docs/modules/m4-vla/m4-cognitive-planning"
+  }
+}

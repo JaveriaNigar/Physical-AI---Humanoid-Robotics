@@ -1,0 +1,225 @@
+---
+id: m3-isaac-ros
+title: "Lesson 2: Isaac ROS (GPU-Accelerated Perception)"
+sidebar_label: "L2: Isaac ROS"
+description: "Implement hardware-accelerated perception with Isaac ROS: VSLAM, object detection, depth estimation."
+---
+
+## What is Isaac ROS?
+
+**Isaac ROS** provides GPU-accelerated perception nodes for ROS 2:
+
+-  **VSLAM**: Visual SLAM using camera + IMU (10× faster than CPU)
+-  **Object Detection**: Real-time YOLOv8 on GPU
+-  **Depth Estimation**: Stereo vision with GPU acceleration
+-  **Hardware-optimized**: Runs on NVIDIA Jetson or data center GPUs
+
+## Installation
+
+```bash
+# Install Isaac ROS with VSLAM
+sudo apt-get install ros-humble-isaac-ros-vslam
+
+# Install perception packages
+sudo apt-get install ros-humble-isaac-ros-visual-slam \
+                     ros-humble-isaac-ros-object-detection \
+                     ros-humble-isaac-ros-dnn-stereo-depth
+```
+
+## Visual SLAM (VSLAM)
+
+**VSLAM** localizes the robot by tracking camera features:
+
+```
+ Camera Feed → Feature Extraction → Feature Matching → Localization
+     ↓
+     IMU (gyroscope) stabilizes rotation estimates
+```
+
+### Launch VSLAM Node
+
+```yaml
+# isaac_ros_vslam.launch.py
+
+from launch import LaunchDescription
+from launch_ros.actions import Node
+
+def generate_launch_description():
+    vslam_node = Node(
+        package='isaac_ros_visual_slam',
+        executable='isaac_ros_visual_slam_node',
+        parameters=[
+            {'enable_imu_fusion': True},
+            {'enable_loop_closure': True},
+            {'num_keyframes': 10},
+            {'depth_image_topic': '/camera/depth'},
+            {'rgb_image_topic': '/camera/rgb'},
+            {'imu_topic': '/imu/data'},
+        ]
+    )
+
+    return LaunchDescription([vslam_node])
+```
+
+### Subscribe to Odometry
+
+```python
+from nav_msgs.msg import Odometry
+import numpy as np
+
+class LocalizationNode(Node):
+    def __init__(self):
+        super().__init__('localization_node')
+        self.odom_sub = self.create_subscription(
+            Odometry,
+            '/visual_slam/odometry',
+            self.odometry_callback,
+            10
+        )
+        self.robot_pose = None
+
+    def odometry_callback(self, msg):
+        # Extract pose
+        pos = msg.pose.pose.position
+        orient = msg.pose.pose.orientation
+
+        self.robot_pose = {
+            'x': pos.x, 'y': pos.y, 'z': pos.z,
+            'qx': orient.x, 'qy': orient.y, 'qz': orient.z, 'qw': orient.w
+        }
+
+        self.get_logger().info(f"Robot at: ({pos.x:.2f}, {pos.y:.2f}, {pos.z:.2f})")
+```
+
+## Real-Time Object Detection
+
+Use YOLOv8 for object detection:
+
+```python
+from isaac_ros_object_detection import DetectionNode
+from vision_msgs.msg import Detection2DArray
+
+class ObjectDetector(Node):
+    def __init__(self):
+        super().__init__('object_detector')
+        self.det_sub = self.create_subscription(
+            Detection2DArray,
+            '/detections',
+            self.detection_callback,
+            10
+        )
+
+    def detection_callback(self, msg):
+        for detection in msg.detections:
+            # Extract bounding box and class
+            bbox = detection.bbox
+            label = detection.results[0].hypothesis.class_name
+            confidence = detection.results[0].hypothesis.score
+
+            if confidence > 0.7:  # High confidence
+                self.get_logger().info(
+                    f"Detected {label} at ({bbox.center.x:.0f}, {bbox.center.y:.0f}) "
+                    f"(confidence: {confidence:.2f})"
+                )
+```
+
+## Stereo Depth Estimation
+
+Estimate 3D structure from two cameras:
+
+```yaml
+# stereo_depth.launch.py
+
+def generate_launch_description():
+    stereo_depth_node = Node(
+        package='isaac_ros_dnn_stereo_depth',
+        executable='isaac_ros_dnn_stereo_depth_node',
+        parameters=[
+            {'stereo_baseline': 0.12},  # 120mm baseline
+            {'model': 'raft-stereo'},
+            {'image_width': 1280},
+            {'image_height': 720},
+        ]
+    )
+
+    return LaunchDescription([stereo_depth_node])
+```
+
+## Multi-Sensor Fusion
+
+Combine VSLAM, object detection, and depth for robust perception:
+
+```python
+import tf_transformations
+from geometry_msgs.msg import TransformStamped
+
+class PerceptionFusion(Node):
+    def __init__(self):
+        super().__init__('perception_fusion')
+
+        # Subscribers
+        self.vslam_sub = self.create_subscription(Odometry, '/visual_slam/odometry', self.vslam_cb, 10)
+        self.det_sub = self.create_subscription(Detection2DArray, '/detections', self.det_cb, 10)
+        self.depth_sub = self.create_subscription(Image, '/depth', self.depth_cb, 10)
+
+        # Publisher
+        self.world_pub = self.create_publisher(Marker, '/world_objects', 10)
+
+    def vslam_cb(self, msg):
+        """Update robot localization."""
+        self.robot_frame = msg.pose.pose
+
+    def det_cb(self, msg):
+        """Detect objects in camera frame."""
+        for detection in msg.detections:
+            # Project 2D detection to 3D using depth map
+            x_pixel = detection.bbox.center.x
+            y_pixel = detection.bbox.center.y
+            depth = self.get_depth_at(x_pixel, y_pixel)
+
+            # Transform from camera to world frame
+            world_point = self.camera_to_world(depth, x_pixel, y_pixel)
+
+            # Publish marker
+            self.publish_marker(world_point, detection.results[0].hypothesis.class_name)
+
+    def get_depth_at(self, x, y):
+        """Get depth at pixel location."""
+        # Linear interpolation from depth map
+        # ...
+        pass
+
+    def camera_to_world(self, depth, x, y):
+        """Transform camera coordinates to world coordinates."""
+        # Use robot pose and camera intrinsics
+        # ...
+        pass
+```
+
+## Performance Metrics
+
+```python
+import time
+
+class PerformanceMonitor(Node):
+    def __init__(self):
+        super().__init__('perf_monitor')
+        self.timer = self.create_timer(1.0, self.monitor_callback)
+        self.frame_times = []
+
+    def monitor_callback(self):
+        avg_latency = np.mean(self.frame_times[-30:]) * 1000  # ms
+
+        self.get_logger().info(
+            f"VSLAM latency: {avg_latency:.1f} ms ({1000/avg_latency:.1f} FPS)"
+        )
+```
+
+Expected performance on RTX 4090:
+- **VSLAM**: 4-5 ms per frame (200 FPS)
+- **YOLOv8**: 10-15 ms per frame (70 FPS)
+- **Stereo depth**: 20-30 ms per frame (33 FPS)
+
+## Next Lesson
+
+[Lesson 3: Nav2 Path Planning](/docs/modules/m3-isaac/m3-nav2-planning)

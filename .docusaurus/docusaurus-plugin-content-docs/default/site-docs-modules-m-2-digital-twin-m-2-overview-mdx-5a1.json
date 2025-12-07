@@ -1,0 +1,29 @@
+{
+  "id": "modules/m2-digital-twin/m2-overview",
+  "title": "Module 2 Overview: The Digital Twin (Gazebo & Unity)",
+  "description": "Master physics simulation with Gazebo and high-fidelity visualization with Unity. Simulate complex environments, sensor dynamics, and human-robot interaction.",
+  "source": "@site/docs/modules/m2-digital-twin/m2-overview.mdx",
+  "sourceDirName": "modules/m2-digital-twin",
+  "slug": "/modules/m2-digital-twin/m2-overview",
+  "permalink": "/docs/modules/m2-digital-twin/m2-overview",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/modules/m2-digital-twin/m2-overview.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "m2-overview",
+    "title": "Module 2 Overview: The Digital Twin (Gazebo & Unity)",
+    "sidebar_label": "M2: Overview",
+    "description": "Master physics simulation with Gazebo and high-fidelity visualization with Unity. Simulate complex environments, sensor dynamics, and human-robot interaction."
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "L3: URDF Humanoids",
+    "permalink": "/docs/modules/m1-ros2/m1-urdf-humanoids"
+  },
+  "next": {
+    "title": "L1: Gazebo Physics",
+    "permalink": "/docs/modules/m2-digital-twin/m2-gazebo-physics"
+  }
+}

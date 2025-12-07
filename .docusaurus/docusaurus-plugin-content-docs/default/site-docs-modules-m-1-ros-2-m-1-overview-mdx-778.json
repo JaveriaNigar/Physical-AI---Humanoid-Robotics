@@ -1,0 +1,29 @@
+{
+  "id": "modules/m1-ros2/m1-overview",
+  "title": "Module 1 Overview: The Robotic Nervous System (ROS 2)",
+  "description": "Understand ROS 2 as the middleware that connects all components of a humanoid robot. This module covers nodes, topics, services, and how to bridge Python agents to robotic hardware.",
+  "source": "@site/docs/modules/m1-ros2/m1-overview.mdx",
+  "sourceDirName": "modules/m1-ros2",
+  "slug": "/modules/m1-ros2/m1-overview",
+  "permalink": "/docs/modules/m1-ros2/m1-overview",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/modules/m1-ros2/m1-overview.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "m1-overview",
+    "title": "Module 1 Overview: The Robotic Nervous System (ROS 2)",
+    "sidebar_label": "M1: Overview",
+    "description": "Understand ROS 2 as the middleware that connects all components of a humanoid robot. This module covers nodes, topics, services, and how to bridge Python agents to robotic hardware."
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Ch1: Intro to Physical AI",
+    "permalink": "/docs/chapters/ch1-intro"
+  },
+  "next": {
+    "title": "L1: Nodes, Topics, Services",
+    "permalink": "/docs/modules/m1-ros2/m1-nodes-topics-services"
+  }
+}

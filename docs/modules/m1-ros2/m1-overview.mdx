@@ -1,0 +1,69 @@
+---
+id: m1-overview
+title: "Module 1 Overview: The Robotic Nervous System (ROS 2)"
+sidebar_label: "M1: Overview"
+description: "Understand ROS 2 as the middleware that connects all components of a humanoid robot. This module covers nodes, topics, services, and how to bridge Python agents to robotic hardware."
+---
+
+## What is ROS 2?
+
+**ROS 2** (Robot Operating System 2) is the industry-standard middleware for robot control and communication. Think of it as the **nervous system** of a robot:
+
+- **Brain** ↔ **Spinal Cord (ROS 2)** ↔ **Muscles & Sensors**
+
+Just like your nervous system carries signals from your brain to your muscles and back, ROS 2 carries commands from your control algorithms to motors, and sensor data back to perception systems.
+
+## Learning Objectives
+
+By the end of this module, you will:
+
+1. **Understand ROS 2 architecture**: Nodes, Topics, and Services
+2. **Write Python ROS 2 nodes** using rclpy to control robots
+3. **Bridge AI agents** (like LLMs) to ROS controllers
+4. **Describe robot structure** using URDF (Unified Robot Description Format)
+5. **Implement pub-sub communication** for sensor data and commands
+
+## Module Structure
+
+### **Lesson 1: ROS 2 Nodes, Topics, and Services**
+- What are nodes, topics, and services?
+- Publish-Subscribe pattern
+- Request-Response (Service) pattern
+- Real-world examples from humanoid robotics
+
+### **Lesson 2: Bridging Python Agents to ROS Controllers**
+- Writing custom ROS 2 nodes in Python (rclpy)
+- Connecting an LLM agent to a ROS 2 controller
+- Example: Voice command → ROS 2 action → Robot movement
+
+### **Lesson 3: URDF for Humanoids**
+- What is URDF?
+- Defining links (rigid bodies) and joints
+- Example: 6-DOF arm URDF
+- Tesla Optimus humanoid structure overview
+
+## Real-World Context
+
+When you deploy a humanoid robot like Tesla Optimus or Boston Dynamics' Atlas, **everything runs through ROS 2**:
+
+-  **AI/LLM agent** (e.g., Llama 3 running on GPU) → ROS 2 node
+-  **Sensor drivers** (cameras, IMUs, force sensors) → ROS 2 publishers
+-  **Motor controllers** → ROS 2 subscribers
+-  **Path planner** → ROS 2 service
+
+This module teaches you the **glue** that holds it all together.
+
+## Prerequisites
+
+- Comfort with Python programming
+- Basic understanding of networking concepts (client-server, publish-subscribe)
+- Linux command line familiarity (ROS 2 runs on Ubuntu)
+
+## Time Estimate
+
+- **Lessons 1-2**: ~4 hours
+- **Lesson 3**: ~3 hours
+- **Hands-on projects**: ~6 hours
+- **Total**: ~13 hours
+
+Let's begin! → [Next: ROS 2 Nodes, Topics, and Services](/docs/modules/m1-ros2/m1-nodes-topics-services)

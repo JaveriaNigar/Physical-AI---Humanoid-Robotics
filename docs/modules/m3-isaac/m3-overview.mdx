@@ -1,0 +1,126 @@
+---
+id: m3-overview
+title: "Module 3 Overview: The AI-Robot Brain (NVIDIA Isaac)"
+sidebar_label: "M3: Overview"
+description: "Master NVIDIA Isaac Sim for photorealistic simulation and Isaac ROS for hardware-accelerated perception. Build autonomous humanoid systems with Nav2 path planning."
+---
+
+## What is NVIDIA Isaac?
+
+**NVIDIA Isaac** is a **robotics platform** providing:
+
+1. **Isaac Sim**: Photorealistic simulation engine (built on Omniverse)
+2. **Isaac ROS**: Hardware-accelerated perception (VSLAM, object detection)
+3. **Isaac Nav2**: Autonomous navigation for bipedal robots
+
+Think of it as **the brain** that perceives the world, plans paths, and makes decisions.
+
+## Why NVIDIA Isaac?
+
+-  **RTX rendering**: Photorealistic graphics → better training data
+-  **GPU acceleration**: VSLAM runs on NVIDIA GPU (10× faster)
+-  **ROS 2 native**: Seamless integration with ROS 2 middleware
+-  **Sim-to-real**: Trained models deploy directly to real robots
+
+## Module Structure
+
+### **Lesson 1: NVIDIA Isaac Sim**
+- Setup and environment
+- Importing humanoid models
+- Training with synthetic data
+- Domain randomization at scale
+
+### **Lesson 2: Isaac ROS (Perception)**
+- VSLAM (Visual SLAM) with GPU acceleration
+- Object detection and segmentation
+- Depth estimation
+- ROS 2 integration
+
+### **Lesson 3: Nav2 Path Planning**
+- Autonomous navigation for humanoids
+- Bipedal locomotion planning
+- Obstacle avoidance
+- Real-time replanning
+
+## Architecture
+
+```
+
+  NVIDIA Isaac Sim (Perception Training)  
+  - Synthetic data generation              
+  - Domain randomization                   
+  - High-quality rendered images           
+
+                    ↓
+         Trained Vision Models
+                    ↓
+
+   Isaac ROS (GPU-Accelerated Pipeline)   
+  - VSLAM (Camera + IMU → Localization)   
+  - Object Detection (Real-time)          
+  - Depth Estimation                      
+
+                    ↓
+         Scene Understanding
+                    ↓
+
+      Nav2 (Path Planning)                 
+  - Global path planning (RRT*)           
+  - Local trajectory planning (DWA)      
+  - Cost maps and obstacle layers         
+
+                    ↓
+          Humanoid executes motion
+```
+
+## Learning Objectives
+
+By the end of this module, you will:
+
+1. **Simulate humanoids photorealistically** in Isaac Sim
+2. **Train perception models** with synthetic data
+3. **Implement GPU-accelerated VSLAM** for localization
+4. **Plan collision-free paths** for bipedal locomotion
+5. **Deploy trained models to real robots**
+
+## Real-World Impact
+
+Tesla Optimus and Boston Dynamics' robots use this pipeline:
+
+1. **Training Phase** (Isaac Sim):
+   - Generate 1M+ synthetic images
+   - Train vision models (object detection, segmentation)
+   - Test navigation algorithms
+
+2. **Deployment Phase** (Isaac ROS + Nav2):
+   - Run VSLAM on onboard GPU
+   - Detect obstacles in real-time
+   - Plan safe paths around humans/objects
+
+Result: Fully autonomous humanoids that navigate complex human environments.
+
+## Prerequisites
+
+- NVIDIA GPU (RTX 3060 or better recommended)
+- ROS 2 Humble
+- Understanding of computer vision basics
+- Module 1 & 2 knowledge
+
+## Hardware Requirements
+
+| Component | Requirement |
+|-----------|-------------|
+| GPU | NVIDIA RTX 3060+ (RTX 4080 recommended) |
+| RAM | 32 GB minimum |
+| Storage | 50 GB+ (Isaac Sim is large) |
+| OS | Ubuntu 22.04 LTS |
+
+## Time Estimate
+
+- **Lesson 1 (Isaac Sim)**: ~6 hours
+- **Lesson 2 (Isaac ROS)**: ~5 hours
+- **Lesson 3 (Nav2)**: ~4 hours
+- **Hands-on projects**: ~10 hours
+- **Total**: ~25 hours
+
+Let's build a truly autonomous robot! → [Next: NVIDIA Isaac Sim](/docs/modules/m3-isaac/m3-isaac-sim)

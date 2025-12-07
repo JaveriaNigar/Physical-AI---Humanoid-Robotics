@@ -1,0 +1,165 @@
+---
+id: m2-unity-rendering
+title: "Lesson 2: Unity Rendering & Visualization"
+sidebar_label: "L2: Unity Rendering"
+description: "Build photorealistic robot visualizations in Unity. Stream sensor data from Gazebo and create interactive dashboards for humanoid control."
+---
+
+## Why Unity for Visualization?
+
+Gazebo provides physics but limited visual fidelity. **Unity** excels at:
+
+-  **Photorealistic rendering**: High-quality graphics, realistic materials
+-  **Real-time interaction**: Teleoperation dashboards
+-  **Data visualization**: Live sensor streams, planning visualization
+-  **Human-robot interaction**: Show robot capabilities to stakeholders
+
+Modern robots stream their state from ROS 2 to Unity for rich visualization.
+
+## Architecture
+
+```
+Gazebo (Physics) ↔ ROS 2 ↔ Unity (Rendering)
+ Robot state (poses)
+ Sensor data (camera feeds, IMU)
+ Planned trajectories
+```
+
+## Setting Up Unity with ROS 2
+
+### Install ROS 2 for Unity
+
+```bash
+# Install ROS-TCP-Connector (bridges ROS 2 to Unity)
+git clone https://github.com/RoboticsToolkit/ros2-for-unity.git
+```
+
+### Export Robot Model to FBX
+
+1. Export from CAD → URDF → FBX format
+2. Import FBX into Unity
+3. Attach ROS 2 bridge scripts
+
+## Real-Time Camera Streaming
+
+```csharp
+using UnityEngine;
+using ROS2;
+
+public class CameraStreamer : MonoBehaviour {
+    private ROS2Node ros2Node;
+    private ISubscription<ROS2.Sensor.Image> cameraSubscription;
+    private Texture2D cameraTexture;
+
+    void Start() {
+        ros2Node = GetComponent<ROS2Node>();
+
+        // Subscribe to camera feed
+        cameraSubscription = ros2Node.CreateSubscription<ROS2.Sensor.Image>(
+            "/camera/image",
+            OnCameraFrame
+        );
+
+        cameraTexture = new Texture2D(640, 480, TextureFormat.RGB24, false);
+    }
+
+    void OnCameraFrame(ROS2.Sensor.Image msg) {
+        // Convert ROS Image to Unity Texture
+        cameraTexture.LoadRawTextureData(msg.data);
+        cameraTexture.Apply();
+
+        // Display on canvas
+        GetComponent<RawImage>().texture = cameraTexture;
+    }
+}
+```
+
+## Visualizing Trajectories
+
+Show planned robot trajectories in real-time:
+
+```csharp
+using UnityEngine;
+using ROS2.TrajectoryMsgs;
+
+public class TrajectoryVisualizer : MonoBehaviour {
+    public Material trajMaterial;
+    private LineRenderer lineRenderer;
+
+    void OnTrajectoryReceived(JointTrajectory trajectory) {
+        lineRenderer.positionCount = trajectory.points.Count;
+
+        for (int i = 0; i < trajectory.points.Count; i++) {
+            // Convert joint angles to Cartesian position
+            Vector3 position = ComputeForwardKinematics(trajectory.points[i].positions);
+            lineRenderer.SetPosition(i, position);
+        }
+    }
+
+    Vector3 ComputeForwardKinematics(double[] jointAngles) {
+        // Implement FK or call ROS 2 service
+        // ...
+        return Vector3.zero;
+    }
+}
+```
+
+## Interactive Teleoperation
+
+Create a UI for manual robot control:
+
+```csharp
+using UnityEngine;
+
+public class TeleoperationPanel : MonoBehaviour {
+    private ROS2Node ros2Node;
+
+    void Update() {
+        // Read slider values (0-1 range for each joint)
+        float shoulderAngle = GetSliderValue("shoulder");
+        float elbowAngle = GetSliderValue("elbow");
+
+        if (Input.GetButtonDown("Submit")) {
+            SendJointCommand(new[] { shoulderAngle, elbowAngle });
+        }
+    }
+
+    void SendJointCommand(float[] angles) {
+        // Convert to ROS message and publish
+        var cmd = new JointTrajectory() {
+            JointNames = new[] { "shoulder", "elbow" },
+            // ...
+        };
+
+        ros2Node.Publish("/arm/commands", cmd);
+    }
+}
+```
+
+## Lighting & Materials
+
+Use physically-based materials for realism:
+
+```csharp
+Material metal = new Material(Shader.Find("Standard"));
+metal.SetFloat("_Metallic", 1.0f);
+metal.SetFloat("_Glossiness", 0.8f);
+
+Material rubber = new Material(Shader.Find("Standard"));
+rubber.SetFloat("_Metallic", 0.0f);
+rubber.SetFloat("_Glossiness", 0.2f);
+```
+
+## Hands-On Project
+
+1. Export your humanoid arm model to FBX
+2. Import into Unity
+3. Create a dashboard showing:
+   - Live camera feed
+   - Current joint angles
+   - Planned trajectory visualization
+4. Add interactive sliders to control joint angles in real-time
+
+## Next Lesson
+
+[Lesson 3: Sensor Simulation](/docs/modules/m2-digital-twin/m2-sensor-simulation)

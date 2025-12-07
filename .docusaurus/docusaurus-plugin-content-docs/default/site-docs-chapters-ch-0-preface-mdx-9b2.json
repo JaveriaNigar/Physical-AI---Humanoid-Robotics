@@ -1,0 +1,25 @@
+{
+  "id": "chapters/ch0-preface",
+  "title": "Preface",
+  "description": "Welcome to Physical AI & Humanoid Robotics Essentials. This textbook teaches you how to build AI-powered humanoid robots from first principles.",
+  "source": "@site/docs/chapters/ch0-preface.mdx",
+  "sourceDirName": "chapters",
+  "slug": "/chapters/ch0-preface",
+  "permalink": "/docs/chapters/ch0-preface",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/chapters/ch0-preface.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "ch0-preface",
+    "title": "Preface",
+    "sidebar_label": "Preface",
+    "description": "Welcome to Physical AI & Humanoid Robotics Essentials. This textbook teaches you how to build AI-powered humanoid robots from first principles."
+  },
+  "sidebar": "tutorialSidebar",
+  "next": {
+    "title": "Prerequisites",
+    "permalink": "/docs/chapters/ch0-prerequisites"
+  }
+}

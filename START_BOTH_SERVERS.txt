@@ -1,0 +1,129 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║        SOLUTION: You Need to Start BOTH Backend AND Frontend Servers       ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+THE REAL ISSUE:
+  Your backend API server is NOT running on port 8000!
+  You only started the frontend (npm start) on port 3000.
+
+SOLUTION:
+  You need TWO terminals running at the same time:
+    Terminal 1: Backend API (port 8000)
+    Terminal 2: Frontend (port 3000)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP-BY-STEP SETUP:
+
+TERMINAL 1 - Start Backend API:
+  1. Open a NEW terminal (or split terminal)
+  2. Navigate:
+     cd "E:\GIAIC\Quarter 4\Hackathon\hackathon\website"
+  3. Activate Python environment:
+     .venv\Scripts\activate
+  4. Start backend server:
+     python -m uvicorn api_server:app --reload --host 0.0.0.0 --port 8000
+  5. Wait until you see:
+     ✓ INFO:     Uvicorn running on http://0.0.0.0:8000
+     ✓ INFO:     Application startup complete
+  6. KEEP THIS TERMINAL OPEN!
+
+TERMINAL 2 - Start Frontend:
+  1. Open ANOTHER terminal
+  2. Navigate:
+     cd "E:\GIAIC\Quarter 4\Hackathon\hackathon\website"
+  3. Start frontend:
+     npm start
+  4. Wait until browser opens at http://localhost:3000
+  5. KEEP THIS TERMINAL OPEN!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VERIFY BOTH ARE RUNNING:
+
+Terminal 1 shows:
+  ✓ Uvicorn running on http://0.0.0.0:8000
+  ✓ Application startup complete
+
+Terminal 2 shows:
+  ✓ ⚡️ Ready in 5.34 s
+  ✓ Listening on http://localhost:3000
+
+Browser shows:
+  ✓ http://localhost:3000 is open
+  ✓ Purple chat button visible (bottom-right)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TEST IT WORKS:
+
+1. In browser, click purple button (bottom-right)
+2. Type: "What is ROS2?"
+3. Press Enter
+4. Wait 3-5 seconds
+5. You should get an answer! ✅
+
+If it doesn't work:
+  → Check Terminal 1: Is it still showing "Uvicorn running"?
+  → Check Terminal 2: Is it still showing "Ready in ..."?
+  → Check browser: Are both tabs open?
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+QUICK COMMANDS:
+
+TERMINAL 1 (Backend):
+  cd "E:\GIAIC\Quarter 4\Hackathon\hackathon\website"
+  .venv\Scripts\activate
+  python -m uvicorn api_server:app --reload --host 0.0.0.0 --port 8000
+
+TERMINAL 2 (Frontend):
+  cd "E:\GIAIC\Quarter 4\Hackathon\hackathon\website"
+  npm start
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VISUAL LAYOUT:
+
+┌──────────────────────────┬──────────────────────────┐
+│   TERMINAL 1             │   TERMINAL 2             │
+│   (BACKEND API)          │   (FRONTEND)             │
+│                          │                          │
+│ .venv\Scripts\activate   │ npm start                │
+│ python -m uvicorn ...    │ ⚡️ Ready in 5.34 s     │
+│                          │ Browser opens :3000      │
+│ Uvicorn running          │ Keep this open!          │
+│ :8000 ✓                  │                          │
+│ Keep this open!          │                          │
+│                          │                          │
+└──────────────────────────┴──────────────────────────┘
+
+BOTH must be running at the same time!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TROUBLESHOOTING:
+
+Error: "Connection refused" on port 8000
+  → Backend is not running
+  → Start Terminal 1 with backend server
+
+Error: "ModuleNotFoundError"
+  → Virtual environment not activated
+  → Run: .venv\Scripts\activate
+
+Error: "Port 8000 already in use"
+  → Something else is using port 8000
+  → Use different port or kill process
+
+Error: "Failed to fetch" in chatbot
+  → Backend not running on port 8000
+  → Check Terminal 1 is showing "Uvicorn running on :8000"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+THAT'S IT!
+
+Start both servers, and your chatbot will work perfectly! 🎉
+
+Details: See BACKEND_NOT_RUNNING.md for more info

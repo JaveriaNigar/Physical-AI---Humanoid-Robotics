@@ -1,0 +1,285 @@
+---
+id: m2-gazebo-physics
+title: "Lesson 1: Gazebo Physics Simulation"
+sidebar_label: "L1: Gazebo Physics"
+description: "Master Gazebo for physics-accurate robot simulation. Configure physics engines, set up worlds, and simulate complex interactions."
+---
+
+## What is Gazebo?
+
+**Gazebo** is the industry-standard physics simulator for ROS 2 robots. It provides:
+
+-  **Rigid body dynamics**: ODE, Bullet, or DART engines
+-  **Contact simulation**: Collisions, friction, rolling
+-  **Gravity and forces**: Accurate physics
+-  **Plugin system**: Extend with custom behavior
+-  **ROS 2 integration**: Native support
+
+Current versions:
+- **Gazebo Classic** (11+): Legacy, widely used
+- **Gazebo Ignition**: Modern, recommended for new projects
+
+## Installing Gazebo
+
+```bash
+# For ROS 2 Humble on Ubuntu 22.04
+sudo apt install ros-humble-gazebo-ros
+sudo apt install ros-humble-gazebo-ros-pkgs
+
+# Verify
+gazebo --version
+```
+
+## Creating Your First World
+
+Create a file: `my_world.sdf`
+
+```xml
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <world name="robot_world">
+
+    <!-- Physics engine -->
+    <physics name="default_physics" type="ode">
+      <max_step_size>0.001</max_step_size>     <!-- 1 ms timestep -->
+      <real_time_factor>1.0</real_time_factor> <!-- Real-time speed -->
+      <gravity>0 0 -9.81</gravity>
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iterations>50</iterations>
+          <precon_iterations>0</precon_iterations>
+        </solver>
+        <constraints>
+          <cfm>0</cfm>
+          <erp>0.2</erp>
+        </constraints>
+      </ode>
+    </physics>
+
+    <!-- Lighting -->
+    <light name="sun" type="directional">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.8 0.8 0.8 1</specular>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <!-- Ground plane -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <contact>
+              <collide_bitmask>0xffff</collide_bitmask>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.6</mu>
+                <mu2>0.6</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Robot model (loaded separately) -->
+    <include>
+      <uri>model://humanoid_arm</uri>
+      <pose>0 0 1 0 0 0</pose>
+    </include>
+
+    <!-- ROS 2 bridge plugin -->
+    <plugin filename="ignition-gazebo-ros-init-system" name="ignition::gazebo::systems::RosInit">
+    </plugin>
+    <plugin filename="ignition-gazebo-ros-clock-system" name="ignition::gazebo::systems::RosClock">
+    </plugin>
+
+  </world>
+</sdf>
+```
+
+## Loading URDF Models
+
+Convert URDF to SDF and launch in Gazebo:
+
+```bash
+# Convert URDF to SDF
+gz sdf convert humanoid.urdf -o humanoid.sdf
+
+# Launch Gazebo with your world
+gazebo my_world.sdf
+
+# Or use ROS 2 launch
+ros2 launch gazebo_ros gazebo.launch.py world:=my_world.sdf
+```
+
+## Physics Engine Comparison
+
+| Engine | Accuracy | Speed | Use Case |
+|--------|----------|-------|----------|
+| **ODE** | Medium | Fast | Most robots, real-time |
+| **Bullet** | High | Medium | Complex contacts, accurate |
+| **DART** | Very High | Slow | Humanoid walking (bipedal) |
+
+For humanoids, **DART** is preferred because it handles:
+- Balance and center-of-mass
+- Bipedal locomotion
+- Complex foot-ground interactions
+
+Switch engine in SDF:
+```xml
+<physics name="default_physics" type="dart">  <!-- Change here -->
+  <!-- DART-specific config -->
+</physics>
+```
+
+## Simulating Gravity and Friction
+
+### Adjust gravity:
+```xml
+<gravity>0 0 -9.81</gravity>  <!-- Standard Earth -->
+<gravity>0 0 -1.62</gravity>  <!-- Moon -->
+<gravity>0 0 -3.71</gravity>  <!-- Mars -->
+```
+
+### Adjust friction:
+```xml
+<friction>
+  <ode>
+    <mu>0.6</mu>      <!-- μ static friction -->
+    <mu2>0.6</mu2>    <!-- μ kinetic friction -->
+  </ode>
+</friction>
+```
+
+## Monitoring Simulation in Python
+
+```python
+import rclpy
+from rclpy.node import Node
+from gazebo_msgs.msg import ModelStates
+import numpy as np
+
+class SimulationMonitor(Node):
+    def __init__(self):
+        super().__init__('simulation_monitor')
+
+        # Subscribe to all model poses
+        self.subscription = self.create_subscription(
+            ModelStates,
+            '/gazebo/model_states',
+            self.model_states_callback,
+            10
+        )
+
+        self.get_logger().info("Monitoring Gazebo simulation")
+
+    def model_states_callback(self, msg):
+        # Print all models and their positions
+        for i, name in enumerate(msg.name):
+            pose = msg.pose[i]
+            vel = msg.twist[i]
+
+            self.get_logger().info(
+                f"{name}: pos=({pose.position.x:.2f}, {pose.position.y:.2f}, {pose.position.z:.2f}), "
+                f"vel=({vel.linear.x:.2f}, {vel.linear.y:.2f}, {vel.linear.z:.2f})"
+            )
+
+def main(args=None):
+    rclpy.init(args=args)
+    monitor = SimulationMonitor()
+    rclpy.spin(monitor)
+    monitor.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## Setting Object Physics Properties
+
+Add physics properties to URDF:
+
+```xml
+<link name="object_link">
+  <inertial>
+    <mass value="1.0"/>
+    <inertia ixx="0.01" ixy="0" ixz="0"
+             iyy="0.01" iyz="0" izz="0.01"/>
+  </inertial>
+
+  <collision>
+    <geometry>
+      <box size="0.1 0.1 0.1"/>
+    </geometry>
+    <surface>
+      <contact>
+        <ode>
+          <max_vel>0.0</max_vel>
+          <min_depth>0.001</min_depth>
+        </ode>
+      </contact>
+      <friction>
+        <ode>
+          <mu>0.4</mu>
+          <mu2>0.4</mu2>
+        </ode>
+      </friction>
+    </surface>
+  </collision>
+
+  <visual>
+    <geometry>
+      <box size="0.1 0.1 0.1"/>
+    </geometry>
+    <material name="red">
+      <color rgba="1 0 0 1"/>
+    </material>
+  </visual>
+</link>
+```
+
+## Troubleshooting Simulation Issues
+
+| Problem | Solution |
+|---------|----------|
+| Robot "explodes" | Reduce timestep, increase solver iterations |
+| Jittering | Increase `max_contacts`, tune friction |
+| Slow simulation | Lower `real_time_factor`, reduce collision meshes |
+| Unrealistic motion | Check mass/inertia, adjust friction coefficients |
+
+## Next Lesson
+
+[Lesson 2: Unity Rendering & Visualization](/docs/modules/m2-digital-twin/m2-unity-rendering)
+
+## Hands-On Project
+
+**Simulate a humanoid arm picking up an object:**
+1. Create a simple world with a table and cube
+2. Load your humanoid arm URDF
+3. Monitor object position as arm moves
+4. Verify gravity and friction effects

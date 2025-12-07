@@ -1,0 +1,147 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/docs",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/docs",
+          "mainDocId": "chapters/ch0-preface",
+          "docs": [
+            {
+              "id": "AUTHENTICATION_GUIDE",
+              "path": "/docs/AUTHENTICATION_GUIDE"
+            },
+            {
+              "id": "chapters/ch0-preface",
+              "path": "/docs/chapters/ch0-preface",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "chapters/ch0-prerequisites",
+              "path": "/docs/chapters/ch0-prerequisites",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "chapters/ch1-intro",
+              "path": "/docs/chapters/ch1-intro",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "chapters/ch2-humanoid",
+              "path": "/docs/chapters/ch2-humanoid"
+            },
+            {
+              "id": "chapters/ch3-ros2",
+              "path": "/docs/chapters/ch3-ros2"
+            },
+            {
+              "id": "chapters/ch4-sim",
+              "path": "/docs/chapters/ch4-sim"
+            },
+            {
+              "id": "chapters/ch5-vla",
+              "path": "/docs/chapters/ch5-vla"
+            },
+            {
+              "id": "chapters/ch6-capstone",
+              "path": "/docs/chapters/ch6-capstone"
+            },
+            {
+              "id": "modules/m1-ros2/m1-nodes-topics-services",
+              "path": "/docs/modules/m1-ros2/m1-nodes-topics-services",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modules/m1-ros2/m1-overview",
+              "path": "/docs/modules/m1-ros2/m1-overview",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modules/m1-ros2/m1-python-agents",
+              "path": "/docs/modules/m1-ros2/m1-python-agents",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modules/m1-ros2/m1-urdf-humanoids",
+              "path": "/docs/modules/m1-ros2/m1-urdf-humanoids",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modules/m2-digital-twin/m2-gazebo-physics",
+              "path": "/docs/modules/m2-digital-twin/m2-gazebo-physics",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modules/m2-digital-twin/m2-overview",
+              "path": "/docs/modules/m2-digital-twin/m2-overview",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modules/m2-digital-twin/m2-sensor-simulation",
+              "path": "/docs/modules/m2-digital-twin/m2-sensor-simulation",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modules/m2-digital-twin/m2-unity-rendering",
+              "path": "/docs/modules/m2-digital-twin/m2-unity-rendering",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modules/m3-isaac/m3-isaac-ros",
+              "path": "/docs/modules/m3-isaac/m3-isaac-ros",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modules/m3-isaac/m3-isaac-sim",
+              "path": "/docs/modules/m3-isaac/m3-isaac-sim",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modules/m3-isaac/m3-nav2-planning",
+              "path": "/docs/modules/m3-isaac/m3-nav2-planning",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modules/m3-isaac/m3-overview",
+              "path": "/docs/modules/m3-isaac/m3-overview",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modules/m4-vla/m4-capstone-project",
+              "path": "/docs/modules/m4-vla/m4-capstone-project",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modules/m4-vla/m4-cognitive-planning",
+              "path": "/docs/modules/m4-vla/m4-cognitive-planning",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modules/m4-vla/m4-overview",
+              "path": "/docs/modules/m4-vla/m4-overview",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modules/m4-vla/m4-voice-to-action",
+              "path": "/docs/modules/m4-vla/m4-voice-to-action",
+              "sidebar": "tutorialSidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "tutorialSidebar": {
+              "link": {
+                "path": "/docs/chapters/ch0-preface",
+                "label": "chapters/ch0-preface"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

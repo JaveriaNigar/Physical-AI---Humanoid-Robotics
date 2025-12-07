@@ -1,0 +1,29 @@
+{
+  "id": "modules/m1-ros2/m1-urdf-humanoids",
+  "title": "Lesson 3: URDF for Humanoids",
+  "description": "Master URDF (Unified Robot Description Format) - the XML language for defining robot structures. Learn to model humanoid kinematic chains, joint limits, and physical properties.",
+  "source": "@site/docs/modules/m1-ros2/m1-urdf-humanoids.mdx",
+  "sourceDirName": "modules/m1-ros2",
+  "slug": "/modules/m1-ros2/m1-urdf-humanoids",
+  "permalink": "/docs/modules/m1-ros2/m1-urdf-humanoids",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/modules/m1-ros2/m1-urdf-humanoids.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "m1-urdf-humanoids",
+    "title": "Lesson 3: URDF for Humanoids",
+    "sidebar_label": "L3: URDF Humanoids",
+    "description": "Master URDF (Unified Robot Description Format) - the XML language for defining robot structures. Learn to model humanoid kinematic chains, joint limits, and physical properties."
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "L2: Python Agents to ROS",
+    "permalink": "/docs/modules/m1-ros2/m1-python-agents"
+  },
+  "next": {
+    "title": "M2: Overview",
+    "permalink": "/docs/modules/m2-digital-twin/m2-overview"
+  }
+}

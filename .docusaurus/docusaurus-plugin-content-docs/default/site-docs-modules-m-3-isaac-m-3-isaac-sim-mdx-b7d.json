@@ -1,0 +1,29 @@
+{
+  "id": "modules/m3-isaac/m3-isaac-sim",
+  "title": "Lesson 1: NVIDIA Isaac Sim",
+  "description": "Master photorealistic robot simulation with NVIDIA Isaac Sim. Generate synthetic training data at scale.",
+  "source": "@site/docs/modules/m3-isaac/m3-isaac-sim.mdx",
+  "sourceDirName": "modules/m3-isaac",
+  "slug": "/modules/m3-isaac/m3-isaac-sim",
+  "permalink": "/docs/modules/m3-isaac/m3-isaac-sim",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/modules/m3-isaac/m3-isaac-sim.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "m3-isaac-sim",
+    "title": "Lesson 1: NVIDIA Isaac Sim",
+    "sidebar_label": "L1: Isaac Sim",
+    "description": "Master photorealistic robot simulation with NVIDIA Isaac Sim. Generate synthetic training data at scale."
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "M3: Overview",
+    "permalink": "/docs/modules/m3-isaac/m3-overview"
+  },
+  "next": {
+    "title": "L2: Isaac ROS",
+    "permalink": "/docs/modules/m3-isaac/m3-isaac-ros"
+  }
+}

@@ -1,0 +1,54 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    RUN THIS COMMAND IN A NEW TERMINAL                      ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+YOUR FRONTEND IS RUNNING ON PORT 3000 ✅
+
+NOW START THE BACKEND IN A NEW TERMINAL:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OPEN NEW TERMINAL AND RUN THIS:
+
+cd "E:\GIAIC\Quarter 4\Hackathon\hackathon\website" && .venv\Scripts\activate && python -m uvicorn api_server:app --reload --host 0.0.0.0 --port 8000
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OR DO IT STEP BY STEP:
+
+1. Open new terminal (Ctrl+Shift+` in VS Code)
+
+2. Type:
+   cd "E:\GIAIC\Quarter 4\Hackathon\hackathon\website"
+
+3. Type:
+   .venv\Scripts\activate
+
+4. Type:
+   python -m uvicorn api_server:app --reload --host 0.0.0.0 --port 8000
+
+5. Wait for message:
+   ✓ Uvicorn running on http://0.0.0.0:8000
+   ✓ Application startup complete
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+THEN TEST:
+
+1. Browser: Go to http://localhost:3000
+2. Click purple button (bottom-right)
+3. Type: "What is ROS2?"
+4. Press Enter
+5. Wait 3-5 seconds
+6. Get answer! ✅
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+THAT'S IT!
+
+Both servers running:
+  Frontend: http://localhost:3000 ✅
+  Backend: http://localhost:8000 ✅
+  Chatbot: WORKS! 🎉
+
+Done!

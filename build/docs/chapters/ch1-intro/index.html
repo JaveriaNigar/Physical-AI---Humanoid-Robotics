@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-chapters/ch1-intro" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">Chapter 1: Introduction to Physical AI | Physical AI &amp; Humanoid Robotics Book</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://physical-ai-humanoid-robotics-book-tan.vercel.app/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://physical-ai-humanoid-robotics-book-tan.vercel.app/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://physical-ai-humanoid-robotics-book-tan.vercel.app/docs/chapters/ch1-intro"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Chapter 1: Introduction to Physical AI | Physical AI &amp; Humanoid Robotics Book"><meta data-rh="true" name="description" content="Define Physical AI as embodied AI through perception-action loops. Explore why humanoid robots matter and the convergence of AI + embodied systems in 2025."><meta data-rh="true" property="og:description" content="Define Physical AI as embodied AI through perception-action loops. Explore why humanoid robots matter and the convergence of AI + embodied systems in 2025."><meta data-rh="true" name="keywords" content="physical ai,embodiment,robotics,humanoids,tesla optimus,figure ai,boston dynamics,closed-loop,perception"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://physical-ai-humanoid-robotics-book-tan.vercel.app/docs/chapters/ch1-intro"><link data-rh="true" rel="alternate" href="https://physical-ai-humanoid-robotics-book-tan.vercel.app/docs/chapters/ch1-intro" hreflang="en"><link data-rh="true" rel="alternate" href="https://physical-ai-humanoid-robotics-book-tan.vercel.app/docs/chapters/ch1-intro" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ch1: Intro to Physical AI","item":"https://physical-ai-humanoid-robotics-book-tan.vercel.app/docs/chapters/ch1-intro"}]}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous"><link rel="stylesheet" href="/assets/css/styles.2c00ef68.css">
+<script src="/assets/js/runtime~main.836c15e3.js" defer="defer"></script>
+<script src="/assets/js/main.f7324334.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||"light"),document.documentElement.setAttribute("data-theme-choice",t||"light")}(),function(){try{const a=new URLSearchParams(window.location.search).entries();for(var[t,e]of a)if(t.startsWith("docusaurus-data-")){var n=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(n,e)}}catch(t){}}(),document.documentElement.setAttribute("data-announcement-bar-initially-dismissed",function(){try{return"true"===localStorage.getItem("docusaurus.announcement.dismiss")}catch(t){}return!1}())</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><div class="theme-announcement-bar announcementBar_mb4j" role="banner"><div class="announcementBarPlaceholder_vyr4"></div><div class="content_knG7 announcementBarContent_xLdY">Created by Danish Abbasi for GIAIC Community - Free Textbook for Humanoid Robotics & AI</div><button type="button" aria-label="Close" class="clean-btn close closeButton_CVFx announcementBarClose_gvF7"><svg viewBox="0 0 15 15" width="14" height="14"><g stroke="currentColor" stroke-width="3.1"><path d="M.75.75l13.5 13.5M14.25.75L.75 14.25"></path></g></svg></button></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><b class="navbar__title text--truncate">Physical AI &amp; Humanoid Robotics</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/docs/chapters/ch0-preface">Textbook</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/Danishhshahid" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">Author (GitHub)<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><a href="https://www.linkedin.com/in/danish-shahid-abbasi-6952a42b5" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">LinkedIn<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG menuWithAnnouncementBar_GW3s"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/docs/chapters/ch0-preface"><span title="Front Matter" class="categoryLinkLabel_W154">Front Matter</span></a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/chapters/ch0-preface"><span title="Preface" class="linkLabel_WmDU">Preface</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/chapters/ch0-prerequisites"><span title="Prerequisites" class="linkLabel_WmDU">Prerequisites</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/chapters/ch1-intro"><span title="Ch1: Intro to Physical AI" class="linkLabel_WmDU">Ch1: Intro to Physical AI</span></a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/modules/m1-ros2/m1-overview"><span title="Module 1: The Robotic Nervous System (ROS 2)" class="categoryLinkLabel_W154">Module 1: The Robotic Nervous System (ROS 2)</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/modules/m2-digital-twin/m2-overview"><span title="Module 2: The Digital Twin (Gazebo &amp; Unity)" class="categoryLinkLabel_W154">Module 2: The Digital Twin (Gazebo &amp; Unity)</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/modules/m3-isaac/m3-overview"><span title="Module 3: The AI-Robot Brain (NVIDIA Isaac)" class="categoryLinkLabel_W154">Module 3: The AI-Robot Brain (NVIDIA Isaac)</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/modules/m4-vla/m4-overview"><span title="Module 4: Vision-Language-Action (VLA)" class="categoryLinkLabel_W154">Module 4: Vision-Language-Action (VLA)</span></a></div></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Front Matter</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">Ch1: Intro to Physical AI</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>Chapter 1: Introduction to Physical AI</h1></header>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="learning-objectives">Learning Objectives<a href="#learning-objectives" class="hash-link" aria-label="Direct link to Learning Objectives" title="Direct link to Learning Objectives" translate="no">​</a></h2>
+<div class="theme-admonition theme-admonition-info admonition_xJq3 alert alert--info"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></span>info</div><div class="admonitionContent_BuS1"><p>After this chapter, you will:</p><ul>
+<li class=""><strong>Define</strong> Physical AI and explain why embodiment is central to creating intelligent robots</li>
+<li class=""><strong>Compare</strong> traditional AI (symbol manipulation) with embodied AI (sensorimotor grounding)</li>
+<li class=""><strong>Identify</strong> 3+ real humanoid systems (Tesla Optimus, Boston Dynamics Atlas, Figure AI 01) and their current capabilities</li>
+<li class=""><strong>Explain</strong> the perception-reasoning-actuation loop as the core of Physical AI systems</li>
+<li class=""><strong>Connect</strong> Physical AI concepts to practical robotics problems you could solve with ROS 2 + Llama 3</li>
+</ul></div></div>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="11-what-is-physical-ai">1.1: What is Physical AI?<a href="#11-what-is-physical-ai" class="hash-link" aria-label="Direct link to 1.1: What is Physical AI?" title="Direct link to 1.1: What is Physical AI?" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="definition">Definition<a href="#definition" class="hash-link" aria-label="Direct link to Definition" title="Direct link to Definition" translate="no">​</a></h3>
+<p><strong>Physical AI</strong> is intelligent machines that can see, think, and act in the real world.</p>
+<p>Imagine a robot as having three main parts that work together:</p>
+<ol>
+<li class=""><strong>Eyes and Sensors</strong> - The robot sees and feels the world around it (cameras, touch sensors)</li>
+<li class=""><strong>A Brain</strong> - The robot thinks about what it sees and decides what to do next</li>
+<li class=""><strong>Arms and Legs</strong> - The robot moves and changes things in the world</li>
+</ol>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>=</mo><mi>f</mi><mo stretchy="false">(</mo><mtext>Perception</mtext><mo separator="true">,</mo><mtext>Reasoning</mtext><mo separator="true">,</mo><mtext>Actuation</mtext><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">P = f(\text{Perception}, \text{Reasoning}, \text{Actuation})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.13889em">P</span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em"></span><span class="mord mathnormal" style="margin-right:0.10764em">f</span><span class="mopen">(</span><span class="mord text"><span class="mord">Perception</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em"></span><span class="mord text"><span class="mord">Reasoning</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em"></span><span class="mord text"><span class="mord">Actuation</span></span><span class="mclose">)</span></span></span></span></p>
+<p><strong>Simple way to think about it:</strong> A robot with AI is like you: you see something, think about it, then act. A Physical AI robot does exactly this, but it&#x27;s a machine doing it.</p>
+<p>Unlike AI programs that only work with text or numbers on a computer, Physical AI robots must:</p>
+<ul>
+<li class=""><strong>See and Feel</strong> their environment (cameras, touch sensors, motion detectors)</li>
+<li class=""><strong>Think</strong> about what to do next (making plans, predicting what will happen)</li>
+<li class=""><strong>Act</strong> on the real world (moving arms, walking, picking up objects)</li>
+<li class=""><strong>Learn</strong> from what happens (if something goes wrong, remember it for next time)</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-embodiment-matters">Why Embodiment Matters<a href="#why-embodiment-matters" class="hash-link" aria-label="Direct link to Why Embodiment Matters" title="Direct link to Why Embodiment Matters" translate="no">​</a></h3>
+<p><strong>Embodiment</strong> means the robot has a body that experiences the real world. It&#x27;s not just a computer in the cloud.</p>
+<p>Think of it like this: A computer can talk about how to ride a bike, but a child must actually ride the bike to learn. The robot is like the child - it must experience the world with its own body.</p>
+<p>Here&#x27;s the difference:</p>
+<table><thead><tr><th>Aspect</th><th>AI in the Cloud (e.g., ChatGPT)</th><th>AI in a Robot (e.g., Tesla Optimus)</th></tr></thead><tbody><tr><td><strong>How it sees</strong></td><td>Only reads text</td><td>Has cameras and touch sensors</td></tr><tr><td><strong>Where it lives</strong></td><td>Virtual world (internet)</td><td>Real world (gravity, friction, people)</td></tr><tr><td><strong>What stops it</strong></td><td>Computer power</td><td>Computer power + battery, broken joints</td></tr><tr><td><strong>How it learns</strong></td><td>From reading books and data</td><td>By trying things and failing</td></tr><tr><td><strong>Cost of mistakes</strong></td><td>Nothing happens (wrong answer)</td><td>Robot could fall or break something</td></tr></tbody></table>
+<p><strong>The Big Idea</strong>: A robot must actually feel the world to truly understand it. It can&#x27;t just think about picking up an egg - it must try, feel the weight, and learn not to squeeze too hard.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-closed-loop-system-the-robots-cycle">The Closed-Loop System: The Robot&#x27;s Cycle<a href="#the-closed-loop-system-the-robots-cycle" class="hash-link" aria-label="Direct link to The Closed-Loop System: The Robot&#x27;s Cycle" title="Direct link to The Closed-Loop System: The Robot&#x27;s Cycle" translate="no">​</a></h3>
+<p>Physical AI robots work like a circle that never stops. Let me explain it simply:</p>
+<div class="language-mermaid codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-mermaid codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token plain">graph TD</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    A[&quot;Environment&lt;br/&gt;(Real World)&quot;] --&gt;|Sensor Data| B[&quot;Perception&lt;br/&gt;(Process Sensors)&quot;]</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    B --&gt;|Features/State| C[&quot;Reasoning&lt;br/&gt;(Planning, LLM)&quot;]</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    C --&gt;|Action Commands| D[&quot;Actuation&lt;br/&gt;(Move Robot)&quot;]</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    D --&gt;|Physical Change| A</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    A --&gt;|Feedback| B</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    style A fill:#e1f5ff</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    style B fill:#fff3e0</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    style C fill:#f3e5f5</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    style D fill:#e8f5e9</span><br></span></code></pre></div></div>
+<p><strong>What does this loop mean?</strong> It&#x27;s like a game of continuous learning:</p>
+<ol>
+<li class=""><strong>See</strong> - Cameras and sensors look at what&#x27;s happening in the world</li>
+<li class=""><strong>Think</strong> - The robot&#x27;s brain decides what to do based on what it sees</li>
+<li class=""><strong>Do</strong> - The robot moves its arms or legs to take action</li>
+<li class=""><strong>Feel the result</strong> - Sensors feel what happened and tell the brain</li>
+<li class=""><strong>Start over</strong> - The loop goes back to step 1 with new information</li>
+</ol>
+<p><strong>Why is this important?</strong> Imagine trying to pick up an egg without feeling it. Your fingers might crush it! But if you feel how hard to squeeze, you can adjust. Robots do the same thing. They can&#x27;t just follow a plan - they must constantly feel and adjust.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="real-world-physics-constraints-what-the-robot-must-handle">Real-World Physics Constraints: What the Robot Must Handle<a href="#real-world-physics-constraints-what-the-robot-must-handle" class="hash-link" aria-label="Direct link to Real-World Physics Constraints: What the Robot Must Handle" title="Direct link to Real-World Physics Constraints: What the Robot Must Handle" translate="no">​</a></h3>
+<p>Computer programs in the cloud don&#x27;t have to worry about physics. But a real robot does! Here are the challenges:</p>
+<p><strong>Gravity</strong> - Everything falls down. If a robot tries to lift something, it must be strong enough.</p>
+<p><strong>Friction</strong> - Surfaces are slippery or grippy. An icy floor is harder to walk on than a carpet. The robot must adjust.</p>
+<p><strong>Momentum</strong> - Heavy things don&#x27;t stop instantly. If a robot is running and needs to stop, it takes time. You can&#x27;t instantly brake a 140 lb robot moving at 5 mph.</p>
+<p><strong>Heat and Power</strong> - Motors get hot if they work too hard. Batteries run out of charge. The robot must be smart about how much energy it uses.</p>
+<p><strong>Safety</strong> - A robot moving fast could hurt a person. Engineers must design robots that won&#x27;t harm humans.</p>
+<p><strong>Real-World Teaching:</strong> Robot designers must think about all these problems when building and programming a robot. It&#x27;s not enough to write code - the robot must respect the laws of physics!</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="embodiment-challenge-preview">Embodiment Challenge Preview<a href="#embodiment-challenge-preview" class="hash-link" aria-label="Direct link to Embodiment Challenge Preview" title="Direct link to Embodiment Challenge Preview" translate="no">​</a></h3>
+<p>By Chapter 6, you will design an end-to-end Physical AI system. For now, reflect:</p>
+<div class="theme-admonition theme-admonition-danger admonition_xJq3 alert alert--danger"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 12 16"><path fill-rule="evenodd" d="M5.05.31c.81 2.17.41 3.38-.52 4.31C3.55 5.67 1.98 6.45.9 7.98c-1.45 2.05-1.7 6.53 3.53 7.7-2.2-1.16-2.67-4.52-.3-6.61-.61 2.03.53 3.33 1.94 2.86 1.39-.47 2.3.53 2.27 1.67-.02.78-.31 1.44-1.13 1.81 3.42-.59 4.78-3.42 4.78-5.56 0-2.84-2.53-3.22-1.25-5.61-1.52.13-2.03 1.13-1.89 2.75.09 1.08-1.02 1.8-1.86 1.33-.67-.41-.66-1.19-.06-1.78C8.18 5.31 8.68 2.45 5.05.32L5.03.3l.02.01z"></path></svg></span>danger</div><div class="admonitionContent_BuS1"><p><strong>Preview Challenge</strong>: Think about a task in your home (e.g., organizing a shelf, folding a towel, pouring a glass of water).</p><p>What would it take for a humanoid robot to do this task?</p><ul>
+<li class="">What sensors must it have?</li>
+<li class="">What reasoning would it need?</li>
+<li class="">What actuators (motors, joints) are required?</li>
+<li class="">What could go wrong, and how would the robot recover?</li>
+</ul><p>We&#x27;ll return to this at the chapter&#x27;s end.</p></div></div>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="12-why-humanoids">1.2: Why Humanoids?<a href="#12-why-humanoids" class="hash-link" aria-label="Direct link to 1.2: Why Humanoids?" title="Direct link to 1.2: Why Humanoids?" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-case-for-humanoid-form-factor">The Case for Humanoid Form Factor<a href="#the-case-for-humanoid-form-factor" class="hash-link" aria-label="Direct link to The Case for Humanoid Form Factor" title="Direct link to The Case for Humanoid Form Factor" translate="no">​</a></h3>
+<p>Humanoid robots—robots shaped like humans—are not just aesthetic choices. They&#x27;re engineered responses to real-world requirements:</p>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-dexterity-five-fingered-hands">1. <strong>Dexterity: Five-Fingered Hands</strong><a href="#1-dexterity-five-fingered-hands" class="hash-link" aria-label="Direct link to 1-dexterity-five-fingered-hands" title="Direct link to 1-dexterity-five-fingered-hands" translate="no">​</a></h4>
+<ul>
+<li class="">Human hands have 27 degrees of freedom (DOF); humanoid hands typically 5-15</li>
+<li class="">Unlike industrial robot arms (3 DOF, for point-and-place), humanoid hands can:<!-- -->
+<ul>
+<li class="">Grasp delicate objects (eggs) without crushing them</li>
+<li class="">Manipulate tools designed for human hands</li>
+<li class="">Perform in-hand manipulation (rotating objects while grasping)</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-locomotion-bipedal-walking">2. <strong>Locomotion: Bipedal Walking</strong><a href="#2-locomotion-bipedal-walking" class="hash-link" aria-label="Direct link to 2-locomotion-bipedal-walking" title="Direct link to 2-locomotion-bipedal-walking" translate="no">​</a></h4>
+<ul>
+<li class="">Humanoid legs can navigate stairs, uneven terrain, and tight hallways</li>
+<li class="">Wheeled robots (e.g., delivery drones) cannot climb stairs</li>
+<li class="">Legged robots allow higher ground clearance (stepping over obstacles) and lower profile on flat ground</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-social-compatibility">3. <strong>Social Compatibility</strong><a href="#3-social-compatibility" class="hash-link" aria-label="Direct link to 3-social-compatibility" title="Direct link to 3-social-compatibility" translate="no">​</a></h4>
+<ul>
+<li class="">Humans instinctively interact with humanoid robots (similar to human-robot interaction research)</li>
+<li class="">Existing human infrastructure (doorways, chairs, tools) is sized for humanoids</li>
+<li class="">Easier to train humans to work alongside humanoid robots</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-dexterity--mobility-trade-off">4. <strong>Dexterity + Mobility Trade-Off</strong><a href="#4-dexterity--mobility-trade-off" class="hash-link" aria-label="Direct link to 4-dexterity--mobility-trade-off" title="Direct link to 4-dexterity--mobility-trade-off" translate="no">​</a></h4>
+<ul>
+<li class="">A robot with a wheeled base and a 2-DOF arm is efficient but limited</li>
+<li class="">A humanoid can do complex manipulation (two hands) while walking</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="real-world-humanoid-systems-2025">Real-World Humanoid Systems (2025)<a href="#real-world-humanoid-systems-2025" class="hash-link" aria-label="Direct link to Real-World Humanoid Systems (2025)" title="Direct link to Real-World Humanoid Systems (2025)" translate="no">​</a></h3>
+<div class="theme-admonition theme-admonition-tip admonition_xJq3 alert alert--success"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 12 16"><path fill-rule="evenodd" d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11C2.44 6.78 2 5.65 2 5c0-2.2 2.02-4 4.5-4 1.22 0 2.36.42 3.22 1.19C10.55 2.94 11 3.94 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5c-.23 1.14-1.3 2-2.5 2s-2.27-.86-2.5-2z"></path></svg></span>tip</div><div class="admonitionContent_BuS1"><p><strong>Watch first, read second</strong>: Search for recent videos of these robots in action. Videos accelerate intuition better than text.</p></div></div>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="tesla-optimus-optimus-gen-2-jan-2025">Tesla Optimus (Optimus Gen 2, Jan 2025)<a href="#tesla-optimus-optimus-gen-2-jan-2025" class="hash-link" aria-label="Direct link to Tesla Optimus (Optimus Gen 2, Jan 2025)" title="Direct link to Tesla Optimus (Optimus Gen 2, Jan 2025)" translate="no">​</a></h4>
+<p><strong>Current Deployment</strong>: Gigafactory assembly lines + Sharper Image stores</p>
+<p><strong>Specifications</strong>:</p>
+<ul>
+<li class=""><strong>Height</strong>: 5&#x27;8&quot; (~173 cm)</li>
+<li class=""><strong>Weight</strong>: 140 lbs (~63 kg)</li>
+<li class=""><strong>Degrees of Freedom</strong>: 73 total (40 in arms/hands, 12 in legs, rest in torso/head)</li>
+<li class=""><strong>Max Speed</strong>: 5 mph (~2.2 m/s)</li>
+<li class=""><strong>Battery Runtime</strong>: 2-3 hours on single charge</li>
+<li class=""><strong>Payload</strong>: 5 lbs per hand (~2.3 kg)</li>
+</ul>
+<p><strong>Key Capabilities</strong>:</p>
+<ul>
+<li class=""><strong>Dexterity</strong>: Picks up fragile objects (eggs, flowers) without damaging them</li>
+<li class=""><strong>Learning</strong>: Learns new tasks from human demonstration in real-time</li>
+<li class=""><strong>Speed</strong>: Achieves 4-5 new behaviors per week through human feedback</li>
+<li class=""><strong>Integration</strong>: Runs ROS 2 derivatives internally; communicates via standard protocols</li>
+</ul>
+<p><strong>Latest News</strong> (Jan 2025):</p>
+<ul>
+<li class="">Deployed at Tesla Fremont factory: 50+ units performing assembly tasks</li>
+<li class="">Sharper Image: Greeting customers, light manipulation tasks</li>
+<li class="">Teleoperation capability: Humans can take over if needed</li>
+</ul>
+<p><strong>Video</strong>: <a href="https://youtu.be/dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" class="">Tesla Optimus Demo (Jan 2025)</a> <em>(update with actual link)</em></p>
+<p><strong>Link to Full Specs</strong>: <a href="https://www.tesla.com/optimus" target="_blank" rel="noopener noreferrer" class="">Tesla Optimus Official</a></p>
+<div class="theme-admonition theme-admonition-info admonition_xJq3 alert alert--info"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></span>info</div><div class="admonitionContent_BuS1"><p><strong>PIAIC Context</strong>: This textbook teaches you the <strong>stack</strong> that Optimus runs:</p><ul>
+<li class=""><strong>ROS 2</strong> for node-based architecture</li>
+<li class=""><strong>Gazebo</strong> for simulation before deployment</li>
+<li class=""><strong>Llama 3</strong> (open-source LLM) for reasoning tasks</li>
+<li class=""><strong>Vision encoders</strong> (CLIP/ResNet) for perception</li>
+</ul><p>By Chapter 6, you&#x27;ll build a simplified version.</p></div></div>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="boston-dynamics-atlas-gen-7-2024">Boston Dynamics Atlas (Gen 7, 2024)<a href="#boston-dynamics-atlas-gen-7-2024" class="hash-link" aria-label="Direct link to Boston Dynamics Atlas (Gen 7, 2024)" title="Direct link to Boston Dynamics Atlas (Gen 7, 2024)" translate="no">​</a></h4>
+<p><strong>Current Status</strong>: Research + entertainment (limited commercial deployment)</p>
+<p><strong>Specifications</strong>:</p>
+<ul>
+<li class=""><strong>Height</strong>: 5&#x27;9&quot; (~175 cm)</li>
+<li class=""><strong>Weight</strong>: 150 lbs (~68 kg)</li>
+<li class=""><strong>Actuators</strong>: Electric hydraulics (not battery-powered; runs on umbilical)</li>
+<li class=""><strong>DOF</strong>: ~28 primary joints (highly optimized for balance)</li>
+</ul>
+<p><strong>Key Capabilities</strong>:</p>
+<ul>
+<li class=""><strong>Parkour</strong>: Jumping, vaulting, backflips—unmatched in the industry</li>
+<li class=""><strong>Balance</strong>: Recovers from pushes mid-stride; handles uneven terrain</li>
+<li class=""><strong>Dynamic Motion</strong>: Running, sprinting, agile movement</li>
+<li class=""><strong>Manipulation</strong>: Carries objects while executing complex locomotion</li>
+</ul>
+<p><strong>Latest Benchmark</strong> (2024):</p>
+<ul>
+<li class=""><strong>Parkour Course</strong>: Completes obstacle course with 50+ distinct skills</li>
+<li class=""><strong>Fall Recovery</strong>: Catches itself mid-fall; resumes motion</li>
+<li class=""><strong>Research Publication</strong>: <em>&quot;Learning Agile Locomotion&quot;</em> (Boston Dynamics blog, 2024)</li>
+</ul>
+<p><strong>Video</strong>: <a href="https://youtu.be/dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" class="">Atlas Parkour Compilation</a> <em>(update with actual link)</em></p>
+<div class="theme-admonition theme-admonition-tip admonition_xJq3 alert alert--success"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 12 16"><path fill-rule="evenodd" d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11C2.44 6.78 2 5.65 2 5c0-2.2 2.02-4 4.5-4 1.22 0 2.36.42 3.22 1.19C10.55 2.94 11 3.94 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5c-.23 1.14-1.3 2-2.5 2s-2.27-.86-2.5-2z"></path></svg></span>tip</div><div class="admonitionContent_BuS1"><p><strong>Why Atlas is Impressive</strong>: Most robots can walk forward. Atlas can jump onto a 30-inch platform, land, and continue moving—all in real-time. This requires sophisticated balance, impact absorption, and reactive planning.</p></div></div>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="figure-ai-01-jan-2025">Figure AI 01 (Jan 2025)<a href="#figure-ai-01-jan-2025" class="hash-link" aria-label="Direct link to Figure AI 01 (Jan 2025)" title="Direct link to Figure AI 01 (Jan 2025)" translate="no">​</a></h4>
+<p><strong>Current Deployment</strong>: Amazon warehouses (logistics)</p>
+<p><strong>Specifications</strong>:</p>
+<ul>
+<li class=""><strong>Height</strong>: 5&#x27;6&quot; (~168 cm)</li>
+<li class=""><strong>Weight</strong>: 125 lbs (~57 kg)</li>
+<li class=""><strong>Actuators</strong>: Electric (independent of teleoperation)</li>
+<li class=""><strong>Key Feature</strong>: Fully autonomous (no human in the loop for runtime)</li>
+</ul>
+<p><strong>Key Capabilities</strong>:</p>
+<ul>
+<li class=""><strong>Pick-and-Place</strong>: Totes, boxes, small packages in warehouse environment</li>
+<li class=""><strong>End-to-End Learning</strong>: Learns from 24/7 video logs + human annotations</li>
+<li class=""><strong>Safety</strong>: Operates safely around human workers</li>
+<li class=""><strong>Speed</strong>: Processes 80-100 items per hour (competitive with human rate)</li>
+</ul>
+<p><strong>Deployment Milestone</strong> (Jan 2025):</p>
+<ul>
+<li class="">First mass-deployed humanoid in a commercial setting</li>
+<li class="">10+ units in Amazon logistics centers</li>
+<li class=""><strong>Key achievement</strong>: Fully autonomous execution (not teleoperated)</li>
+</ul>
+<p><strong>Video</strong>: <a href="https://youtu.be/dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" class="">Figure AI 01 in Amazon Warehouse</a> <em>(update with actual link)</em></p>
+<p><strong>Link</strong>: <a href="https://www.figure.ai" target="_blank" rel="noopener noreferrer" class="">Figure AI Official</a></p>
+<div class="theme-admonition theme-admonition-danger admonition_xJq3 alert alert--danger"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 12 16"><path fill-rule="evenodd" d="M5.05.31c.81 2.17.41 3.38-.52 4.31C3.55 5.67 1.98 6.45.9 7.98c-1.45 2.05-1.7 6.53 3.53 7.7-2.2-1.16-2.67-4.52-.3-6.61-.61 2.03.53 3.33 1.94 2.86 1.39-.47 2.3.53 2.27 1.67-.02.78-.31 1.44-1.13 1.81 3.42-.59 4.78-3.42 4.78-5.56 0-2.84-2.53-3.22-1.25-5.61-1.52.13-2.03 1.13-1.89 2.75.09 1.08-1.02 1.8-1.86 1.33-.67-.41-.66-1.19-.06-1.78C8.18 5.31 8.68 2.45 5.05.32L5.03.3l.02.01z"></path></svg></span>danger</div><div class="admonitionContent_BuS1"><p><strong>This is the real deal</strong>: Figure AI 01 represents the inflection point where humanoids move from R&amp;D to production. It&#x27;s picking real items in a real warehouse. This is happening <em>now</em>, not in 5 years.</p></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="comparison-table">Comparison Table<a href="#comparison-table" class="hash-link" aria-label="Direct link to Comparison Table" title="Direct link to Comparison Table" translate="no">​</a></h3>
+<table><thead><tr><th>Robot</th><th>Year</th><th>Height</th><th>Weight</th><th>Primary Task</th><th>Status</th><th>Est. Cost</th></tr></thead><tbody><tr><td><strong>Tesla Optimus</strong></td><td>2024-25</td><td>5&#x27;8&quot;</td><td>140 lbs</td><td>Assembly, dexterity</td><td>In production</td><td>~$20-25k (target)</td></tr><tr><td><strong>Boston Dynamics Atlas</strong></td><td>2024</td><td>5&#x27;9&quot;</td><td>150 lbs</td><td>Agility, parkour</td><td>Research</td><td>N/A (not for sale)</td></tr><tr><td><strong>Figure AI 01</strong></td><td>2025</td><td>5&#x27;6&quot;</td><td>125 lbs</td><td>Logistics, picking</td><td>In deployment</td><td>~$150k (lease)</td></tr><tr><td><strong>Digit (Agility)</strong></td><td>2024</td><td>5&#x27;9&quot;</td><td>165 lbs</td><td>Material handling, bipedal</td><td>Limited deployment</td><td>N/A</td></tr></tbody></table>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="13-the-convergence-ai--embodied-systems">1.3: The Convergence: AI + Embodied Systems<a href="#13-the-convergence-ai--embodied-systems" class="hash-link" aria-label="Direct link to 1.3: The Convergence: AI + Embodied Systems" title="Direct link to 1.3: The Convergence: AI + Embodied Systems" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="brief-history-1960-2025">Brief History (1960-2025)<a href="#brief-history-1960-2025" class="hash-link" aria-label="Direct link to Brief History (1960-2025)" title="Direct link to Brief History (1960-2025)" translate="no">​</a></h3>
+<p><strong>1960s-1980s: Industrial Robotics Era</strong></p>
+<ul>
+<li class="">Fixed robots on factory floors (KUKA, ABB arms)</li>
+<li class="">Pre-programmed motions; no learning</li>
+<li class="">Single task per robot (e.g., welding, painting)</li>
+<li class="">Success metric: repetition speed and accuracy</li>
+</ul>
+<p><strong>1990s-2000s: Mobile Robotics Era</strong></p>
+<ul>
+<li class="">Wheeled robots (AIBO, Roomba) emerge</li>
+<li class="">SLAM (Simultaneous Localization and Mapping) developed</li>
+<li class="">Academics build mobile arms (e.g., PR2)</li>
+<li class="">Challenge: <em>How do robots navigate unmapped environments?</em></li>
+</ul>
+<p><strong>2010s: Humanoid R&amp;D Boom</strong></p>
+<ul>
+<li class="">DARPA funds humanoid robotics (Boston Dynamics Atlas appears)</li>
+<li class="">Deep learning enables vision perception</li>
+<li class="">Simulation tools mature (Gazebo, V-REP)</li>
+<li class="">ROS 1 becomes <em>de facto</em> standard</li>
+</ul>
+<p><strong>2020-2024: Embodied AI + Foundation Models</strong></p>
+<ul>
+<li class="">Large language models (GPT, Llama) show reasoning capability</li>
+<li class="">Vision-language models (CLIP, LLaVA) enable grounding</li>
+<li class="">Sim-to-real transfer improves (domain randomization)</li>
+<li class="">Tesla announces Optimus; Figure and Boston Dynamics accelerate</li>
+</ul>
+<p><strong>2025 Onwards: Production Humanoids + Accessible Development</strong></p>
+<ul>
+<li class="">Optimus in production; Figure in warehouses</li>
+<li class="">Open-source LLMs (Llama 3) run locally on robots</li>
+<li class="">ROS 2 becomes standard; Gazebo is free</li>
+<li class=""><strong>Result</strong>: Individual developers and small teams can build sophisticated robots</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="current-state-2024-2025">Current State (2024-2025)<a href="#current-state-2024-2025" class="hash-link" aria-label="Direct link to Current State (2024-2025)" title="Direct link to Current State (2024-2025)" translate="no">​</a></h3>
+<p><strong>Breakthroughs</strong>:</p>
+<ol>
+<li class=""><strong>Dexterity</strong>: Tesla Optimus can manipulate fragile objects</li>
+<li class=""><strong>Autonomy</strong>: Figure AI 01 operates independently in warehouses</li>
+<li class=""><strong>Learning</strong>: Robots learn new tasks from human feedback (hours, not weeks)</li>
+<li class=""><strong>Integration</strong>: AI and robotics are merging (LLMs for reasoning, vision encoders for perception)</li>
+</ol>
+<p><strong>Key Milestones</strong>:</p>
+<ul>
+<li class="">Figure AI 01 deployed in Amazon warehouses (Jan 2025)</li>
+<li class="">Tesla Optimus achieves 4-5 new behaviors per week</li>
+<li class="">Boston Dynamics Atlas runs 50+ distinct skills</li>
+<li class="">Digit (Agility Robotics) achieves 70% tote-moving accuracy in logistics</li>
+</ul>
+<p><strong>Open Questions</strong>:</p>
+<ul>
+<li class="">How do we scale manufacturing to millions of units?</li>
+<li class="">Can humanoids work safely in human-dense environments (offices, hospitals)?</li>
+<li class="">What is the optimal control strategy for energy-efficient bipedal walking?</li>
+<li class="">How do we certify robot safety for human environments?</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-next-frontier-2025-2030">The Next Frontier (2025-2030)<a href="#the-next-frontier-2025-2030" class="hash-link" aria-label="Direct link to The Next Frontier (2025-2030)" title="Direct link to The Next Frontier (2025-2030)" translate="no">​</a></h3>
+<div><p><strong>What&#x27;s the biggest challenge for humanoid robots in 2025?</strong></p><p>The chatbot can help you explore the top blockers: sim-to-real transfer, cost reduction, safety certification, or human-robot interaction.</p></div>
+<p><strong>Predicted Developments</strong>:</p>
+<table><thead><tr><th>Year</th><th>Milestone</th><th>Impact</th></tr></thead><tbody><tr><td><strong>2025</strong></td><td>100+ humanoids in industrial deployment</td><td>Validating business model</td></tr><tr><td><strong>2026</strong></td><td>Home humanoids enter beta (limited availability)</td><td>Domestic task automation starts</td></tr><tr><td><strong>2027</strong></td><td>Humanoid cost drops below $50k</td><td>Expansion to SMEs (small/medium enterprises)</td></tr><tr><td><strong>2028</strong></td><td>Collaborative humanoids in service sector (hospitality, healthcare)</td><td>Economic disruption begins</td></tr><tr><td><strong>2030</strong></td><td>Millions of humanoids in production</td><td>New robotics economy emerges</td></tr></tbody></table>
+<p><strong>Your Role</strong>: By learning ROS 2 + Llama 3 + Gazebo simulation, you&#x27;re preparing to <strong>build</strong> the next generation of humanoid applications. This textbook teaches the open-source stack that makes it possible.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="14-embodiment-challenge">1.4: Embodiment Challenge<a href="#14-embodiment-challenge" class="hash-link" aria-label="Direct link to 1.4: Embodiment Challenge" title="Direct link to 1.4: Embodiment Challenge" translate="no">​</a></h2>
+<div class="theme-admonition theme-admonition-danger admonition_xJq3 alert alert--danger"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 12 16"><path fill-rule="evenodd" d="M5.05.31c.81 2.17.41 3.38-.52 4.31C3.55 5.67 1.98 6.45.9 7.98c-1.45 2.05-1.7 6.53 3.53 7.7-2.2-1.16-2.67-4.52-.3-6.61-.61 2.03.53 3.33 1.94 2.86 1.39-.47 2.3.53 2.27 1.67-.02.78-.31 1.44-1.13 1.81 3.42-.59 4.78-3.42 4.78-5.56 0-2.84-2.53-3.22-1.25-5.61-1.52.13-2.03 1.13-1.89 2.75.09 1.08-1.02 1.8-1.86 1.33-.67-.41-.66-1.19-.06-1.78C8.18 5.31 8.68 2.45 5.05.32L5.03.3l.02.01z"></path></svg></span>danger</div><div class="admonitionContent_BuS1"><h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="design-a-humanoid-task-for-your-environment"><strong>Design a Humanoid Task for Your Environment</strong><a href="#design-a-humanoid-task-for-your-environment" class="hash-link" aria-label="Direct link to design-a-humanoid-task-for-your-environment" title="Direct link to design-a-humanoid-task-for-your-environment" translate="no">​</a></h3><p><strong>Problem Statement</strong>:</p><p>Choose one task from your home or workspace that currently requires human hands:</p><p><strong>Examples</strong>:</p><ul>
+<li class="">Organize books on a shelf (requires: vision, reaching, fine motor control)</li>
+<li class="">Fold a towel (requires: manipulation of flexible objects, spatial reasoning)</li>
+<li class="">Pour a glass of water (requires: force control, safety, spill prevention)</li>
+<li class="">Organize a closet (requires: navigation, object recognition, planning)</li>
+</ul><p><strong>Your Task</strong>:</p><p>Design a humanoid robot system to complete this task. Answer the following:</p><ol>
+<li class="">
+<p><strong>Sensing</strong>: What sensors does the robot need?</p>
+<ul>
+<li class="">Cameras for object recognition?</li>
+<li class="">Force/torque sensors for gripper feedback?</li>
+<li class="">Proximity sensors for obstacle avoidance?</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Reasoning</strong>: How would the robot decide what to do?</p>
+<ul>
+<li class="">Hard-coded rules (if-then logic)?</li>
+<li class="">Learning from examples (imitation learning)?</li>
+<li class="">Language models (LLM like Llama 3 understands the task)?</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Actuation</strong>: What joints and actuators are required?</p>
+<ul>
+<li class="">How many DOF in the arm?</li>
+<li class="">How much grip strength for the gripper?</li>
+<li class="">Does the robot need to move around (locomotion)?</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Current Benchmarks</strong>: How do existing systems perform?</p>
+<ul>
+<li class="">Figure AI 01: Picks 80-100 items/hour in warehouses (Jan 2025)</li>
+<li class="">Tesla Optimus: Learns new assembly tasks in hours (production data)</li>
+<li class="">Boston Dynamics Atlas: Executes 50+ skills in controlled environments</li>
+<li class="">Digit (Agility): Achieves 70% success on tote-moving in logistics</li>
+</ul>
+</li>
+<li class="">
+<p><strong>The Gap</strong>: What&#x27;s the difference between current SOTA (State-Of-The-Art) and your task?</p>
+<ul>
+<li class="">Example: &quot;Folding a towel requires manipulation of deformable objects. Current SOTA (Optimus) excels at rigid objects (boxes). The gap is handling fabric dynamics.&quot;</li>
+</ul>
+</li>
+</ol><p><strong>Deliverable</strong>:</p><ul>
+<li class="">
+<p><strong>1-page design document</strong> with:</p>
+<ul>
+<li class="">Task description + motivation (why this task?)</li>
+<li class="">Sensing requirements (list of sensors)</li>
+<li class="">Reasoning approach (how the robot decides)</li>
+<li class="">Actuation specs (DOF, torque, speed)</li>
+<li class="">Comparison to current SOTA (Optimus, Figure, Atlas)</li>
+<li class="">One proposed solution to bridge the gap</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Sketch or diagram</strong> showing:</p>
+<ul>
+<li class="">Robot layout (where sensors/actuators are)</li>
+<li class="">Workflow (step-by-step task execution)</li>
+<li class="">Failure modes (what could go wrong?)</li>
+</ul>
+</li>
+</ul><p><strong>Evaluation Criteria</strong>:</p><ul>
+<li class="">Task is realistic and well-motivated</li>
+<li class="">Sensing/reasoning/actuation are justified</li>
+<li class="">Gap analysis is honest (acknowledges current limitations)</li>
+<li class="">Proposed solution is creative but feasible</li>
+</ul><p><strong>Bonus</strong>:</p><ul>
+<li class="">Implement a simulation in Gazebo (Chapter 4)</li>
+<li class="">Deploy on real robot if available (Chapter 6)</li>
+</ul></div></div>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="15-key-takeaways">1.5: Key Takeaways<a href="#15-key-takeaways" class="hash-link" aria-label="Direct link to 1.5: Key Takeaways" title="Direct link to 1.5: Key Takeaways" translate="no">​</a></h2>
+<ul>
+<li class=""><strong>Physical AI = Perception + Reasoning + Actuation</strong> operating on a robot in the real world</li>
+<li class=""><strong>Embodiment matters</strong> because robots must contend with gravity, friction, and real-world physics</li>
+<li class=""><strong>Humanoids are efficient</strong> for human environments (dexterity + locomotion + social compatibility)</li>
+<li class=""><strong>Production humanoids exist now</strong> (Optimus in factories, Figure in warehouses, Atlas in research)</li>
+<li class=""><strong>You can build this</strong>: Open-source ROS 2, Gazebo simulation, and Llama 3 make accessible robotics possible</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="references">References<a href="#references" class="hash-link" aria-label="Direct link to References" title="Direct link to References" translate="no">​</a></h2>
+<p>[1] <strong>Musk, E., et al.</strong> (2025). &quot;Tesla Optimus Gen 2: Production-Scale Humanoid Robotics.&quot; <em>Tesla Blog</em> and internal technical documentation. <a href="https://tesla.com/optimus" target="_blank" rel="noopener noreferrer" class="">https://tesla.com/optimus</a></p>
+<p>[2] <strong>Feng, X., et al.</strong> (2025). &quot;Figure 01: End-to-End Learning for Autonomous Warehouse Robotics.&quot; <em>Figure AI Technical Report</em>. <a href="https://www.figure.ai/research" target="_blank" rel="noopener noreferrer" class="">https://www.figure.ai/research</a></p>
+<p>[3] <strong>Boston Dynamics.</strong> (2024). &quot;Atlas Achieves New Levels of Agility.&quot; <em>Boston Dynamics Blog</em>. <a href="https://www.bostondynamics.com/blog" target="_blank" rel="noopener noreferrer" class="">https://www.bostondynamics.com/blog</a></p>
+<p>[4] <strong>Barto, A. G., &amp; Sutton, R. S.</strong> (2018). <em>Reinforcement Learning: An Introduction</em> (2nd ed.). MIT Press. ISBN: 978-0262039246</p>
+<p>[5] <strong>Levine, S., et al.</strong> (2020). &quot;Learning Hand-Eye Coordination for Robotic Grasping with Deep Learning and Large-Scale Data Collection.&quot; <em>International Journal of Robotics Research</em>, 34(4-5), 664–685. DOI: <a href="https://doi.org/10.1177/0278364914549895" target="_blank" rel="noopener noreferrer" class="">10.1177/0278364914549895</a></p>
+<p>[6] <strong>Silver, D., et al.</strong> (2021). &quot;Reward is Enough.&quot; <em>Artificial Intelligence</em>, 299, 103535. DOI: <a href="https://doi.org/10.1016/j.artint.2021.103535" target="_blank" rel="noopener noreferrer" class="">10.1016/j.artint.2021.103535</a></p>
+<p>[7] <strong>Brooks, R. A.</strong> (1991). &quot;Intelligence Without Representation.&quot; <em>Artificial Intelligence</em>, 47(1-3), 139–159. DOI: <a href="https://doi.org/10.1016/0004-3702(91)90053-B" target="_blank" rel="noopener noreferrer" class="">10.1016/0004-3702(91)90053-B</a> <em>(Foundational paper on embodied AI)</em></p>
+<p>[8] <strong>Siciliano, B., Sciavicco, L., Villani, L., &amp; Oriolo, G.</strong> (2009). <em>Robotics: Modelling, Planning and Control</em>. Springer-Verlag. ISBN: 978-1852339197</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="next-steps">Next Steps<a href="#next-steps" class="hash-link" aria-label="Direct link to Next Steps" title="Direct link to Next Steps" translate="no">​</a></h2>
+<div class="theme-admonition theme-admonition-info admonition_xJq3 alert alert--info"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></span>info</div><div class="admonitionContent_BuS1"><p><strong>Ready to dive deeper?</strong></p><ul>
+<li class=""><strong>Chapter 2</strong> covers the <em>engineering</em> of humanoid robots: kinematics, dynamics, actuators, and sensing.</li>
+<li class=""><strong>Chapter 3</strong> introduces ROS 2, the middleware that ties everything together.</li>
+<li class="">By <strong>Chapter 6</strong>, you&#x27;ll build an end-to-end pipeline that combines all these concepts.</li>
+</ul><p><strong>Before moving to Chapter 2</strong>, try this:</p><ol>
+<li class=""><strong>Watch</strong> a 2-minute video of Tesla Optimus or Figure AI 01 in action</li>
+<li class=""><strong>Sketch</strong> your Embodiment Challenge task (use pencil and paper; rough drawings are fine)</li>
+<li class=""><strong>Discuss</strong> with peers: What surprised you about humanoid capabilities? What seems hardest?</li>
+</ol><p>Ready? → <a class="" href="/docs/chapters/ch2-humanoid"><strong>Chapter 2: Basics of Humanoid Robotics</strong></a></p></div></div>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="rag-integration-hooks">RAG Integration Hooks<a href="#rag-integration-hooks" class="hash-link" aria-label="Direct link to RAG Integration Hooks" title="Direct link to RAG Integration Hooks" translate="no">​</a></h2>
+<div><p><strong>&quot;What is embodied AI, and why is it different from traditional AI like ChatGPT?&quot;</strong></p><p>Use the chatbot to explore the distinction between disembodied (software) and embodied (robot) AI systems. Ask about specific examples.</p></div>
+<div><p><strong>&quot;Why do humanoids have five fingers instead of three or eight?&quot;</strong></p><p>Discuss dexterity trade-offs: five fingers optimize for human tool use and fine manipulation while keeping actuator count manageable.</p></div>
+<div><p><strong>&quot;What&#x27;s holding back humanoid robots from being in every home by 2026?&quot;</strong></p><p>Explore current bottlenecks: cost, sim-to-real transfer, safety certification, and the challenge of open-ended task learning.</p></div></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/chapters/ch1-intro.mdx" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/chapters/ch0-prerequisites"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Prerequisites</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/modules/m1-ros2/m1-overview"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">M1: Overview</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#learning-objectives" class="table-of-contents__link toc-highlight">Learning Objectives</a></li><li><a href="#11-what-is-physical-ai" class="table-of-contents__link toc-highlight">1.1: What is Physical AI?</a><ul><li><a href="#definition" class="table-of-contents__link toc-highlight">Definition</a></li><li><a href="#why-embodiment-matters" class="table-of-contents__link toc-highlight">Why Embodiment Matters</a></li><li><a href="#the-closed-loop-system-the-robots-cycle" class="table-of-contents__link toc-highlight">The Closed-Loop System: The Robot&#39;s Cycle</a></li><li><a href="#real-world-physics-constraints-what-the-robot-must-handle" class="table-of-contents__link toc-highlight">Real-World Physics Constraints: What the Robot Must Handle</a></li><li><a href="#embodiment-challenge-preview" class="table-of-contents__link toc-highlight">Embodiment Challenge Preview</a></li></ul></li><li><a href="#12-why-humanoids" class="table-of-contents__link toc-highlight">1.2: Why Humanoids?</a><ul><li><a href="#the-case-for-humanoid-form-factor" class="table-of-contents__link toc-highlight">The Case for Humanoid Form Factor</a></li><li><a href="#real-world-humanoid-systems-2025" class="table-of-contents__link toc-highlight">Real-World Humanoid Systems (2025)</a></li><li><a href="#comparison-table" class="table-of-contents__link toc-highlight">Comparison Table</a></li></ul></li><li><a href="#13-the-convergence-ai--embodied-systems" class="table-of-contents__link toc-highlight">1.3: The Convergence: AI + Embodied Systems</a><ul><li><a href="#brief-history-1960-2025" class="table-of-contents__link toc-highlight">Brief History (1960-2025)</a></li><li><a href="#current-state-2024-2025" class="table-of-contents__link toc-highlight">Current State (2024-2025)</a></li><li><a href="#the-next-frontier-2025-2030" class="table-of-contents__link toc-highlight">The Next Frontier (2025-2030)</a></li></ul></li><li><a href="#14-embodiment-challenge" class="table-of-contents__link toc-highlight">1.4: Embodiment Challenge</a><ul><li><a href="#design-a-humanoid-task-for-your-environment" class="table-of-contents__link toc-highlight"><strong>Design a Humanoid Task for Your Environment</strong></a></li></ul></li><li><a href="#15-key-takeaways" class="table-of-contents__link toc-highlight">1.5: Key Takeaways</a></li><li><a href="#references" class="table-of-contents__link toc-highlight">References</a></li><li><a href="#next-steps" class="table-of-contents__link toc-highlight">Next Steps</a></li><li><a href="#rag-integration-hooks" class="table-of-contents__link toc-highlight">RAG Integration Hooks</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Chapters</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/ch1-intro">Chapter 1: Introduction</a></li><li class="footer__item"><a class="footer__link-item" href="/docs/ch2-humanoid">Chapter 2: Humanoid Basics</a></li><li class="footer__item"><a class="footer__link-item" href="/docs/ch3-ros2">Chapter 3: ROS 2</a></li><li class="footer__item"><a class="footer__link-item" href="/docs/ch4-sim">Chapter 4: Simulation</a></li><li class="footer__item"><a class="footer__link-item" href="/docs/ch5-vla">Chapter 5: VLA Systems</a></li><li class="footer__item"><a class="footer__link-item" href="/docs/ch6-capstone">Chapter 6: Capstone</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community &amp; Creator</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/Danishhshahid" target="_blank" rel="noopener noreferrer" class="footer__link-item">Author GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://www.linkedin.com/in/danish-shahid-abbasi-6952a42b5/" target="_blank" rel="noopener noreferrer" class="footer__link-item">Author LinkedIn<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Resources</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://docs.ros.org/en/humble/" target="_blank" rel="noopener noreferrer" class="footer__link-item">ROS 2 Docs<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://gazebosim.org/docs" target="_blank" rel="noopener noreferrer" class="footer__link-item">Gazebo<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://ollama.ai" target="_blank" rel="noopener noreferrer" class="footer__link-item">Ollama<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">
+          MIT License © 2025 Created by <strong>Danish Abbasi</strong> for <strong>GIAIC Community</strong><br>
+          <em>Physical AI & Humanoid Robotics Essentials</em><br>
+          Built with Docusaurus | Hosted on GitHub Pages<br>
+          <a href="https://github.com/GIAIC-Community/Physical-AI-Textbook/blob/master/LICENSE">License</a>
+        </div></div></div></footer><div class="buttonContainer_bhW3"><button class="floatingButton_ingx" title="Open AI Tutor" aria-label="Open AI Tutor"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"></path></svg></button></div></div>
+</body>
+</html>

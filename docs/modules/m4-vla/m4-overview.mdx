@@ -1,0 +1,144 @@
+---
+id: m4-overview
+title: "Module 4 Overview: Vision-Language-Action (VLA)"
+sidebar_label: "M4: Overview"
+description: "Master the convergence of large language models and robotics. Build systems where robots understand natural language commands and execute complex tasks."
+---
+
+## The VLA Revolution
+
+**Vision-Language-Action (VLA)** systems represent the future of robotics:
+
+-  **Voice commands** → "Clean the table"
+-  **Vision understanding** → See what's on the table
+-  **Language reasoning** → Interpret the task
+-  **Action planning** → Compute robot trajectory
+-  **Execution** → Move actuators safely
+
+Instead of hand-programming every task, humanoids now **understand natural language**.
+
+## Module Structure
+
+### **Lesson 1: Voice-to-Action with Whisper**
+- Speech-to-text with OpenAI Whisper
+- Real-time voice command processing
+- Multi-language support
+
+### **Lesson 2: Cognitive Planning with LLMs**
+- Using Llama 3 / GPT for task planning
+- Translating "pick up the red cube" to robot actions
+- Handling ambiguity and clarification
+
+### **Lesson 3: Capstone Project**
+- Build a complete autonomous humanoid system
+- Voice command → Perception → Planning → Execution
+- Real-world demo on simulated robot
+
+## Architecture
+
+```
+ Voice Input
+    ↓
+[Whisper: Speech-to-Text]
+    ↓
+ Text Command: "Move the red cube to the shelf"
+    ↓
+[LLM Reasoning: Break into steps]
+    ↓
+Step 1: Navigate to cube location
+Step 2: Approach cube from reachable angle
+Step 3: Grasp with appropriate gripper force
+Step 4: Lift while maintaining balance
+Step 5: Navigate to shelf
+Step 6: Place cube gently
+    ↓
+[Vision: Find cube, detect obstacles]
+    ↓
+[VSLAM: Localize self in environment]
+    ↓
+[Nav2: Plan collision-free paths]
+    ↓
+[ROS 2 Controllers: Execute joint trajectories]
+    ↓
+ Task Complete!
+```
+
+## Real-World Examples
+
+### Tesla Optimus
+- Understands voice commands for household tasks
+- "Organize this shelf" → Autonomous execution
+- Can ask clarifying questions if ambiguous
+
+### Boston Dynamics Atlas
+- Language-based task planning
+- "Pick up that box and move it" → Understands context
+- Adapts to new environments on-the-fly
+
+## Learning Objectives
+
+By the end of this module, you will:
+
+1. **Integrate speech recognition** into ROS 2
+2. **Use LLMs for semantic task planning**
+3. **Ground language to executable robot actions**
+4. **Implement safety and constraint checking**
+5. **Deploy an end-to-end autonomous system**
+
+## Technical Stack
+
+```
+Voice Input (Microphone)
+    ↓
+Whisper (Local or API)
+    ↓
+Ollama: Llama 3 (Local LLM)
+    ↓
+CLIP + Vision Model (Object detection)
+    ↓
+ROS 2 Nodes (Control, Planning)
+    ↓
+Gazebo / Real Robot
+```
+
+## Prerequisites
+
+- All previous modules (ROS 2, Gazebo, Isaac)
+- Understanding of LLMs
+- Experience with ROS 2 services
+- Basic Python NLP concepts
+
+## Challenges
+
+VLA systems face real challenges:
+
+| Challenge | Solution |
+|-----------|----------|
+| Ambiguity in language | Ask clarifying questions |
+| Hallucinations (LLM) | Verify against sensor data |
+| Long-term planning | Break tasks into subtasks |
+| Real-time constraints | Use local models (Whisper, Llama 3) |
+| Safety | Add constraint checkers |
+
+## Time Estimate
+
+- **Lesson 1 (Voice-to-Action)**: ~3 hours
+- **Lesson 2 (Cognitive Planning)**: ~4 hours
+- **Lesson 3 (Capstone)**: ~8 hours
+- **Integration & testing**: ~5 hours
+- **Total**: ~20 hours
+
+## Expected Capstone Outcome
+
+By the end, you'll have a **fully autonomous humanoid** that:
+
+ Listens to voice commands
+ Understands natural language
+ Perceives the environment with computer vision
+ Plans collision-free paths
+ Executes complex manipulation tasks
+ Recovers gracefully from failures
+
+This is **production-grade robotics**.
+
+Ready to build the future? → [Next: Voice-to-Action with Whisper](/docs/modules/m4-vla/m4-voice-to-action)

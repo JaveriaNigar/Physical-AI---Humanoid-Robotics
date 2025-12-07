@@ -1,0 +1,797 @@
+---
+id: ch4-sim
+title: "Chapter 4: Digital Twin Simulation with Gazebo"
+sidebar_label: "Ch4: Simulation"
+description: "Master physics simulation, sensor modeling, and sim-to-real transfer for humanoid robotics using Gazebo and URDF."
+keywords: ["gazebo", "urdf", "simulation", "digital twin", "sim-to-real", "physics engine", "sensor simulation", "domain randomization"]
+image: /img/ch4-sim-hero.png
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## Learning Objectives
+
+By the end of this chapter, you will be able to:
+
+1. **Describe digital twin architecture** and its role in reducing real-world testing risk
+2. **Write URDF models** to represent robot structure, joints, and physics properties
+3. **Configure Gazebo simulators** with physics engines, sensors, and environmental factors
+4. **Implement sensor simulation** (camera, IMU, force/torque) within Gazebo
+5. **Apply domain randomization techniques** to bridge the sim-to-real gap
+6. **Evaluate sim-to-real transfer success** using quantitative metrics
+
+:::info Key Concept
+A **digital twin** is a physics-accurate virtual replica of a robot that enables safe, fast iteration before deploying to hardware. Simulation accelerates learning-based control development by 10-100× versus real-world training alone.
+:::
+
+---
+
+## 4.1 What is a Digital Twin?
+
+### Definition and Purpose
+
+A **digital twin** is a computationally faithful model of a physical robot that replicates its kinematics, dynamics, sensors, and environment in a virtual world. The digital twin serves three purposes:
+
+1. **Rapid prototyping**: Test control algorithms without hardware risk or cost
+2. **Learning-based control**: Train neural network policies with infinite synthetic data
+3. **Scenario testing**: Simulate rare events (collision, failure modes, edge cases)
+
+For humanoid robotics, digital twins are critical because real robots are expensive (~\$100k–\$500k) and real-world training is slow. Simulation enables **sim-to-real transfer**: train a policy in simulation, deploy to the real robot, and expect ~70–80% performance retention.
+
+### The Sim-to-Real Gap
+
+The **reality gap** is the performance drop when a policy trained entirely in simulation is deployed to real hardware:
+
+Transfer Success Rate = (Real-World Performance / Simulated Performance) × 100%
+
+**Typical results (2024–2025):**
+- Grasping tasks: 71–85% success (sim-to-real)
+- Locomotion (walking): 80–92% success
+- Manipulation (reaching): 65–78% success
+
+Causes of the reality gap:
+- **Physics model errors**: Friction coefficients, inertia tensors, contact dynamics
+- **Sensor noise**: Real IMUs drift; cameras have latency and blur
+- **Actuation delay**: Motor controllers add 5–50 ms latency; simulation assumes instantaneous response
+- **Unmodeled dynamics**: Cable routing, cable slack, motor backdrive friction
+
+**Mitigation strategy:** Domain randomization—vary simulation parameters randomly during training so the policy learns robust behaviors invariant to parameter uncertainty.
+
+---
+
+## 4.2 URDF Robot Models
+
+### URDF Overview
+
+**URDF** (Unified Robot Description Format) is an XML-based file format that describes a robot's kinematic chain, inertial properties, collision geometry, and visual representation. URDF files are the standard in ROS 2 and Gazebo.
+
+### URDF Structure
+
+A minimal URDF has this hierarchy:
+
+```
+<robot name="NAME">
+  <link name="LINK_NAME">
+    <!-- visual, inertial, collision properties -->
+  </link>
+  <joint name="JOINT_NAME" type="TYPE">
+    <!-- parent/child links, axis, limits -->
+  </joint>
+</robot>
+```
+
+**Key elements:**
+
+| Element | Purpose | Example |
+|---------|---------|---------|
+| `<robot>` | Root container | `<robot name="humanoid">` |
+| `<link>` | Rigid body (mass, geometry) | Base, arm, gripper |
+| `<joint>` | Connection between links | Revolute (1-DOF), prismatic (sliding) |
+| `<inertial>` | Mass and inertia tensor | `<mass value="2.5"/>` |
+| `<collision>` | Physics-checked shape | Simplify for speed |
+| `<visual>` | Display mesh for visualization | High-poly mesh |
+| `<gazebo>` | Gazebo-specific properties | Material, friction coefficients |
+
+### Example: 2-DOF Arm URDF
+
+Let's build a simple 2-DOF planar arm (shoulder + elbow):
+
+<Tabs>
+<TabItem value="urdf" label="URDF File (two_link_arm.urdf)">
+
+```xml
+<?xml version="1.0"?>
+<robot name="two_link_arm">
+
+  <!-- Define the base link (fixed to world) -->
+  <link name="base_link">
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+    <collision>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.5 0.5 0.5 1.0"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- First link (shoulder to elbow) -->
+  <link name="link_1">
+    <inertial>
+      <origin xyz="0.25 0 0"/>
+      <mass value="1.5"/>
+      <!-- Inertia tensor for rod (L=0.5m, m=1.5kg) -->
+      <inertia ixx="0.031" ixy="0.0" ixz="0.0" iyy="0.031" iyz="0.0" izz="0.001"/>
+    </inertial>
+    <collision>
+      <origin xyz="0.25 0 0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.5"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0.25 0 0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.5"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0.0 0.0 1.0 1.0"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- Second link (elbow to end-effector) -->
+  <link name="link_2">
+    <inertial>
+      <origin xyz="0.25 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.021" ixy="0.0" ixz="0.0" iyy="0.021" iyz="0.0" izz="0.001"/>
+    </inertial>
+    <collision>
+      <origin xyz="0.25 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.5"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0.25 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.5"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1.0 0.0 0.0 1.0"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- End-effector (tool frame) -->
+  <link name="end_effector">
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+    <collision>
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+    </collision>
+    <visual>
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+      <material name="yellow">
+        <color rgba="1.0 1.0 0.0 1.0"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- Shoulder joint (base_link to link_1) -->
+  <joint name="shoulder_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="link_1"/>
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="1.57" effort="10.0" velocity="2.0"/>
+    <dynamics damping="0.1" friction="0.05"/>
+  </joint>
+
+  <!-- Elbow joint (link_1 to link_2) -->
+  <joint name="elbow_joint" type="revolute">
+    <parent link="link_1"/>
+    <child link="link_2"/>
+    <origin xyz="0.5 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="1.57" effort="8.0" velocity="2.0"/>
+    <dynamics damping="0.1" friction="0.05"/>
+  </joint>
+
+  <!-- End-effector frame (link_2 to end_effector) -->
+  <joint name="end_effector_joint" type="fixed">
+    <parent link="link_2"/>
+    <child link="end_effector"/>
+    <origin xyz="0.5 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Gazebo plugins for simulation -->
+  <gazebo>
+    <plugin filename="ignition-gazebo-joint-controller-system" name="ignition::gazebo::systems::JointController">
+    </plugin>
+  </gazebo>
+
+</robot>
+```
+
+</TabItem>
+<TabItem value="usage" label="Load and Visualize">
+
+```bash
+# Launch Gazebo with the URDF model
+gazebo --verbose two_link_arm.urdf
+
+# OR load with ROS 2 using robot_state_publisher
+ros2 launch my_bot view_robot.launch.py
+
+# Inspect URDF structure
+urdf_to_graphviz two_link_arm.urdf > two_link_arm.gv
+dot -Tpng two_link_arm.gv -o two_link_arm.png
+```
+
+</TabItem>
+</Tabs>
+
+**Key URDF Parameters Explained:**
+
+| Parameter | Meaning | Tesla Optimus Arm |
+|-----------|---------|-------------------|
+| `<mass>` | Link mass (kg) | 1.0–4.0 kg per segment |
+| `<inertia ixx, iyy, izz>` | Moment of inertia (kg⋅m²) | $I_{zz} = 0.001$ for thin rod |
+| `<limit lower, upper>` | Joint angle range (rad) | ±π/2 typical |
+| `<effort>` | Max torque (N⋅m) | 2.0–5.0 N⋅m |
+| `<velocity>` | Max angular velocity (rad/s) | 1.5–2.5 rad/s |
+| `<damping>` | Friction coefficient | 0.05–0.1 |
+
+---
+
+## 4.3 Gazebo Simulation Environment
+
+### What is Gazebo?
+
+**Gazebo** (v11+, or Gazebo Ignition) is the de facto physics simulator for ROS 2 robots. It integrates:
+- **Physics engines**: Bullet, ODE, DART (3D rigid-body dynamics)
+- **Sensor simulation**: Camera (ray-caster or GPU ray), IMU, lidar, F/T sensors
+- **Real-time rendering**: Display robot state, camera feeds
+- **Plugin system**: Load custom dynamics or control logic
+
+### Setting Up Gazebo
+
+Install Gazebo and ROS 2 integration:
+
+```bash
+sudo apt update
+sudo apt install -y gazebo ros-humble-gazebo-ros
+
+# Verify installation
+gazebo --version
+```
+
+### Gazebo World File (SDF Format)
+
+Gazebo uses **SDF** (Simulation Description Format) for worlds. A minimal world file:
+
+<Tabs>
+<TabItem value="world" label="world.sdf">
+
+```xml
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <world name="humanoid_world">
+
+    <!-- Physics engine configuration -->
+    <physics name="default_physics" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <gravity>0 0 -9.81</gravity>
+    </physics>
+
+    <!-- Scene (rendering) -->
+    <scene>
+      <ambient>0.4 0.4 0.4 1.0</ambient>
+      <background>0.7 0.7 0.7 1.0</background>
+      <shadows>true</shadows>
+    </scene>
+
+    <!-- Ground plane -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.6</mu>
+                <mu2>0.6</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Lighting -->
+    <light name="sun" type="directional">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.8 0.8 0.8 1</specular>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <!-- Gazebo ROS 2 bridge plugin -->
+    <plugin filename="ignition-gazebo-ros-init-system" name="ignition::gazebo::systems::RosInit">
+    </plugin>
+    <plugin filename="ignition-gazebo-ros-clock-system" name="ignition::gazebo::systems::RosClock">
+    </plugin>
+
+  </world>
+</sdf>
+```
+
+</TabItem>
+<TabItem value="launch" label="Launch File (launch.py)">
+
+```python
+import os
+from ament_index_python.packages import get_package_share_directory
+from launch import LaunchDescription
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+
+def generate_launch_description():
+    gazebo_ros_dir = get_package_share_directory('gazebo_ros')
+
+    return LaunchDescription([
+        # Gazebo server
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                os.path.join(gazebo_ros_dir, 'launch', 'gazebo.launch.py'),
+            ),
+            launch_arguments=[('world', 'world.sdf')],
+        ),
+    ])
+```
+
+</TabItem>
+</Tabs>
+
+**Physics engine tuning (ODE):**
+
+| Parameter | Effect | Value |
+|-----------|--------|-------|
+| `max_step_size` | Simulation timestep (s) | 0.001 (1 ms, accurate) |
+| `real_time_factor` | Real-time ratio | 1.0 (real-time), 0.5 (slower), 2.0 (faster) |
+| `gravity` | Gravitational acceleration (m/s²) | 9.81 standard |
+| `mu` (friction) | Coefficient of friction | 0.6 (tile floor), 0.3 (ice) |
+
+---
+
+## 4.4 Sensor Simulation in Gazebo
+
+### Overview
+
+Real robots have noisy sensors. Gazebo simulates:
+- **Cameras**: RGB images, depth (lidar or stereo), semantic segmentation
+- **IMU**: Accelerometer + gyroscope + Gaussian noise
+- **F/T sensors**: Force and torque at joints
+- **Encoders**: Joint angle feedback with quantization
+
+### Simulating an IMU Sensor
+
+<Tabs>
+<TabItem value="imu_urdf" label="IMU in URDF">
+
+```xml
+<!-- Add to link in URDF -->
+<gazebo reference="imu_link">
+  <sensor name="imu_sensor" type="imu">
+    <always_on>true</always_on>
+    <update_rate>200</update_rate>  <!-- 200 Hz -->
+    <visualize>false</visualize>
+    <topic>imu</topic>
+    <plugin filename="ignition-gazebo-imu-system" name="ignition::gazebo::systems::Imu">
+      <accel_x_noise mean="0.0" stddev="0.02"/>
+      <accel_y_noise mean="0.0" stddev="0.02"/>
+      <accel_z_noise mean="0.0" stddev="0.02"/>
+      <gyro_x_noise mean="0.0" stddev="0.004"/>
+      <gyro_y_noise mean="0.0" stddev="0.004"/>
+      <gyro_z_noise mean="0.0" stddev="0.004"/>
+    </plugin>
+  </sensor>
+</gazebo>
+```
+
+</TabItem>
+<TabItem value="imu_read" label="Read IMU (rclpy)">
+
+```python
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import Imu
+import numpy as np
+
+class IMUSubscriber(Node):
+    def __init__(self):
+        super().__init__('imu_subscriber')
+        self.subscription = self.create_subscription(
+            Imu, '/imu', self.imu_callback, 10
+        )
+        self.linear_accel = np.array([0.0, 0.0, 0.0])
+        self.angular_vel = np.array([0.0, 0.0, 0.0])
+
+    def imu_callback(self, msg: Imu):
+        # Extract accelerometer data
+        self.linear_accel = np.array([
+            msg.linear_acceleration.x,
+            msg.linear_acceleration.y,
+            msg.linear_acceleration.z
+        ])
+
+        # Extract gyroscope data
+        self.angular_vel = np.array([
+            msg.angular_velocity.x,
+            msg.angular_velocity.y,
+            msg.angular_velocity.z
+        ])
+
+        self.get_logger().info(
+            f'Accel: {self.linear_accel}, '
+            f'Gyro: {self.angular_vel}'
+        )
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = IMUSubscriber()
+    rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+</TabItem>
+</Tabs>
+
+**IMU Noise Model (Gaussian):**
+
+ã = a_true + N(0, σ²)
+
+where σ = 0.02 m/s² (typical smartphone IMU noise).
+
+### Simulating a Camera
+
+<Tabs>
+<TabItem value="camera_urdf" label="Camera in URDF">
+
+```xml
+<gazebo reference="camera_link">
+  <sensor name="camera" type="camera">
+    <camera>
+      <horizontal_fov>1.047</horizontal_fov>  <!-- 60 degrees -->
+      <image>
+        <width>640</width>
+        <height>480</height>
+        <format>R8G8B8</format>
+      </image>
+      <clip>
+        <near>0.05</near>
+        <far>50.0</far>
+      </clip>
+      <noise>
+        <type>gaussian</type>
+        <mean>0.0</mean>
+        <stddev>0.007</stddev>  <!-- Realistic camera noise -->
+      </noise>
+    </camera>
+    <plugin filename="ignition-gazebo-camera-video-recorder-system"
+            name="ignition::gazebo::systems::VideoRecorder">
+      <video_name>camera_output</video_name>
+    </plugin>
+  </sensor>
+</gazebo>
+```
+
+</TabItem>
+<TabItem value="camera_read" label="Consume Camera Data">
+
+```python
+import cv2
+import numpy as np
+from rclpy.node import Node
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge
+
+class CameraSubscriber(Node):
+    def __init__(self):
+        super().__init__('camera_subscriber')
+        self.subscription = self.create_subscription(
+            Image, '/camera/image_raw', self.image_callback, 10
+        )
+        self.bridge = CvBridge()
+        self.latest_frame = None
+
+    def image_callback(self, msg: Image):
+        # Convert ROS 2 Image message to OpenCV format
+        self.latest_frame = self.bridge.imgmsg_to_cv2(msg, 'rgb8')
+
+        # Simple edge detection
+        gray = cv2.cvtColor(self.latest_frame, cv2.COLOR_RGB2GRAY)
+        edges = cv2.Canny(gray, 50, 150)
+
+        self.get_logger().debug(f'Frame shape: {self.latest_frame.shape}')
+
+def main(args=None):
+    import rclpy
+    rclpy.init(args=args)
+    node = CameraSubscriber()
+    rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## 4.5 Sim-to-Real Transfer via Domain Randomization
+
+### The Reality Gap Problem
+
+Even with accurate physics, simulation differs from reality:
+- **Friction coefficients**: Vary by surface type and wear
+- **Mass uncertainty**: Actual mass ±10% due to manufacturing tolerances
+- **Motor backlash**: Small delays in real motors not modeled in perfect simulation
+- **Sensor latency**: Real cameras lag 10–50 ms; simulation is instantaneous
+
+**Solution: Domain Randomization**
+
+Train policies with *randomized* simulation parameters so the learned policy is robust to parameter uncertainty. At each training step, randomly sample:
+
+Friction ~ Uniform(0.3, 0.9)
+Mass ~ Uniform(0.9m, 1.1m)
+Motor Delay ~ Uniform(0, 50 ms)
+
+### Implementation: Randomize Physics Parameters
+
+<Tabs>
+<TabItem value="randomize_urdf" label="Python: Randomize URDF">
+
+```python
+import xml.etree.ElementTree as ET
+import random
+from typing import Dict
+
+class URDFRandomizer:
+    """Randomize URDF parameters for domain randomization."""
+
+    def __init__(self, urdf_path: str):
+        self.tree = ET.parse(urdf_path)
+        self.root = self.tree.getroot()
+
+    def randomize_friction(self, min_mu: float = 0.3, max_mu: float = 0.9):
+        """Randomize friction coefficients for all links."""
+        for gazebo in self.root.findall('gazebo'):
+            friction = gazebo.find('friction')
+            if friction is not None:
+                ode = friction.find('ode')
+                if ode is not None:
+                    mu = random.uniform(min_mu, max_mu)
+                    ode.set('mu', str(mu))
+                    ode.set('mu2', str(mu))
+
+    def randomize_mass(self, mass_scale_factor: tuple = (0.9, 1.1)):
+        """Randomize link masses."""
+        for link in self.root.findall('.//link'):
+            inertial = link.find('inertial')
+            if inertial is not None:
+                mass_elem = inertial.find('mass')
+                if mass_elem is not None:
+                    original_mass = float(mass_elem.get('value'))
+                    scale = random.uniform(*mass_scale_factor)
+                    new_mass = original_mass * scale
+                    mass_elem.set('value', str(new_mass))
+
+    def randomize_motor_delay(self, max_delay_ms: float = 50.0):
+        """Simulate motor control delay by adding friction."""
+        for joint in self.root.findall('.//joint'):
+            dynamics = joint.find('dynamics')
+            if dynamics is not None:
+                # Increase damping to simulate motor lag
+                damping_scale = 1.0 + (max_delay_ms / 1000.0) * 0.5
+                old_damping = float(dynamics.get('damping', 0.1))
+                new_damping = old_damping * damping_scale
+                dynamics.set('damping', str(new_damping))
+
+    def save(self, output_path: str):
+        """Save randomized URDF to file."""
+        self.tree.write(output_path, encoding='utf-8', xml_declaration=True)
+
+# Usage in training loop
+def training_step():
+    """Randomize environment at each training step."""
+    randomizer = URDFRandomizer('two_link_arm.urdf')
+    randomizer.randomize_friction()
+    randomizer.randomize_mass(mass_scale_factor=(0.9, 1.1))
+    randomizer.randomize_motor_delay(max_delay_ms=30)
+    randomizer.save('randomized_arm.urdf')
+
+    # Launch Gazebo with randomized model
+    # ... train policy ...
+```
+
+</TabItem>
+<TabItem value="randomize_sim" label="Gazebo: Randomize World">
+
+```bash
+#!/bin/bash
+# randomize_world.sh - Randomize Gazebo world parameters
+
+# Generate random friction
+MU=$(python3 -c "import random; print(random.uniform(0.3, 0.9))")
+
+# Generate random mass multiplier
+MASS_SCALE=$(python3 -c "import random; print(random.uniform(0.9, 1.1))")
+
+# Generate random gravity (earth ± 0.5%)
+GRAVITY=$(python3 -c "import random; print(9.81 + random.uniform(-0.049, 0.049))")
+
+# Substitute into world.sdf template
+sed -e "s/<mu>.*<\/mu>/<mu>${MU}<\/mu>/g" \
+    -e "s/<gravity>.*<\/gravity>/<gravity>0 0 -${GRAVITY}<\/gravity>/g" \
+    world_template.sdf > world_randomized.sdf
+
+# Launch Gazebo
+gazebo world_randomized.sdf
+```
+
+</TabItem>
+</Tabs>
+
+### Evaluating Sim-to-Real Success
+
+After training in simulation with domain randomization, deploy to real robot and measure:
+
+Success Rate = (# successful real-world trials) / (# total real-world trials) × 100%
+
+**Current SOTA (2024–2025):**
+
+| Task | Sim Success | Real Success | Transfer Rate |
+|------|-------------|--------------|---------------|
+| Grasping (6-DoF arm) | 95% | 75% | 79% |
+| Object pushing | 92% | 74% | 80% |
+| Bin picking | 88% | 62% | 71% |
+| Humanoid walking | 99% | 87% | 88% |
+| Humanoid running | 85% | 71% | 84% |
+
+**Factors improving transfer:**
+1. Higher simulation fidelity (physics solver accuracy)
+2. Wider domain randomization ranges
+3. Real-world pretraining data (visual domain adaptation)
+4. Reduced action/observation delays
+
+---
+
+## 4.6 Embodiment Challenge: Sim-to-Real Grasping
+
+:::danger Challenge: Close the Reality Gap
+
+**Scenario:** You have a trained grasping policy from simulation (95% success). Deploy it to a real 6-DOF arm with parallel gripper. Initial real-world success: 58%.
+
+**Your Task:**
+
+1. **Identify gaps** (30 min):
+   - Record 10 real-world failures (video + sensor logs)
+   - Compare real joint positions vs. simulated expected positions
+   - Measure actual friction (push object; measure acceleration vs. applied force)
+
+2. **Randomize simulation** (45 min):
+   - Create randomized friction range: [0.2, 1.2] (uniform distribution)
+   - Add joint backlash: ±2° per joint
+   - Add sensor latency: 20–40 ms Gaussian
+   - Retrain policy for 100k steps with randomization
+
+3. **Deploy and measure** (20 min):
+   - Test new policy on 50 real grasps
+   - Record success rate
+   - Extract failure modes (finger slip, overrotation, miss)
+
+**Success Metrics (2025 Benchmarks):**
+-  **Target**: 75–80% real-world success (industry standard)
+-  **Stretch**: 80–85% (competitive)
+-  **Excellence**: >85% (research-grade)
+
+**Hints:**
+- Check Tesla Optimus gripper specs: 100 N max force, 20 mm travel
+- Use force/torque sensor data to debug failures
+- Friction randomization is the highest-impact parameter
+
+:::
+
+---
+
+## 4.7 References
+
+1. **Sim-to-Real Transfer:**
+   - OpenAI, "Domain Randomization for Transferring Deep Neural Networks from Simulation to the Real World," arXiv:1703.06907 (2017).
+   - Tobin et al., "Domain Randomization and Generative Models for Robotic Grasping," arXiv:1810.10995 (2018).
+
+2. **Gazebo & URDF:**
+   - Gazebo Documentation: https://gazebosim.org/docs
+   - URDF Specification: http://wiki.ros.org/urdf
+
+3. **Physics Simulation:**
+   - Erleben, K., "Stable Rigid Body Dynamics using Manifold Contact," PhD Thesis, University of Copenhagen (2005).
+   - Bullet Physics Engine: https://github.com/bulletphysics/bullet3
+
+4. **Domain Randomization at Scale:**
+   - Peng et al., "Sim-to-Real Transfer of Robotic Control with Dynamics Randomization," ICRA 2018.
+
+---
+
+## 4.8 RAG Integration Hooks
+
+:::rag-query What is the difference between physics engines (ODE, Bullet, DART)?
+Learn which simulator to choose for your humanoid: ODE (simple, fast), Bullet (stable, accurate), DART (biomechanics-focused).
+:::
+
+:::rag-query How do I add custom sensors (custom tactile sensor, pressure mat) to Gazebo?
+Extend Gazebo with plugins to simulate non-standard sensors for specialized humanoid tasks.
+:::
+
+:::rag-query What causes the reality gap, and how do I measure it quantitatively?
+Domain randomization strategies and metrics for evaluating sim-to-real transfer success in humanoid manipulation.
+:::
+
+---
+
+## Chapter Summary
+
+| Concept | Key Takeaway | Application |
+|---------|--------------|-------------|
+| **Digital Twin** | Virtual replica for safe, fast iteration | Train 100k+ episodes without hardware |
+| **URDF** | XML specification of robot structure | Load any robot into Gazebo in minutes |
+| **Gazebo Physics** | Real-time 3D rigid-body simulation | Test control algorithms pre-deployment |
+| **Sensor Simulation** | IMU, camera, F/T with realistic noise | Bridge sim-to-real gap via randomization |
+| **Domain Randomization** | Train with randomized parameters | Deploy with 70–80% success rate |
+
+**Next Chapter:** [Chapter 5: Vision-Language-Action Systems](/docs/ch5-vla) — Learn how to ground large language models (Llama 3) to humanoid action trajectories.

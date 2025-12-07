@@ -1,0 +1,29 @@
+{
+  "id": "modules/m3-isaac/m3-isaac-ros",
+  "title": "Lesson 2: Isaac ROS (GPU-Accelerated Perception)",
+  "description": "Implement hardware-accelerated perception with Isaac ROS: VSLAM, object detection, depth estimation.",
+  "source": "@site/docs/modules/m3-isaac/m3-isaac-ros.mdx",
+  "sourceDirName": "modules/m3-isaac",
+  "slug": "/modules/m3-isaac/m3-isaac-ros",
+  "permalink": "/docs/modules/m3-isaac/m3-isaac-ros",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/modules/m3-isaac/m3-isaac-ros.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "m3-isaac-ros",
+    "title": "Lesson 2: Isaac ROS (GPU-Accelerated Perception)",
+    "sidebar_label": "L2: Isaac ROS",
+    "description": "Implement hardware-accelerated perception with Isaac ROS: VSLAM, object detection, depth estimation."
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "L1: Isaac Sim",
+    "permalink": "/docs/modules/m3-isaac/m3-isaac-sim"
+  },
+  "next": {
+    "title": "L3: Nav2 Planning",
+    "permalink": "/docs/modules/m3-isaac/m3-nav2-planning"
+  }
+}

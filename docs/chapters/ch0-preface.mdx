@@ -1,0 +1,184 @@
+---
+id: ch0-preface
+title: "Preface"
+sidebar_label: "Preface"
+description: "Welcome to Physical AI & Humanoid Robotics Essentials. This textbook teaches you how to build AI-powered humanoid robots from first principles."
+---
+
+## Welcome to Physical AI & Humanoid Robotics Essentials
+
+This is a **free, open-source, AI-native textbook** designed for the **PIAIC Hackathon** community and anyone curious about how humanoid robots perceive, reason, and act in the real world.
+
+### What This Textbook Is About
+
+**Physical AI** is the convergence of three technologies:
+
+1. **Perception** — Cameras and sensors that see the world (via CLIP vision encoders)
+2. **Reasoning** — Large language models that understand intent (Llama 3)
+3. **Actuation** — Robots that move and manipulate objects (humanoid arms)
+
+When combined, these three systems create **embodied AI**: robots that don't just analyze data in the cloud, but physically interact with their environment.
+
+### Why Humanoids Matter (2024–2025)
+
+Humanoid robots are the convergence point:
+
+- **Dexterity**: Two arms, five-finger hands (unlike wheeled robots)
+- **Generalization**: Same form factor as humans → leverage human-centric environments
+- **Economics**: Tesla Optimus ($20–25k target), Figure AI 01 (warehouse deployment), Boston Dynamics Atlas (research platform)
+
+By 2030, humanoid robots will handle 20–30% of warehouse tasks. Are you ready to build them?
+
+### Audience & Prerequisites
+
+**Who This Is For:**
+
+- Roboticists learning AI and language models
+- AI engineers curious about physical embodiment
+- Students preparing for jobs at Tesla, Figure, Boston Dynamics, or robotics startups
+- Hackathon participants (PIAIC or otherwise)
+- Anyone building the robots of the future
+
+**What You'll Need:**
+
+- Python 3.10+ (basic proficiency)
+- Linear algebra (vectors, matrices)
+- Physics (forces, torque, energy)
+- Patience for debugging hardware (or simulation)
+
+**What You Don't Need:**
+
+- A real humanoid robot (simulation works!)
+- GPU (though it helps)
+- Expensive software (everything is free-tier)
+- Prior experience with ROS, vision, or LLMs (we teach those)
+
+### How to Use This Textbook
+
+**Reading Path 1: Beginner (2–3 weeks)**
+
+1. Read [Chapter 1](/docs/ch1-intro) for motivation and fundamentals
+2. Skim [Chapter 2](/docs/ch2-humanoid) for robotics math (don't memorize—understand the concepts)
+3. Work through [Chapter 3](/docs/ch3-ros2) hands-on with actual ROS 2 code
+4. Read [Chapter 4](/docs/ch4-sim) to understand simulation workflows
+5. Glance at [Chapter 5](/docs/ch5-vla) for AI grounding concepts
+6. Explore [Chapter 6](/docs/ch6-capstone) for deployment ideas
+
+**Reading Path 2: Hacker (1 week, implementation-focused)**
+
+1. Copy all code examples from Chapters 2–5
+2. Run them locally (or in Docker containers)
+3. Modify the parameters and see what breaks
+4. Follow the Embodiment Challenges—these are real tasks
+5. Check [Chapter 6](/docs/ch6-capstone) for deployment
+
+**Reading Path 3: Researcher (ongoing)**
+
+1. Deep-dive into Chapter 4 (simulation) and study domain randomization
+2. Extend Chapter 5 with your own vision-language model
+3. Implement novel safety constraints in Chapter 6
+4. Publish your findings
+
+### Key Design Principles
+
+This textbook adheres to **6 core principles:**
+
+1. **Verified Examples**: Every code snippet runs (tested on free-tier hardware)
+2. **Practical, Not Theoretical**: Learn by doing, not just reading
+3. **Free-Tier Tools Only**: ROS 2, Gazebo, Ollama, Llama 3 (no paid APIs)
+4. **Exactly 6 Chapters**: Focused scope (≈50k words, 300 pages)
+5. **Production-Ready**: Deploy to real robots, not just toy problems
+6. **AI-Native**: Language models are first-class citizens, not afterthoughts
+
+### Chapter Breakdown
+
+| Chapter | Topic | Focus | Difficulty |
+|---------|-------|-------|------------|
+| [1](/docs/ch1-intro) | Introduction to Physical AI | Why humanoids + real-world systems | Beginner |
+| [2](/docs/ch2-humanoid) | Humanoid Robotics Fundamentals | Kinematics, dynamics, actuators | Intermediate |
+| [3](/docs/ch3-ros2) | ROS 2 & Pub/Sub Communication | Building distributed control systems | Intermediate |
+| [4](/docs/ch4-sim) | Digital Twin Simulation | Physics, URDF, Gazebo, sim-to-real | Advanced |
+| [5](/docs/ch5-vla) | Vision-Language-Action Grounding | CLIP, Llama 3, safety constraints | Advanced |
+| [6](/docs/ch6-capstone) | Production Deployment | Docker, monitoring, real-world validation | Advanced |
+
+### What You'll Build
+
+By the end of this textbook, you will have built:
+
+1. A **digital twin** of a 6-DOF robot arm in Gazebo (Chapter 4)
+2. A **vision-language system** that understands natural language commands (Chapter 5)
+3. A **production-grade pipeline** that safely deploys to real hardware (Chapter 6)
+4. **Complete understanding** of how Tesla Optimus, Figure AI 01, and other humanoids work
+
+### Embodiment Challenges
+
+Each chapter ends with an **Embodiment Challenge**: a real-world task you must solve. These are not toy problems. Real roboticists have solved these challenges. So can you.
+
+Examples:
+- Chapter 2: Design an energy-efficient reaching motion (20–30% less energy than baseline)
+- Chapter 4: Close the sim-to-real gap to 80%+ transfer success
+- Chapter 5: Build a safe VLA system robust to adversarial input
+- Chapter 6: Deploy an end-to-end system with zero collisions
+
+### Tools You'll Use
+
+| Tool | Purpose | Cost |
+|------|---------|------|
+| **ROS 2** | Distributed control | Free |
+| **Gazebo** | Physics simulation | Free |
+| **Ollama** | Local LLM deployment | Free |
+| **Llama 3** | Language understanding | Free |
+| **CLIP** | Vision understanding | Free |
+| **Docker** | Containerization | Free |
+| **Prometheus** | Monitoring | Free |
+| **Grafana** | Dashboards | Free |
+
+**Total cost to get started: $0** (on your laptop)
+
+### Getting Help
+
+- **ROS 2 Issues**: https://discourse.ros.org
+- **Gazebo Simulation**: https://gazebosim.org/docs
+- **Ollama / Llama 3**: https://github.com/ollama/ollama
+- **This Textbook**: Open an issue on GitHub: https://github.com/PIAIC/Physical-AI-Textbook
+
+### Community
+
+Join us:
+- **PIAIC Discord**: Hackathon community, real-time support
+- **ROS Discourse**: 50k+ roboticists worldwide
+- **Hugging Face**: Open model community (Llama 3, CLIP)
+
+### Acknowledgments
+
+This textbook was created by the **PIAIC Hackathon** community during Q4 2025. Special thanks to:
+
+- **Contributors**: Students and mentors who tested code and provided feedback
+- **Open-Source Projects**: ROS 2, Gazebo, Ollama, Meta (Llama), OpenAI (CLIP)
+- **Humanoid Robotics Pioneers**: Tesla, Boston Dynamics, Figure AI, Toyota
+
+### License & Citation
+
+This textbook is released under the **MIT License** and is free to use, modify, and distribute.
+
+**Cite as:**
+
+```bibtex
+@book{piaic_2025,
+  title={Physical AI \& Humanoid Robotics Essentials},
+  author={PIAIC Hackathon Community},
+  year={2025},
+  publisher={Open Source},
+  url={https://github.com/PIAIC/Physical-AI-Textbook}
+}
+```
+
+### Final Words
+
+Humanoid robots represent the future of physical labor, eldercare, and human-robot collaboration. The skills you learn in this textbook are not academic exercises—they are the foundations of a trillion-dollar industry being built right now.
+
+Build something incredible. We can't wait to see what you create.
+
+---
+
+**Let's get started.** [Chapter 1: Introduction to Physical AI →](/docs/ch1-intro)

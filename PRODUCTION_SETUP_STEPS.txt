@@ -1,0 +1,115 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║          PRODUCTION SETUP - Deploy Backend API & Configure                  ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+YOUR FRONTEND IS DEPLOYED AT:
+  https://physical-ai-humanoid-robotics-book-tan.vercel.app/
+
+NOW DEPLOY YOUR BACKEND API!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 1: DEPLOY BACKEND API (Pick ONE)
+
+OPTION A - RAILWAY (Recommended ⭐):
+  1. Go to https://railway.app
+  2. Sign up with GitHub
+  3. Click "New Project" → "Deploy from GitHub"
+  4. Select your repo, choose /website directory
+  5. Add environment variables (see below)
+  6. Create Procfile in website/ directory:
+     web: python -m uvicorn api_server:app --host 0.0.0.0 --port $PORT
+  7. Deploy
+  8. Copy your Railway URL: https://production-xxxxx.up.railway.app
+
+OPTION B - RENDER:
+  1. Go to https://render.com
+  2. Sign up with GitHub
+  3. "New Web Service" → Connect repo
+  4. Configure:
+     - Runtime: python-3.11
+     - Build: pip install -r requirements.txt
+     - Start: python -m uvicorn api_server:app --host 0.0.0.0 --port $PORT
+  5. Add environment variables (see below)
+  6. Deploy
+  7. Copy your Render URL: https://rag-chatbot-api.onrender.com
+
+ENVIRONMENT VARIABLES (Add to your hosting platform):
+  COHERE_API_KEY=jme2PFlPqBNaBq7sxXX9Q6ubM2mjsdcoWwJ9EvUw
+  QDRANT_URL=https://17b20767-4f6f-4658-9281-bb8da2c51092.us-east4-0.gcp.cloud.qdrant.io:6333
+  QDRANT_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.semax-0E_qLmg2bJpvmggx21gxOaveIFGvB38dpEU60
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 2: GET YOUR API URL
+
+After deployment, you'll have a URL like:
+  https://production-xxxxx.up.railway.app (Railway)
+  https://rag-chatbot-api.onrender.com (Render)
+
+SAVE THIS URL! You'll need it in Step 3.
+
+Test it works:
+  curl https://your-api-url/health
+  Should return: {"status":"ok","service":"RAG Chatbot API"}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 3: UPDATE CONFIGURATION
+
+Edit: src/config/chatbotConfig.js
+
+Find this line (around line 28):
+  apiEndpoint = 'https://your-api-server.com'; // ← OLD
+
+Replace with YOUR API URL:
+  apiEndpoint = 'https://your-deployed-api-url'; // ← YOUR URL
+
+Example with Railway:
+  apiEndpoint = 'https://production-xxxxx.up.railway.app';
+
+Example with Render:
+  apiEndpoint = 'https://rag-chatbot-api.onrender.com';
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 4: DEPLOY FRONTEND WITH UPDATED CONFIG
+
+git add src/config/chatbotConfig.js
+git commit -m "Update production API endpoint"
+git push
+
+Vercel auto-deploys from GitHub!
+OR manually: vercel --prod
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 5: TEST IT WORKS
+
+1. Visit: https://physical-ai-humanoid-robotics-book-tan.vercel.app/
+2. Click the purple chat button (bottom-right)
+3. Ask: "What is ROS2?"
+4. Should get an answer! ✅
+
+If it doesn't work:
+  - Check console (F12) for errors
+  - Verify API URL is correct in config
+  - Test API: curl https://your-api-url/health
+  - Check backend logs on Railway/Render
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SUMMARY OF CHANGES NEEDED:
+
+File: src/config/chatbotConfig.js
+  Line 28: Replace 'https://your-api-server.com' with your actual API URL
+
+That's it! Everything else is already configured!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DOCUMENTATION:
+  DEPLOY_BACKEND_API.md - Detailed deployment instructions
+  CONFIGURE_PRODUCTION_API.md - Configuration and troubleshooting
+
+Done! 🎉

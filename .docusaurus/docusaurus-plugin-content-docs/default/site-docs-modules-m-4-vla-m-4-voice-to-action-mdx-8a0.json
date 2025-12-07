@@ -1,0 +1,29 @@
+{
+  "id": "modules/m4-vla/m4-voice-to-action",
+  "title": "Lesson 1: Voice-to-Action with Whisper",
+  "description": "Build real-time speech recognition for robots using OpenAI Whisper. Convert voice commands into actionable ROS 2 messages.",
+  "source": "@site/docs/modules/m4-vla/m4-voice-to-action.mdx",
+  "sourceDirName": "modules/m4-vla",
+  "slug": "/modules/m4-vla/m4-voice-to-action",
+  "permalink": "/docs/modules/m4-vla/m4-voice-to-action",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/modules/m4-vla/m4-voice-to-action.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "m4-voice-to-action",
+    "title": "Lesson 1: Voice-to-Action with Whisper",
+    "sidebar_label": "L1: Voice-to-Action",
+    "description": "Build real-time speech recognition for robots using OpenAI Whisper. Convert voice commands into actionable ROS 2 messages."
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "M4: Overview",
+    "permalink": "/docs/modules/m4-vla/m4-overview"
+  },
+  "next": {
+    "title": "L2: Cognitive Planning",
+    "permalink": "/docs/modules/m4-vla/m4-cognitive-planning"
+  }
+}

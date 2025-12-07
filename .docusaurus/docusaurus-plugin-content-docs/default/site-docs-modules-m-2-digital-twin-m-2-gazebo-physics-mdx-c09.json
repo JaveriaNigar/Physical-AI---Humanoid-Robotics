@@ -1,0 +1,29 @@
+{
+  "id": "modules/m2-digital-twin/m2-gazebo-physics",
+  "title": "Lesson 1: Gazebo Physics Simulation",
+  "description": "Master Gazebo for physics-accurate robot simulation. Configure physics engines, set up worlds, and simulate complex interactions.",
+  "source": "@site/docs/modules/m2-digital-twin/m2-gazebo-physics.mdx",
+  "sourceDirName": "modules/m2-digital-twin",
+  "slug": "/modules/m2-digital-twin/m2-gazebo-physics",
+  "permalink": "/docs/modules/m2-digital-twin/m2-gazebo-physics",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/modules/m2-digital-twin/m2-gazebo-physics.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "m2-gazebo-physics",
+    "title": "Lesson 1: Gazebo Physics Simulation",
+    "sidebar_label": "L1: Gazebo Physics",
+    "description": "Master Gazebo for physics-accurate robot simulation. Configure physics engines, set up worlds, and simulate complex interactions."
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "M2: Overview",
+    "permalink": "/docs/modules/m2-digital-twin/m2-overview"
+  },
+  "next": {
+    "title": "L2: Unity Rendering",
+    "permalink": "/docs/modules/m2-digital-twin/m2-unity-rendering"
+  }
+}

@@ -1,0 +1,235 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a simple framework built on top of CSS
+ * variables to standardize the styling of common components.
+ * See https://infima.dev/ for the complete reference.
+ */
+
+/* You can override the default Infima variables here. */
+/* Black and White Theme */
+:root {
+  --ifm-color-primary: #000000;
+  --ifm-color-primary-dark: #1a1a1a;
+  --ifm-color-primary-darker: #2d2d2d;
+  --ifm-color-primary-darkest: #404040;
+  --ifm-color-primary-light: #333333;
+  --ifm-color-primary-lighter: #4d4d4d;
+  --ifm-color-primary-lightest: #666666;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #ffffff;
+  --ifm-color-primary-dark: #e6e6e6;
+  --ifm-color-primary-darker: #cccccc;
+  --ifm-color-primary-darkest: #b3b3b3;
+  --ifm-color-primary-light: #f2f2f2;
+  --ifm-color-primary-lighter: #d9d9d9;
+  --ifm-color-primary-lightest: #999999;
+  --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.1);
+}
+
+/* Custom styles for robotics textbook */
+.navbar__title {
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.footer {
+  background-color: #1a1a1a;
+}
+
+.admonition {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.admonition-danger {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #000000;
+}
+
+.admonition-tip {
+  background-color: rgba(100, 100, 100, 0.05);
+  border-left: 4px solid #333333;
+}
+
+.admonition-info {
+  background-color: rgba(150, 150, 150, 0.05);
+  border-left: 4px solid #4d4d4d;
+}
+
+.admonition-rag-query {
+  background-color: rgba(80, 80, 80, 0.05);
+  border-left: 4px solid #222222;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+}
+
+/* Code highlighting */
+code {
+  font-family: 'Monaco', 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+pre {
+  background-color: #f5f5f5;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+[data-theme='dark'] pre {
+  background-color: #1e1e1e;
+}
+
+/* LaTeX/Math rendering */
+.katex {
+  font-size: 1.1em;
+}
+
+/* Responsive tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+table td,
+table th {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+[data-theme='dark'] table td,
+[data-theme='dark'] table th {
+  border-color: #444;
+}
+
+table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+[data-theme='dark'] table th {
+  background-color: #2d2d2d;
+}
+
+/* Mermaid diagrams */
+.mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+/* Header styling */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.3;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  border-bottom: 3px solid var(--ifm-color-primary);
+  padding-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+  color: var(--ifm-color-primary);
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+/* Links */
+a {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Callout boxes */
+.callout {
+  padding: 1rem;
+  margin: 1rem 0;
+  border-left: 4px solid var(--ifm-color-primary);
+  background-color: rgba(33, 150, 243, 0.05);
+  border-radius: 0.25rem;
+}
+
+/* Badge styling */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  margin: 0.25rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.badge-success {
+  background-color: #333333;
+  color: white;
+}
+
+.badge-warning {
+  background-color: #666666;
+  color: white;
+}
+
+.badge-danger {
+  background-color: #000000;
+  color: white;
+}
+
+/* Tabs component */
+.tabs {
+  border-bottom: 2px solid #e0e0e0;
+}
+
+[data-theme='dark'] .tabs {
+  border-bottom-color: #444;
+}
+
+.tabs__tab {
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem 0.25rem 0 0;
+  transition: all 0.2s ease;
+}
+
+.tabs__tab--active {
+  background-color: var(--ifm-color-primary);
+  color: white;
+}
+
+/* Content padding */
+.markdown {
+  line-height: 1.8;
+}
+
+.markdown > * {
+  margin: 1rem 0;
+}
+
+/* Blockquote styling */
+blockquote {
+  border-left: 4px solid var(--ifm-color-primary);
+  padding-left: 1rem;
+  margin-left: 0;
+  font-style: italic;
+  color: #666;
+}
+
+[data-theme='dark'] blockquote {
+  color: #aaa;
+}

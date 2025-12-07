@@ -1,0 +1,40 @@
+{
+  "id": "chapters/ch1-intro",
+  "title": "Chapter 1: Introduction to Physical AI",
+  "description": "Define Physical AI as embodied AI through perception-action loops. Explore why humanoid robots matter and the convergence of AI + embodied systems in 2025.",
+  "source": "@site/docs/chapters/ch1-intro.mdx",
+  "sourceDirName": "chapters",
+  "slug": "/chapters/ch1-intro",
+  "permalink": "/docs/chapters/ch1-intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/chapters/ch1-intro.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "ch1-intro",
+    "title": "Chapter 1: Introduction to Physical AI",
+    "sidebar_label": "Ch1: Intro to Physical AI",
+    "description": "Define Physical AI as embodied AI through perception-action loops. Explore why humanoid robots matter and the convergence of AI + embodied systems in 2025.",
+    "keywords": [
+      "physical ai",
+      "embodiment",
+      "robotics",
+      "humanoids",
+      "tesla optimus",
+      "figure ai",
+      "boston dynamics",
+      "closed-loop",
+      "perception"
+    ]
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Prerequisites",
+    "permalink": "/docs/chapters/ch0-prerequisites"
+  },
+  "next": {
+    "title": "M1: Overview",
+    "permalink": "/docs/modules/m1-ros2/m1-overview"
+  }
+}

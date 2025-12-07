@@ -1,0 +1,29 @@
+{
+  "id": "chapters/ch0-prerequisites",
+  "title": "Prerequisites & Notation",
+  "description": "Mathematical notation, assumed knowledge, and quick refresher on linear algebra and physics concepts used throughout the textbook.",
+  "source": "@site/docs/chapters/ch0-prerequisites.mdx",
+  "sourceDirName": "chapters",
+  "slug": "/chapters/ch0-prerequisites",
+  "permalink": "/docs/chapters/ch0-prerequisites",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/chapters/ch0-prerequisites.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "ch0-prerequisites",
+    "title": "Prerequisites & Notation",
+    "sidebar_label": "Prerequisites",
+    "description": "Mathematical notation, assumed knowledge, and quick refresher on linear algebra and physics concepts used throughout the textbook."
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Preface",
+    "permalink": "/docs/chapters/ch0-preface"
+  },
+  "next": {
+    "title": "Ch1: Intro to Physical AI",
+    "permalink": "/docs/chapters/ch1-intro"
+  }
+}

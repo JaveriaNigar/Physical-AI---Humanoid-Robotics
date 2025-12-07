@@ -1,0 +1,32 @@
+{
+  "id": "chapters/ch3-ros2",
+  "title": "Chapter 3: ROS 2 Fundamentals",
+  "description": "Nodes, topics, services, packages—building modular robot software with ROS 2 Humble. Practical workflows for real robot systems.",
+  "source": "@site/docs/chapters/ch3-ros2.mdx",
+  "sourceDirName": "chapters",
+  "slug": "/chapters/ch3-ros2",
+  "permalink": "/docs/chapters/ch3-ros2",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/chapters/ch3-ros2.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "ch3-ros2",
+    "title": "Chapter 3: ROS 2 Fundamentals",
+    "sidebar_label": "Ch3: ROS 2 Fundamentals",
+    "description": "Nodes, topics, services, packages—building modular robot software with ROS 2 Humble. Practical workflows for real robot systems.",
+    "keywords": [
+      "ros2",
+      "nodes",
+      "topics",
+      "services",
+      "packages",
+      "colcon",
+      "middleware",
+      "dds",
+      "python",
+      "rclpy"
+    ]
+  }
+}

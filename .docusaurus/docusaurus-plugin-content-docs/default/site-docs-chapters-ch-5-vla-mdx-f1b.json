@@ -1,0 +1,31 @@
+{
+  "id": "chapters/ch5-vla",
+  "title": "Chapter 5: Vision-Language-Action Systems",
+  "description": "Integrate large language models (Llama 3) with vision encoders to ground abstract language commands into safe, executable robot trajectories.",
+  "source": "@site/docs/chapters/ch5-vla.mdx",
+  "sourceDirName": "chapters",
+  "slug": "/chapters/ch5-vla",
+  "permalink": "/docs/chapters/ch5-vla",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/chapters/ch5-vla.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "ch5-vla",
+    "title": "Chapter 5: Vision-Language-Action Systems",
+    "sidebar_label": "Ch5: VLA Systems",
+    "description": "Integrate large language models (Llama 3) with vision encoders to ground abstract language commands into safe, executable robot trajectories.",
+    "keywords": [
+      "vision-language models",
+      "vla",
+      "clip",
+      "llama 3",
+      "ollama",
+      "action grounding",
+      "language grounding",
+      "robotics"
+    ],
+    "image": "/img/ch5-vla-hero.png"
+  }
+}

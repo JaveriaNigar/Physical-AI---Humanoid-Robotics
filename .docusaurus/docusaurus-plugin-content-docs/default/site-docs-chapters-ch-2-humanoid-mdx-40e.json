@@ -1,0 +1,32 @@
+{
+  "id": "chapters/ch2-humanoid",
+  "title": "Chapter 2: Basics of Humanoid Robotics",
+  "description": "Kinematics, dynamics, actuators, and sensing—the engineering fundamentals of humanoid robots. Practical calculations for reaching, grasping, and movement.",
+  "source": "@site/docs/chapters/ch2-humanoid.mdx",
+  "sourceDirName": "chapters",
+  "slug": "/chapters/ch2-humanoid",
+  "permalink": "/docs/chapters/ch2-humanoid",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/chapters/ch2-humanoid.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "ch2-humanoid",
+    "title": "Chapter 2: Basics of Humanoid Robotics",
+    "sidebar_label": "Ch2: Humanoid Basics",
+    "description": "Kinematics, dynamics, actuators, and sensing—the engineering fundamentals of humanoid robots. Practical calculations for reaching, grasping, and movement.",
+    "keywords": [
+      "kinematics",
+      "dynamics",
+      "actuators",
+      "dof",
+      "energy efficiency",
+      "forward kinematics",
+      "inverse kinematics",
+      "sensors",
+      "imu",
+      "force sensors"
+    ]
+  }
+}

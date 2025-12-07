@@ -1,0 +1,15 @@
+{
+  "id": "AUTHENTICATION_GUIDE",
+  "title": "Authentication & Personalization Implementation Guide",
+  "description": "Overview",
+  "source": "@site/docs/AUTHENTICATION_GUIDE.md",
+  "sourceDirName": ".",
+  "slug": "/AUTHENTICATION_GUIDE",
+  "permalink": "/docs/AUTHENTICATION_GUIDE",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/Danishhshahid/Physical-AI-Humanoid-Robotics-Book/tree/main/website/docs/AUTHENTICATION_GUIDE.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}
